@@ -1,185 +1,368 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Salar PDF Toolkit - Your Private PDF Dashboard</title>
-    <meta name="description" content="A complete, 100% private PDF toolkit. Merge, split, compress, edit, and OCR PDFs directly in your browser.">
+    <title>NexusPDF - The Future of Document Processing</title>
+    <meta name="description" content="A futuristic, 100% private PDF toolkit. Merge, split, convert, and sign PDFs directly in your browser.">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesome -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        space: '#050508',
+                        glass: 'rgba(255, 255, 255, 0.03)',
+                        glassBorder: 'rgba(255, 255, 255, 0.08)',
+                        neon: '#6366f1',
+                        cyan: '#06b6d4'
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- PDF & OCR Libraries -->
+    <!-- Core PDF & OCR Libraries -->
     <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5.0.4/dist/tesseract.min.js"></script>
+    <!-- New Phase 3 Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/docx/8.2.2/docx.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
     <style>
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #f1f5f9; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        body { background-color: #050508; color: #fff; overflow-x: hidden; }
         
-        .fade-in { animation: fadeIn 0.3s ease-in-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        /* Glassmorphism Classes */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        
+        /* 3D Printer Animation */
+        .printer-perspective { perspective: 1200px; }
+        .printer-body {
+            transform: rotateX(10deg) rotateY(-10deg);
+            transform-style: preserve-3d;
+            transition: transform 0.5s ease;
+        }
+        .printer-body:hover { transform: rotateX(5deg) rotateY(-5deg); }
+        
+        .paper-slot {
+            background: linear-gradient(to bottom, #1a1a2e, #0a0a15);
+            box-shadow: inset 0 5px 15px rgba(0,0,0,0.8);
+            border-radius: 8px 8px 0 0;
+            height: 12px;
+            width: 100%;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .paper-output {
+            background: #ffffff;
+            color: #1a1a2e;
+            border-radius: 0 0 4px 4px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            transform-origin: top center;
+            transition: height 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            overflow: hidden;
+            height: 0;
+            position: relative;
+            z-index: 5;
+        }
+        
+        .paper-output.printing { height: 280px; }
+        
+        /* Bento Grid Hover */
+        .bento-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .bento-card:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 20px 40px -10px rgba(99, 102, 241, 0.3);
+            border-color: rgba(99, 102, 241, 0.5);
+        }
+        
+        /* Workspace Overlay */
+        .workspace-overlay {
+            position: fixed; inset: 0; background: rgba(5, 5, 8, 0.95);
+            backdrop-filter: blur(10px); z-index: 100;
+            display: flex; flex-direction: column;
+            opacity: 0; pointer-events: none; transition: opacity 0.4s ease;
+        }
+        .workspace-overlay.active { opacity: 1; pointer-events: auto; }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #050508; }
+        ::-webkit-scrollbar-thumb { background: #1a1a2e; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #6366f1; }
+
+        /* Signature Canvas */
+        #signature-pad { border: 2px dashed rgba(255,255,255,0.2); border-radius: 12px; cursor: crosshair; }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col">
+<body class="font-sans antialiased selection:bg-indigo-500 selection:text-white">
+
+    <!-- Ambient Background Glows -->
+    <div class="fixed top-[-20%] left-[-10%] w-[500px] h-[500px] bg-indigo-600/20 rounded-full blur-[120px] pointer-events-none"></div>
+    <div class="fixed bottom-[-20%] right-[-10%] w-[500px] h-[500px] bg-cyan-600/20 rounded-full blur-[120px] pointer-events-none"></div>
 
     <!-- Header -->
-    <header class="bg-white border-b border-slate-200 sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-            <div class="flex items-center gap-3 cursor-pointer" onclick="showHome()">
-                <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white shadow-md">
-                    <i class="fas fa-file-pdf text-lg"></i>
+    <header class="fixed top-0 w-full z-50 border-b border-white/5 bg-space/80 backdrop-blur-xl">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-3 cursor-pointer" onclick="window.location.reload()">
+                <div class="w-10 h-10 bg-gradient-to-br from-indigo-500 to-cyan-500 rounded-xl flex items-center justify-center shadow-[0_0_20px_rgba(99,102,241,0.5)]">
+                    <i class="fas fa-cube text-white text-lg"></i>
                 </div>
-                <span class="font-bold text-xl tracking-tight text-slate-900">Salar<span class="text-indigo-600">PDF</span></span>
+                <span class="font-bold text-xl tracking-tight text-white">Nexus<span class="text-indigo-400">PDF</span></span>
             </div>
-            <div class="flex items-center gap-4">
-                <span class="hidden md:inline-flex items-center gap-2 text-sm text-emerald-700 bg-emerald-50 px-4 py-1.5 rounded-full border border-emerald-200 font-medium">
-                    <i class="fas fa-shield-alt"></i> 100% Client-Side
+            <div class="flex items-center gap-6">
+                <span class="hidden md:inline-flex items-center gap-2 text-xs text-emerald-400 bg-emerald-400/10 px-3 py-1.5 rounded-full border border-emerald-400/20 font-medium">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> 100% Local Processing
                 </span>
-                <a href="https://github.com/Salaroutsourcing/pdf" target="_blank" class="text-slate-400 hover:text-slate-900 transition-colors">
+                <a href="https://github.com/Salaroutsourcing/pdf" target="_blank" class="text-white/50 hover:text-white transition-colors">
                     <i class="fab fa-github text-xl"></i>
                 </a>
             </div>
         </div>
     </header>
 
-    <main class="flex-grow flex flex-col">
-        <!-- HOME VIEW (Dashboard) -->
-        <section id="home-view" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full fade-in">
-            <div class="text-center mb-12">
-                <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 mb-4 tracking-tight">Your Private PDF Toolkit</h1>
-                <p class="text-lg text-slate-500 max-w-2xl mx-auto">All the tools you need to manage documents, running entirely in your browser. No uploads, no sign-up, no limits.</p>
+    <!-- HERO SECTION -->
+    <section class="relative pt-32 pb-20 px-6 max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-16 min-h-[90vh]">
+        <!-- Left: Text -->
+        <div class="flex-1 space-y-8 z-10">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-panel text-sm text-indigo-300 font-medium">
+                <i class="fas fa-sparkles text-cyan-400"></i> The Future of PDF Management
             </div>
-
-            <!-- Organize Section -->
-            <h2 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4 px-1">Organize</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-10">
-                <div class="tool-card group bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-lg hover:-translate-y-1 hover:border-indigo-200 cursor-pointer transition-all duration-300" data-tool="merge" data-title="Merge PDF Files">
-                    <div class="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-xl flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition-transform"><i class="fas fa-object-group"></i></div>
-                    <h3 class="font-bold text-slate-800 mb-1">Merge PDF</h3>
-                    <p class="text-sm text-slate-500 leading-relaxed">Combine multiple PDFs into one single document.</p>
-                </div>
-                <div class="tool-card group bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-lg hover:-translate-y-1 hover:border-indigo-200 cursor-pointer transition-all duration-300" data-tool="split" data-title="Split PDF File">
-                    <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition-transform"><i class="fas fa-cut"></i></div>
-                    <h3 class="font-bold text-slate-800 mb-1">Split PDF</h3>
-                    <p class="text-sm text-slate-500 leading-relaxed">Extract pages or split a PDF into separate files.</p>
-                </div>
-                <div class="tool-card group bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-lg hover:-translate-y-1 hover:border-indigo-200 cursor-pointer transition-all duration-300" data-tool="rotate" data-title="Rotate PDF Pages">
-                    <div class="w-12 h-12 bg-orange-50 text-orange-600 rounded-xl flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition-transform"><i class="fas fa-sync-alt"></i></div>
-                    <h3 class="font-bold text-slate-800 mb-1">Rotate PDF</h3>
-                    <p class="text-sm text-slate-500 leading-relaxed">Rotate pages 90, 180, or 270 degrees.</p>
-                </div>
-                <div class="tool-card group bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-lg hover:-translate-y-1 hover:border-indigo-200 cursor-pointer transition-all duration-300" data-tool="page-numbers" data-title="Add Page Numbers">
-                    <div class="w-12 h-12 bg-teal-50 text-teal-600 rounded-xl flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition-transform"><i class="fas fa-list-ol"></i></div>
-                    <h3 class="font-bold text-slate-800 mb-1">Page Numbers</h3>
-                    <p class="text-sm text-slate-500 leading-relaxed">Add page numbers to your PDF.</p>
-                </div>
-            </div>
-
-            <!-- Optimize Section -->
-            <h2 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4 px-1">Optimize</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-10">
-                <div class="tool-card group bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-lg hover:-translate-y-1 hover:border-indigo-200 cursor-pointer transition-all duration-300" data-tool="compress" data-title="Compress PDF File">
-                    <div class="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition-transform"><i class="fas fa-compress-arrows-alt"></i></div>
-                    <h3 class="font-bold text-slate-800 mb-1">Compress PDF</h3>
-                    <p class="text-sm text-slate-500 leading-relaxed">Reduce file size while maintaining quality.</p>
-                </div>
-                <div class="tool-card group bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-lg hover:-translate-y-1 hover:border-indigo-200 cursor-pointer transition-all duration-300" data-tool="ocr" data-title="OCR PDF (Scanned to Text)">
-                    <div class="w-12 h-12 bg-pink-50 text-pink-600 rounded-xl flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition-transform"><i class="fas fa-font"></i></div>
-                    <h3 class="font-bold text-slate-800 mb-1">OCR PDF</h3>
-                    <p class="text-sm text-slate-500 leading-relaxed">Extract text from scanned PDFs.</p>
-                </div>
-            </div>
-
-            <!-- Convert Section -->
-            <h2 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4 px-1">Convert</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-10">
-                <div class="tool-card group bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-lg hover:-translate-y-1 hover:border-indigo-200 cursor-pointer transition-all duration-300" data-tool="pdf-to-jpg" data-title="Convert PDF to JPG">
-                    <div class="w-12 h-12 bg-amber-50 text-amber-600 rounded-xl flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition-transform"><i class="fas fa-file-image"></i></div>
-                    <h3 class="font-bold text-slate-800 mb-1">PDF to JPG</h3>
-                    <p class="text-sm text-slate-500 leading-relaxed">Convert each page into an image.</p>
-                </div>
-                <div class="tool-card group bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-lg hover:-translate-y-1 hover:border-indigo-200 cursor-pointer transition-all duration-300" data-tool="jpg-to-pdf" data-title="Convert JPG to PDF">
-                    <div class="w-12 h-12 bg-purple-50 text-purple-600 rounded-xl flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition-transform"><i class="fas fa-file-pdf"></i></div>
-                    <h3 class="font-bold text-slate-800 mb-1">JPG to PDF</h3>
-                    <p class="text-sm text-slate-500 leading-relaxed">Convert images to PDF in seconds.</p>
-                </div>
-            </div>
-
-            <!-- Edit Section -->
-            <h2 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4 px-1">Edit</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-                <div class="tool-card group bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-lg hover:-translate-y-1 hover:border-indigo-200 cursor-pointer transition-all duration-300" data-tool="watermark" data-title="Add Watermark">
-                    <div class="w-12 h-12 bg-red-50 text-red-600 rounded-xl flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition-transform"><i class="fas fa-stamp"></i></div>
-                    <h3 class="font-bold text-slate-800 mb-1">Watermark PDF</h3>
-                    <p class="text-sm text-slate-500 leading-relaxed">Add text watermark to all pages.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- WORKSPACE VIEW (Hidden by default) -->
-        <section id="workspace-view" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full fade-in">
-            <!-- Workspace Header -->
-            <div class="flex items-center justify-between mb-8">
-                <button id="back-btn" class="flex items-center gap-2 text-slate-500 hover:text-indigo-600 font-medium transition-colors">
-                    <i class="fas fa-arrow-left"></i> Back to Dashboard
+            <h1 class="text-5xl md:text-7xl font-extrabold leading-tight tracking-tight">
+                Your documents, <br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-cyan-400">reimagined.</span>
+            </h1>
+            <p class="text-lg text-white/60 max-w-lg leading-relaxed">
+                Experience a PDF toolkit that never uploads your files to a server. Merge, split, convert, sign, and OCR documents with absolute privacy.
+            </p>
+            <div class="flex items-center gap-4">
+                <button onclick="document.getElementById('tools').scrollIntoView({behavior: 'smooth'})" class="bg-white text-space font-bold px-8 py-4 rounded-full hover:bg-indigo-50 transition-all shadow-[0_0_30px_rgba(255,255,255,0.2)] hover:shadow-[0_0_40px_rgba(255,255,255,0.4)] flex items-center gap-2">
+                    Explore Tools <i class="fas fa-arrow-right text-sm"></i>
                 </button>
-                <h2 id="workspace-title" class="text-2xl font-bold text-slate-800">Tool Name</h2>
-                <div class="w-24"></div> <!-- Spacer to center title -->
+            </div>
+        </div>
+
+        <!-- Right: 3D Printer Animation -->
+        <div class="flex-1 w-full max-w-md mx-auto printer-perspective z-10">
+            <div class="printer-body glass-panel rounded-3xl p-6 relative">
+                <!-- Printer Top -->
+                <div class="flex justify-between items-center mb-6">
+                    <div class="flex gap-2">
+                        <div class="w-3 h-3 rounded-full bg-red-500/50"></div>
+                        <div class="w-3 h-3 rounded-full bg-yellow-500/50"></div>
+                        <div class="w-3 h-3 rounded-full bg-emerald-500/50"></div>
+                    </div>
+                    <div class="text-xs text-white/40 font-mono">NEXUS-PRINTER v2.0</div>
+                </div>
+                
+                <!-- Printer Screen/Input -->
+                <div class="bg-black/40 rounded-xl p-4 mb-6 border border-white/5">
+                    <label class="text-xs text-white/40 font-mono mb-2 block">DOCUMENT_TITLE</label>
+                    <input type="text" id="printer-input" placeholder="Type your name here..." class="w-full bg-transparent border-b border-white/20 text-white font-mono text-lg outline-none focus:border-cyan-400 transition-colors pb-1" maxlength="30">
+                </div>
+
+                <!-- The Slot -->
+                <div class="paper-slot"></div>
+                
+                <!-- The Paper Output -->
+                <div id="paper-output" class="paper-output w-full bg-white relative">
+                    <!-- Document Content -->
+                    <div class="p-6 h-full flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-start mb-4">
+                                <div class="text-xs font-mono text-gray-400">SECURE_DOC</div>
+                                <div class="w-8 h-8 bg-indigo-100 rounded flex items-center justify-center"><i class="fas fa-lock text-indigo-600 text-xs"></i></div>
+                            </div>
+                            <h3 id="paper-title" class="text-2xl font-bold text-gray-900 mb-2">Your Name</h3>
+                            <p class="text-sm text-gray-500 leading-relaxed">This document is processed entirely in your browser. No data was sent to any server.</p>
+                        </div>
+                        <div class="border-t border-gray-100 pt-4 flex justify-between items-center">
+                            <div class="flex gap-1">
+                                <div class="w-2 h-2 rounded-full bg-indigo-500"></div>
+                                <div class="w-2 h-2 rounded-full bg-cyan-500"></div>
+                            </div>
+                            <div class="text-xs font-mono text-gray-400">VERIFIED_&_SECURE</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TOOLS BENTO GRID -->
+    <section id="tools" class="max-w-7xl mx-auto px-6 py-20 relative z-10">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-bold mb-4">Smart. Small. Powerful.</h2>
+            <p class="text-white/50">Click any tool to launch the private workspace.</p>
+        </div>
+
+        <!-- Organize -->
+        <h3 class="text-xs font-bold text-white/30 uppercase tracking-widest mb-6">// ORGANIZE</h3>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+            <div class="bento-card glass-panel rounded-2xl p-6 cursor-pointer" data-tool="merge" data-title="Merge PDF Files">
+                <div class="w-10 h-10 bg-indigo-500/20 text-indigo-400 rounded-lg flex items-center justify-center mb-4"><i class="fas fa-object-group"></i></div>
+                <h4 class="font-bold text-white mb-1">Merge</h4>
+                <p class="text-xs text-white/40">Combine multiple PDFs.</p>
+            </div>
+            <div class="bento-card glass-panel rounded-2xl p-6 cursor-pointer" data-tool="split" data-title="Split PDF File">
+                <div class="w-10 h-10 bg-blue-500/20 text-blue-400 rounded-lg flex items-center justify-center mb-4"><i class="fas fa-cut"></i></div>
+                <h4 class="font-bold text-white mb-1">Split</h4>
+                <p class="text-xs text-white/40">Extract pages.</p>
+            </div>
+            <div class="bento-card glass-panel rounded-2xl p-6 cursor-pointer" data-tool="rotate" data-title="Rotate PDF Pages">
+                <div class="w-10 h-10 bg-orange-500/20 text-orange-400 rounded-lg flex items-center justify-center mb-4"><i class="fas fa-sync-alt"></i></div>
+                <h4 class="font-bold text-white mb-1">Rotate</h4>
+                <p class="text-xs text-white/40">Fix page orientation.</p>
+            </div>
+            <div class="bento-card glass-panel rounded-2xl p-6 cursor-pointer" data-tool="page-numbers" data-title="Add Page Numbers">
+                <div class="w-10 h-10 bg-teal-500/20 text-teal-400 rounded-lg flex items-center justify-center mb-4"><i class="fas fa-list-ol"></i></div>
+                <h4 class="font-bold text-white mb-1">Numbers</h4>
+                <p class="text-xs text-white/40">Add page numbers.</p>
+            </div>
+        </div>
+
+        <!-- Optimize -->
+        <h3 class="text-xs font-bold text-white/30 uppercase tracking-widest mb-6">// OPTIMIZE</h3>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+            <div class="bento-card glass-panel rounded-2xl p-6 cursor-pointer" data-tool="compress" data-title="Compress PDF File">
+                <div class="w-10 h-10 bg-emerald-500/20 text-emerald-400 rounded-lg flex items-center justify-center mb-4"><i class="fas fa-compress-arrows-alt"></i></div>
+                <h4 class="font-bold text-white mb-1">Compress</h4>
+                <p class="text-xs text-white/40">Reduce file size.</p>
+            </div>
+            <div class="bento-card glass-panel rounded-2xl p-6 cursor-pointer" data-tool="ocr" data-title="OCR PDF (Scanned to Text)">
+                <div class="w-10 h-10 bg-pink-500/20 text-pink-400 rounded-lg flex items-center justify-center mb-4"><i class="fas fa-font"></i></div>
+                <h4 class="font-bold text-white mb-1">OCR</h4>
+                <p class="text-xs text-white/40">Scanned to text.</p>
+            </div>
+        </div>
+
+        <!-- Convert -->
+        <h3 class="text-xs font-bold text-white/30 uppercase tracking-widest mb-6">// CONVERT</h3>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+            <div class="bento-card glass-panel rounded-2xl p-6 cursor-pointer" data-tool="pdf-to-jpg" data-title="Convert PDF to JPG">
+                <div class="w-10 h-10 bg-amber-500/20 text-amber-400 rounded-lg flex items-center justify-center mb-4"><i class="fas fa-file-image"></i></div>
+                <h4 class="font-bold text-white mb-1">PDF to JPG</h4>
+                <p class="text-xs text-white/40">Pages to images.</p>
+            </div>
+            <div class="bento-card glass-panel rounded-2xl p-6 cursor-pointer" data-tool="jpg-to-pdf" data-title="Convert JPG to PDF">
+                <div class="w-10 h-10 bg-purple-500/20 text-purple-400 rounded-lg flex items-center justify-center mb-4"><i class="fas fa-file-pdf"></i></div>
+                <h4 class="font-bold text-white mb-1">JPG to PDF</h4>
+                <p class="text-xs text-white/40">Images to PDF.</p>
+            </div>
+            <div class="bento-card glass-panel rounded-2xl p-6 cursor-pointer" data-tool="pdf-to-word" data-title="Convert PDF to Word">
+                <div class="w-10 h-10 bg-blue-500/20 text-blue-400 rounded-lg flex items-center justify-center mb-4"><i class="fas fa-file-word"></i></div>
+                <h4 class="font-bold text-white mb-1">PDF to Word</h4>
+                <p class="text-xs text-white/40">Extract to .docx</p>
+            </div>
+            <div class="bento-card glass-panel rounded-2xl p-6 cursor-pointer" data-tool="pdf-to-excel" data-title="Convert PDF to Excel">
+                <div class="w-10 h-10 bg-green-500/20 text-green-400 rounded-lg flex items-center justify-center mb-4"><i class="fas fa-file-excel"></i></div>
+                <h4 class="font-bold text-white mb-1">PDF to Excel</h4>
+                <p class="text-xs text-white/40">Extract to .xlsx</p>
+            </div>
+        </div>
+
+        <!-- Edit & Secure -->
+        <h3 class="text-xs font-bold text-white/30 uppercase tracking-widest mb-6">// EDIT & SECURE</h3>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="bento-card glass-panel rounded-2xl p-6 cursor-pointer" data-tool="watermark" data-title="Add Watermark">
+                <div class="w-10 h-10 bg-red-500/20 text-red-400 rounded-lg flex items-center justify-center mb-4"><i class="fas fa-stamp"></i></div>
+                <h4 class="font-bold text-white mb-1">Watermark</h4>
+                <p class="text-xs text-white/40">Add text overlay.</p>
+            </div>
+            <div class="bento-card glass-panel rounded-2xl p-6 cursor-pointer" data-tool="protect" data-title="Protect PDF with Password">
+                <div class="w-10 h-10 bg-yellow-500/20 text-yellow-400 rounded-lg flex items-center justify-center mb-4"><i class="fas fa-lock"></i></div>
+                <h4 class="font-bold text-white mb-1">Protect</h4>
+                <p class="text-xs text-white/40">Add password.</p>
+            </div>
+            <div class="bento-card glass-panel rounded-2xl p-6 cursor-pointer" data-tool="sign" data-title="Sign PDF Document">
+                <div class="w-10 h-10 bg-cyan-500/20 text-cyan-400 rounded-lg flex items-center justify-center mb-4"><i class="fas fa-signature"></i></div>
+                <h4 class="font-bold text-white mb-1">Sign PDF</h4>
+                <p class="text-xs text-white/40">Draw signature.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- WORKSPACE OVERLAY -->
+    <div id="workspace" class="workspace-overlay">
+        <div class="max-w-6xl mx-auto w-full h-full flex flex-col p-6">
+            <!-- Workspace Header -->
+            <div class="flex items-center justify-between mb-8 border-b border-white/10 pb-4">
+                <div class="flex items-center gap-4">
+                    <button onclick="closeWorkspace()" class="w-10 h-10 rounded-full glass-panel flex items-center justify-center text-white/60 hover:text-white hover:bg-white/10 transition-all">
+                        <i class="fas fa-arrow-left"></i>
+                    </button>
+                    <h2 id="workspace-title" class="text-2xl font-bold text-white">Tool Name</h2>
+                </div>
+                <div class="text-xs font-mono text-emerald-400 bg-emerald-400/10 px-3 py-1 rounded-full border border-emerald-400/20">SECURE_MODE_ACTIVE</div>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <!-- Left Column: File Upload & List -->
-                <div class="lg:col-span-2 space-y-6">
-                    <!-- Drop Zone -->
-                    <div id="drop-zone" class="border-2 border-dashed border-indigo-300 bg-indigo-50/50 rounded-2xl p-10 text-center cursor-pointer hover:bg-indigo-50 hover:border-indigo-400 transition-all">
-                        <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-sm text-indigo-500 text-2xl">
+            <!-- Workspace Body -->
+            <div class="flex-1 grid grid-cols-1 lg:grid-cols-3 gap-8 overflow-hidden">
+                <!-- Left: Files -->
+                <div class="lg:col-span-2 flex flex-col gap-6 overflow-y-auto pr-2">
+                    <div id="drop-zone" class="border-2 border-dashed border-white/20 bg-white/5 rounded-2xl p-10 text-center cursor-pointer hover:bg-white/10 hover:border-indigo-400 transition-all flex-shrink-0">
+                        <div class="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-4 text-indigo-400 text-2xl">
                             <i class="fas fa-cloud-upload-alt"></i>
                         </div>
-                        <p class="font-bold text-indigo-900 text-lg">Click to upload or drag & drop</p>
-                        <p class="text-sm text-indigo-500 mt-1">Your files are processed locally and never uploaded.</p>
+                        <p class="font-bold text-white text-lg">Drop files here</p>
+                        <p class="text-sm text-white/40 mt-1">or click to browse</p>
                         <input type="file" id="file-input" class="hidden">
                     </div>
-
-                    <!-- File List -->
                     <div>
-                        <h3 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-3">Selected Files</h3>
+                        <h3 class="text-xs font-bold text-white/30 uppercase tracking-widest mb-3">Queue</h3>
                         <ul id="file-list" class="space-y-3"></ul>
                     </div>
                 </div>
 
-                <!-- Right Column: Options & Action -->
+                <!-- Right: Options -->
                 <div class="lg:col-span-1">
-                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 sticky top-24">
-                        <h3 class="font-bold text-slate-800 mb-4 pb-3 border-b border-slate-100">Tool Options</h3>
-                        
-                        <!-- Dynamic Options Container -->
+                    <div class="glass-panel rounded-2xl p-6 sticky top-6">
+                        <h3 class="font-bold text-white mb-4 pb-3 border-b border-white/10">Configuration</h3>
                         <div id="tool-options" class="mb-6 space-y-4"></div>
-
-                        <!-- Action Button -->
-                        <button id="process-btn" disabled class="w-full bg-indigo-600 hover:bg-indigo-700 disabled:bg-slate-200 disabled:text-slate-400 disabled:cursor-not-allowed text-white font-bold py-3.5 rounded-xl transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2">
-                            <i class="fas fa-cog"></i> Process Files
+                        <button id="process-btn" disabled class="w-full bg-gradient-to-r from-indigo-500 to-cyan-500 hover:from-indigo-400 hover:to-cyan-400 disabled:from-white/10 disabled:to-white/10 disabled:text-white/30 disabled:cursor-not-allowed text-white font-bold py-3.5 rounded-xl transition-all shadow-lg flex items-center justify-center gap-2">
+                            <i class="fas fa-bolt"></i> Execute
                         </button>
-                        
-                        <!-- Status Text -->
-                        <p id="status-text" class="text-center text-sm mt-4 font-medium min-h-[20px]"></p>
+                        <p id="status-text" class="text-center text-xs mt-4 font-mono text-white/40 min-h-[20px]"></p>
                     </div>
                 </div>
             </div>
-        </section>
-    </main>
+        </div>
+    </div>
 
     <!-- Footer -->
-    <footer class="bg-white border-t border-slate-200 py-8 mt-auto">
-        <div class="max-w-7xl mx-auto px-4 text-center">
-            <p class="text-slate-500 text-sm">&copy; 2024 Salar Outsourcing. Built for privacy.</p>
-            <p class="text-slate-400 text-xs mt-1">All processing happens in your browser. No data is sent to our servers.</p>
+    <footer class="border-t border-white/5 py-8 mt-20">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <p class="text-white/30 text-sm">&copy; 2024 NexusPDF. Built for the future.</p>
         </div>
     </footer>
 
