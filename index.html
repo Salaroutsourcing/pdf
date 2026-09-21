@@ -2254,4 +2254,399 @@ const CATEGORIES = [
   { id:'organize', name:'Organize PDF', color:'#3B82F6' },
   { id:'optimize', name:'Optimize PDF', color:'#10B981' },
   { id:'convertTo', name:'Convert to PDF', color:'#8B5CF6' },
-  { id:'convertFrom', name:'Convert from PDF', color:'#EC4899
+  { id:'convertFrom', name:'Convert from PDF', color:'#EC4899' },
+  { id:'edit', name:'Edit PDF', color:'#F59E0B' },
+  { id:'security', name:'PDF Security', color:'#F43F5E' }
+];
+
+/* ============================================================
+   STATE — Favorites, Recent
+   ============================================================ */
+const store = {
+  getFavs() { try { return JSON.parse(localStorage.getItem('pdftk-favs') || '[]'); } catch { return []; } },
+  setFavs(v) { localStorage.setItem('pdftk-favs', JSON.stringify(v)); },
+  isFav(id) { return this.getFavs().includes(id); },
+  toggleFav(id) {
+    const f = this.getFavs();
+    const i = f.indexOf(id);
+    if (i > -1) f.splice(i, 1); else f.push(id);
+    this.setFavs(f);
+    return i === -1;
+  },
+  getRecent() { try { return JSON.parse(localStorage.getItem('pdftk-recent') || '[]'); } catch { return []; } },
+  addRecent(id) {
+    let r = this.getRecent().filter(x => x !== id);
+    r.unshift(id);
+    r = r.slice(0, 10);
+    localStorage.setItem('pdftk-recent', JSON.stringify(r));
+  }
+};
+
+/* ============================================================
+   RENDER CARD
+   ============================================================ */
+function renderCard(tool) {
+  const v = VISUAL[tool.color];
+  const isFav = store.isFav(tool.id);
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  const bg = isDark ? v.darkCardBg : v.cardBg;
+  const border = isDark ? v.darkCardBorder : v.cardBorder;
+
+  // FIX: use div with role="button" — nested <button> is invalid HTML
+  // and was breaking clicks on cards and favorite hearts.
+  const card = document.createElement('div');
+  card.className = 'tool-card';
+  card.setAttribute('role', 'button');
+  card.setAttribute('tabindex', '0');
+  card.style.background = bg;
+  card.style.borderColor = border;
+  card.style.setProperty('--card-color', v.icon);
+  card.style.setProperty('--card-border', v.icon);
+
+  card.innerHTML = `
+    <button class="fav-btn ${isFav ? 'faved' : ''}" title="${isFav ? 'Remove from favorites' : 'Add to favorites'}" aria-label="Toggle favorite" type="button">
+      <svg fill="${isFav ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/></svg>
+    </button>
+    <div class="tool-card-top">
+      <div class="tool-card-icon" style="background:${v.iconBg};">${I[tool.icon]}</div>
+      <div class="tool-card-arrow">
+        <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"/></svg>
+      </div>
+    </div>
+    <div class="tool-card-name">${tool.name}</div>
+    <div class="tool-card-desc">${tool.desc}</div>
+  `;
+
+  // Fav button
+  card.querySelector('.fav-btn').addEventListener('click', (e) => {
+    e.stopPropagation();
+    const nowFav = store.toggleFav(tool.id);
+    const btn = e.currentTarget;
+    btn.classList.toggle('faved', nowFav);
+    btn.querySelector('svg').setAttribute('fill', nowFav ? 'currentColor' : 'none');
+    toast(nowFav ? 'Added to favorites' : 'Removed from favorites', 'success', 1500);
+    if (document.getElementById('view-favorites').classList.contains('active')) renderFavoritesView();
+  });
+
+  card.addEventListener('click', () => openToolModal(tool));
+  card.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      openToolModal(tool);
+    }
+  });
+
+  return card;
+}
+
+/* ============================================================
+   RENDER CATEGORY SECTION
+   ============================================================ */
+function renderCategory(cat, container) {
+  const catEl = document.createElement('div');
+  catEl.className = 'category';
+  const tools = TOOLS.filter(t => t.cat === cat.id);
+
+  catEl.innerHTML = `
+    <div class="cat-header">
+      <div class="cat-title-wrap">
+        <span class="cat-title">${cat.name}</span>
+        <span class="cat-bar" style="color:${cat.color}; background:${cat.color};"></span>
+      </div>
+      <span class="cat-count">${tools.length} Tool${tools.length !== 1 ? 's' : ''}</span>
+    </div>
+  `;
+  const grid = document.createElement('div');
+  grid.className = 'tools-grid';
+  tools.forEach(t => grid.appendChild(renderCard(t)));
+  catEl.appendChild(grid);
+  container.appendChild(catEl);
+}
+
+/* ============================================================
+   VIEWS
+   ============================================================ */
+function renderHomeView() {
+  const c = document.getElementById('homeContent');
+  c.innerHTML = '';
+
+  // Featured CV Builder
+  const featured = document.createElement('button');
+  featured.className = 'featured-card';
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  featured.style.background = isDark ? 'rgba(245,158,11,0.08)' : '#FFFBEB';
+  featured.style.borderColor = isDark ? 'rgba(245,158,11,0.25)' : '#FEF3C7';
+  featured.innerHTML = `
+    <div class="featured-icon">${I.cv}</div>
+    <div class="featured-content">
+      <h3>CV / Resume Builder</h3>
+      <p>Build a clean, ATS-friendly resume with a live preview. Download as PDF — free, no sign-up.</p>
+    </div>
+    <div class="featured-cta">Open Builder →</div>
+  `;
+  featured.addEventListener('click', () => switchView('cv'));
+  c.appendChild(featured);
+
+  CATEGORIES.forEach(cat => renderCategory(cat, c));
+}
+
+function renderToolsView() {
+  const c = document.getElementById('toolsContent');
+  c.innerHTML = '';
+  CATEGORIES.forEach(cat => renderCategory(cat, c));
+}
+
+function renderRecentView() {
+  const c = document.getElementById('recentContent');
+  c.innerHTML = '';
+  const recentIds = store.getRecent();
+  if (!recentIds.length) {
+    c.innerHTML = `<div class="empty-state"><div class="empty-state-icon"><svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div><h3>No recent tools</h3><p>Tools you use will show up here for quick access.</p></div>`;
+    return;
+  }
+  const grid = document.createElement('div');
+  grid.className = 'tools-grid';
+  recentIds.forEach(id => {
+    const t = TOOLS.find(x => x.id === id);
+    if (t) grid.appendChild(renderCard(t));
+  });
+  c.appendChild(grid);
+}
+
+function renderFavoritesView() {
+  const c = document.getElementById('favoritesContent');
+  c.innerHTML = '';
+  const favIds = store.getFavs();
+  if (!favIds.length) {
+    c.innerHTML = `<div class="empty-state"><div class="empty-state-icon"><svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/></svg></div><h3>No favorites yet</h3><p>Hover over any tool card and click the heart to save it here.</p></div>`;
+    return;
+  }
+  const grid = document.createElement('div');
+  grid.className = 'tools-grid';
+  favIds.forEach(id => {
+    const t = TOOLS.find(x => x.id === id);
+    if (t) grid.appendChild(renderCard(t));
+  });
+  c.appendChild(grid);
+}
+
+/* ============================================================
+   NAV
+   ============================================================ */
+const viewTitles = {
+  home: { title: 'Home', sub: 'All tools · 100% in your browser' },
+  tools: { title: 'All Tools', sub: '16 tools · grouped by category' },
+  recent: { title: 'Recent', sub: 'Your recently used tools' },
+  favorites: { title: 'Favorites', sub: 'Your saved tools' },
+  cv: { title: 'CV Builder', sub: 'Live preview · Instant PDF export' },
+  about: { title: 'About & Privacy', sub: 'How this works, and why we built it' }
+};
+
+function switchView(name) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById('view-' + name).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.toggle('active', n.dataset.view === name));
+  const info = viewTitles[name];
+  document.getElementById('pageTitle').textContent = info.title;
+  document.getElementById('pageSubtitle').textContent = info.sub;
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebarBackdrop').classList.remove('active');
+  if (name === 'recent') renderRecentView();
+  if (name === 'favorites') renderFavoritesView();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+document.querySelectorAll('.nav-item').forEach(btn => {
+  btn.addEventListener('click', () => switchView(btn.dataset.view));
+});
+
+/* Mobile menu */
+document.getElementById('mobileMenuBtn').addEventListener('click', () => {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sidebarBackdrop').classList.toggle('active');
+});
+document.getElementById('sidebarBackdrop').addEventListener('click', () => {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebarBackdrop').classList.remove('active');
+});
+
+/* ============================================================
+   MODAL
+   ============================================================ */
+let modalCleanup = null;
+
+function openToolModal(tool) {
+  const v = VISUAL[tool.color];
+  const icon = document.getElementById('modalIcon');
+  icon.style.background = v.iconBg;
+  icon.innerHTML = I[tool.icon];
+  document.getElementById('modalTitle').textContent = tool.name;
+  document.getElementById('modalSub').textContent = tool.desc;
+
+  const body = document.getElementById('modalBody');
+  body.innerHTML = tool.tool.html;
+  document.getElementById('modal').classList.add('active');
+  document.body.style.overflow = 'hidden';
+
+  store.addRecent(tool.id);
+
+  try { modalCleanup = tool.tool.init(body); }
+  catch (e) { console.error(e); toast('Failed to load tool', 'error'); }
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.remove('active');
+  document.body.style.overflow = '';
+  setTimeout(() => {
+    document.getElementById('modalBody').innerHTML = '';
+    if (typeof modalCleanup === 'function') modalCleanup();
+    modalCleanup = null;
+  }, 250);
+}
+
+document.getElementById('modalClose').addEventListener('click', closeModal);
+document.getElementById('modal').addEventListener('click', e => {
+  if (e.target.id === 'modal') closeModal();
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && document.getElementById('modal').classList.contains('active')) closeModal();
+});
+
+/* ============================================================
+   CV BUILDER
+   ============================================================ */
+(function initCV() {
+  const expContainer = $('#expContainer');
+  const eduContainer = $('#eduContainer');
+  let expId = 0, eduId = 0;
+
+  function addExp() {
+    const id = expId++;
+    const d = document.createElement('div');
+    d.className = 'cv-item exp-entry';
+    d.innerHTML = `
+      <div class="cv-item-head"><span>Position ${id + 1}</span><button type="button" class="cv-item-remove remove-exp">Remove</button></div>
+      <input type="text" placeholder="Job Title" class="cv-exp-title field" style="margin-bottom:6px;" />
+      <input type="text" placeholder="Company" class="cv-exp-company field" style="margin-bottom:6px;" />
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-bottom:6px;">
+        <input type="text" placeholder="Start" class="cv-exp-start field" />
+        <input type="text" placeholder="End" class="cv-exp-end field" />
+      </div>
+      <textarea rows="2" placeholder="What you did…" class="cv-exp-desc field" style="resize:none; font-family:inherit;"></textarea>`;
+    expContainer.appendChild(d);
+    d.querySelector('.remove-exp').addEventListener('click', () => { d.remove(); sync(); });
+    sync();
+  }
+  function addEdu() {
+    const id = eduId++;
+    const d = document.createElement('div');
+    d.className = 'cv-item edu-entry';
+    d.innerHTML = `
+      <div class="cv-item-head"><span>Education ${id + 1}</span><button type="button" class="cv-item-remove remove-edu">Remove</button></div>
+      <input type="text" placeholder="Degree" class="cv-edu-degree field" style="margin-bottom:6px;" />
+      <input type="text" placeholder="Institution" class="cv-edu-school field" style="margin-bottom:6px;" />
+      <input type="text" placeholder="Year" class="cv-edu-year field" />`;
+    eduContainer.appendChild(d);
+    d.querySelector('.remove-edu').addEventListener('click', () => { d.remove(); sync(); });
+    sync();
+  }
+  addExp(); addEdu();
+  $('#addExp').addEventListener('click', addExp);
+  $('#addEdu').addEventListener('click', addEdu);
+  ['cvName', 'cvTitle', 'cvEmail', 'cvPhone', 'cvLocation', 'cvSummary', 'cvSkills'].forEach(id => {
+    document.getElementById(id).addEventListener('input', sync);
+  });
+  expContainer.addEventListener('input', sync);
+  eduContainer.addEventListener('input', sync);
+
+  function sync() {
+    $('#rpName').textContent = ($('#cvName').value || 'Your Name').trim();
+    $('#rpTitle').textContent = ($('#cvTitle').value || 'Professional Title').trim();
+    const contacts = [$('#cvEmail').value.trim(), $('#cvPhone').value.trim(), $('#cvLocation').value.trim()].filter(Boolean);
+    $('#rpContact').innerHTML = contacts.map(c => `<span>${c}</span>`).join('');
+    const sum = $('#cvSummary').value.trim();
+    $('#rpSummaryBlock').style.display = sum ? 'block' : 'none';
+    $('#rpSummary').textContent = sum;
+
+    const expData = [];
+    $$('.exp-entry', expContainer).forEach(e => {
+      const t = e.querySelector('.cv-exp-title').value.trim();
+      const c = e.querySelector('.cv-exp-company').value.trim();
+      const s = e.querySelector('.cv-exp-start').value.trim();
+      const en = e.querySelector('.cv-exp-end').value.trim();
+      const d = e.querySelector('.cv-exp-desc').value.trim();
+      if (t || c) expData.push({ t, c, s, en, d });
+    });
+    $('#rpExpBlock').style.display = expData.length ? 'block' : 'none';
+    $('#rpExpList').innerHTML = expData.map(e => {
+      const range = [e.s, e.en].filter(Boolean).join(' — ');
+      return `<div>
+        <div style="display:flex; justify-content:space-between; align-items:baseline; gap:12px;">
+          <span style="font-size:11px; font-weight:700; color:#0f172a;">${e.t}</span>
+          <span style="font-size:9px; color:#94a3b8; white-space:nowrap; font-weight:500;">${range}</span>
+        </div>
+        ${e.c ? `<div style="font-size:10px; color:#0284c7; font-weight:600; margin-top:2px;">${e.c}</div>` : ''}
+        ${e.d ? `<p style="font-size:10px; color:#475569; margin-top:4px; line-height:1.6;">${e.d}</p>` : ''}
+      </div>`;
+    }).join('');
+
+    const eduData = [];
+    $$('.edu-entry', eduContainer).forEach(e => {
+      const dg = e.querySelector('.cv-edu-degree').value.trim();
+      const sc = e.querySelector('.cv-edu-school').value.trim();
+      const y = e.querySelector('.cv-edu-year').value.trim();
+      if (dg || sc) eduData.push({ dg, sc, y });
+    });
+    $('#rpEduBlock').style.display = eduData.length ? 'block' : 'none';
+    $('#rpEduList').innerHTML = eduData.map(e => `<div>
+      <div style="display:flex; justify-content:space-between; align-items:baseline; gap:12px;">
+        <span style="font-size:11px; font-weight:700; color:#0f172a;">${e.dg}</span>
+        <span style="font-size:9px; color:#94a3b8; white-space:nowrap; font-weight:500;">${e.y}</span>
+      </div>
+      ${e.sc ? `<div style="font-size:10px; color:#475569; margin-top:2px;">${e.sc}</div>` : ''}
+    </div>`).join('');
+
+    const skillsRaw = $('#cvSkills').value.trim();
+    $('#rpSkillsBlock').style.display = skillsRaw ? 'block' : 'none';
+    if (skillsRaw) {
+      $('#rpSkillsList').innerHTML = skillsRaw.split(',').map(s => s.trim()).filter(Boolean)
+        .map(s => `<span style="font-size:9px; background:#f1f5f9; color:#334155; padding:4px 8px; border-radius:6px; font-weight:500; border:1px solid #e2e8f0;">${s}</span>`).join('');
+    }
+  }
+  sync();
+
+  $('#cvDownload').addEventListener('click', () => {
+    const name = ($('#cvName').value || 'resume').trim().replace(/\s+/g, '_').toLowerCase();
+    toast('Generating PDF…', 'info', 1500);
+    html2pdf().set({
+      margin: 0, filename: `${name}_cv.pdf`,
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 3, useCORS: true, backgroundColor: '#ffffff', logging: false },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    }).from($('#resumePreview')).save()
+      .then(() => toast('CV downloaded', 'success'))
+      .catch(e => toast('Export failed: ' + e.message, 'error'));
+  });
+})();
+
+/* ============================================================
+   INIT
+   ============================================================ */
+try {
+  renderHomeView();
+  renderToolsView();
+} catch (e) {
+  console.error(e);
+  toast('Some tools failed to load', 'error');
+}
+
+setTimeout(() => {
+  document.getElementById('loading').classList.add('hidden');
+}, 300);
+
+console.log('%c PDF Toolkit ready ', 'background:#3B82F6; color:#fff; font-weight:700; padding:6px 12px; border-radius:6px;');
+console.log('16 tools · 100% client-side · ' + TOOLS.length + ' loaded');
+</script>
+
+</body>
+</html>
