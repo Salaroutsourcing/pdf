@@ -1,0 +1,2638 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>PDF Toolkit — Simple Tools · Fast Results · All in One Place</title>
+<meta name="description" content="16 free PDF tools that run 100% in your browser. Merge, split, compress, convert, sign, redact, and build a CV. Your files never leave your device." />
+<meta name="robots" content="index, follow" />
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "PDF Toolkit",
+  "description": "A 100% client-side PDF utility suite with 16 tools. All processing occurs locally in the browser with zero data storage.",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Web",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "isAccessibleForFree": true
+}
+</script>
+
+<style>
+/* ============================================================
+   THEME TOKENS
+   ============================================================ */
+:root[data-theme="light"] {
+  --bg: #F8FAFC;
+  --sidebar-bg: #FFFFFF;
+  --surface: #FFFFFF;
+  --surface-2: #F8FAFC;
+  --surface-3: #F1F5F9;
+  --border: #E5E7EB;
+  --border-2: #D1D5DB;
+  --text: #0F172A;
+  --text-dim: #475569;
+  --text-muted: #94A3B8;
+  --shadow-sm: 0 1px 2px rgba(15,23,42,0.04);
+  --shadow-md: 0 4px 12px rgba(15,23,42,0.06);
+  --shadow-lg: 0 12px 32px rgba(15,23,42,0.08);
+  --modal-overlay: rgba(15,23,42,0.45);
+  --active-blue: #3B82F6;
+  --active-bg: #EFF6FF;
+}
+:root[data-theme="dark"] {
+  --bg: #0A0F1C;
+  --sidebar-bg: #111827;
+  --surface: #1F2937;
+  --surface-2: #111827;
+  --surface-3: #1E293B;
+  --border: #2D3748;
+  --border-2: #3F4A5F;
+  --text: #F1F5F9;
+  --text-dim: #CBD5E1;
+  --text-muted: #94A3B8;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.3);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.4);
+  --shadow-lg: 0 12px 32px rgba(0,0,0,0.5);
+  --modal-overlay: rgba(0,0,0,0.7);
+  --active-blue: #3B82F6;
+  --active-bg: #1E3A8A;
+}
+
+* { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', system-ui, sans-serif;
+  transition: background-color 0.3s, color 0.3s;
+  min-height: 100vh;
+}
+.font-display { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; letter-spacing: -0.02em; }
+
+/* ============================================================
+   LAYOUT
+   ============================================================ */
+.app-shell {
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar {
+  width: 260px;
+  background: var(--sidebar-bg);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  padding: 20px 14px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  flex-shrink: 0;
+  z-index: 30;
+  transition: transform 0.3s;
+}
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-thumb { background: var(--border-2); border-radius: 99px; }
+
+.main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ============================================================
+   LOGO
+   ============================================================ */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 10px 20px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 16px;
+}
+.logo-mark {
+  width: 42px; height: 42px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
+  display: flex; align-items: center; justify-content: center;
+  color: #fff;
+  font-weight: 800;
+  font-size: 13px;
+  box-shadow: 0 4px 14px rgba(239,68,68,0.32);
+  position: relative;
+  flex-shrink: 0;
+}
+.logo-mark::after {
+  content: '';
+  position: absolute;
+  bottom: -3px; right: -3px;
+  width: 14px; height: 14px;
+  background: #10B981;
+  border-radius: 50%;
+  border: 2px solid var(--sidebar-bg);
+}
+.logo-text h1 {
+  font-size: 17px; font-weight: 800; line-height: 1;
+  color: var(--text);
+}
+.logo-text h1 span { color: #3B82F6; }
+.logo-text p {
+  font-size: 10.5px; color: var(--text-muted); margin-top: 3px;
+  font-weight: 500; letter-spacing: -0.01em;
+}
+
+/* ============================================================
+   NAV ITEMS
+   ============================================================ */
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 14px;
+  border-radius: 10px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--text-dim);
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  width: 100%;
+  text-align: left;
+  font-family: inherit;
+  transition: background 0.15s, color 0.15s;
+  margin-bottom: 2px;
+}
+.nav-item:hover { background: var(--surface-3); color: var(--text); }
+.nav-item.active {
+  background: var(--active-blue);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(59,130,246,0.25);
+}
+.nav-item.active svg { color: #fff; }
+.nav-item svg { width: 18px; height: 18px; color: var(--text-dim); flex-shrink: 0; }
+.nav-item.active:hover { background: var(--active-blue); color: #fff; }
+
+.nav-section-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding: 14px 14px 6px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.sidebar-foot {
+  margin-top: auto;
+  padding: 20px 10px 8px;
+  border-top: 1px solid var(--border);
+}
+.sidebar-foot .note {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: #3B82F6;
+  font-style: italic;
+  line-height: 1.35;
+  padding: 4px 8px;
+}
+.sidebar-foot .note em { color: var(--text-muted); font-style: normal; font-size: 11px; display: block; margin-top: 6px; font-weight: 500; }
+.smiley {
+  display: inline-block;
+  transform: rotate(-8deg);
+  margin-left: 4px;
+  font-style: normal;
+}
+
+/* ============================================================
+   TOPBAR
+   ============================================================ */
+.topbar {
+  background: var(--sidebar-bg);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+.topbar-left { display: flex; align-items: center; gap: 14px; }
+.mobile-menu-btn {
+  display: none;
+  width: 38px; height: 38px;
+  border-radius: 9px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  align-items: center; justify-content: center;
+  cursor: pointer;
+}
+.page-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+.page-subtitle {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 1px;
+}
+
+.trust-badge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 14px 8px 12px;
+  background: #F0FDF4;
+  border: 1px solid #BBF7D0;
+  border-radius: 10px;
+}
+:root[data-theme="dark"] .trust-badge {
+  background: rgba(16,185,129,0.1);
+  border-color: rgba(16,185,129,0.3);
+}
+.trust-shield {
+  width: 26px; height: 26px;
+  border-radius: 7px;
+  background: #10B981;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; flex-shrink: 0;
+}
+.trust-text { line-height: 1.15; }
+.trust-text strong {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  color: #065F46;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+:root[data-theme="dark"] .trust-text strong { color: #6EE7B7; }
+.trust-text span {
+  font-size: 10.5px;
+  color: #059669;
+}
+:root[data-theme="dark"] .trust-text span { color: #34D399; }
+
+.top-actions { display: flex; align-items: center; gap: 10px; }
+
+.theme-btn {
+  width: 38px; height: 38px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.theme-btn:hover { background: var(--surface-3); border-color: var(--border-2); }
+
+/* ============================================================
+   CONTENT AREA
+   ============================================================ */
+.content {
+  flex: 1;
+  padding: 28px 32px 48px;
+  max-width: 1400px;
+  width: 100%;
+}
+@media (max-width: 768px) {
+  .content { padding: 20px 16px 40px; }
+}
+
+.category {
+  margin-bottom: 34px;
+}
+.cat-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  gap: 12px;
+}
+.cat-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.cat-title {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.02em;
+}
+.cat-bar {
+  width: 36px; height: 4px;
+  border-radius: 99px;
+  background: currentColor;
+}
+.cat-count {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 5px 11px;
+  border-radius: 99px;
+  background: var(--surface-3);
+  color: var(--text-dim);
+  border: 1px solid var(--border);
+}
+
+/* ============================================================
+   TOOL CARD
+   ============================================================ */
+.tools-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 14px;
+}
+@media (max-width: 640px) {
+  .tools-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+}
+
+.tool-card {
+  position: relative;
+  border-radius: 14px;
+  padding: 18px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: transform 0.2s cubic-bezier(.2,.7,.3,1), box-shadow 0.25s;
+  text-align: left;
+  font-family: inherit;
+  display: flex;
+  flex-direction: column;
+  min-height: 138px;
+  overflow: hidden;
+}
+.tool-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px -8px rgba(15,23,42,0.15), 0 0 0 1px var(--card-border);
+}
+.tool-card:active { transform: translateY(-1px) scale(0.995); }
+
+.tool-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+.tool-card-icon {
+  width: 44px; height: 44px;
+  border-radius: 11px;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff;
+  flex-shrink: 0;
+}
+.tool-card-icon svg { width: 22px; height: 22px; }
+
+.tool-card-arrow {
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.65);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--card-color);
+  flex-shrink: 0;
+  transition: transform 0.2s;
+}
+:root[data-theme="dark"] .tool-card-arrow {
+  background: rgba(255,255,255,0.1);
+}
+.tool-card:hover .tool-card-arrow { transform: translateX(3px); }
+.tool-card-arrow svg { width: 13px; height: 13px; }
+
+.tool-card-name {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.2;
+  margin-bottom: 5px;
+  letter-spacing: -0.01em;
+}
+.tool-card-desc {
+  font-size: 12px;
+  color: var(--text-dim);
+  line-height: 1.45;
+  font-weight: 450;
+}
+
+.fav-btn {
+  position: absolute;
+  top: 10px; right: 44px;
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s, color 0.15s, transform 0.2s;
+  z-index: 2;
+}
+.fav-btn svg { width: 15px; height: 15px; }
+.tool-card:hover .fav-btn { opacity: 1; }
+.fav-btn:hover { color: #EF4444; transform: scale(1.15); }
+.fav-btn.faved { opacity: 1; color: #EF4444; }
+.fav-btn.faved svg { fill: currentColor; }
+
+/* ============================================================
+   FEATURED CARD (CV Builder)
+   ============================================================ */
+.featured-card {
+  border-radius: 16px;
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: transform 0.2s, box-shadow 0.25s;
+  margin-bottom: 32px;
+  position: relative;
+  overflow: hidden;
+}
+.featured-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+.featured-icon {
+  width: 60px; height: 60px;
+  border-radius: 15px;
+  background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+  display: flex; align-items: center; justify-content: center;
+  color: #fff;
+  flex-shrink: 0;
+  box-shadow: 0 8px 20px -6px rgba(245,158,11,0.5);
+}
+.featured-icon svg { width: 28px; height: 28px; }
+.featured-content { flex: 1; min-width: 0; }
+.featured-content h3 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.02em;
+  margin-bottom: 4px;
+}
+.featured-content p {
+  font-size: 13px;
+  color: var(--text-dim);
+  line-height: 1.5;
+}
+.featured-cta {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 18px;
+  border-radius: 10px;
+  background: #F59E0B;
+  color: #fff;
+  font-weight: 700;
+  font-size: 13px;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 6px 16px -4px rgba(245,158,11,0.5);
+  flex-shrink: 0;
+}
+.featured-cta:hover { transform: translateX(2px); box-shadow: 0 8px 22px -4px rgba(245,158,11,0.6); }
+
+/* ============================================================
+   MODAL
+   ============================================================ */
+.modal {
+  position: fixed; inset: 0;
+  z-index: 100;
+  background: var(--modal-overlay);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: none;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 40px 20px;
+  overflow-y: auto;
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+.modal.active { display: flex; opacity: 1; }
+.modal-panel {
+  background: var(--surface);
+  border-radius: 18px;
+  width: 100%;
+  max-width: 720px;
+  border: 1px solid var(--border);
+  box-shadow: 0 24px 60px rgba(15,23,42,0.2);
+  overflow: hidden;
+  transform: scale(0.97) translateY(10px);
+  transition: transform 0.3s cubic-bezier(.2,.7,.3,1);
+  margin: auto;
+}
+.modal.active .modal-panel { transform: scale(1) translateY(0); }
+.modal-header {
+  padding: 20px 24px;
+  display: flex; align-items: center; gap: 14px;
+  border-bottom: 1px solid var(--border);
+}
+.modal-header-icon {
+  width: 42px; height: 42px;
+  border-radius: 11px;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff;
+  flex-shrink: 0;
+}
+.modal-header-icon svg { width: 21px; height: 21px; }
+.modal-title {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.015em;
+}
+.modal-sub {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+.modal-close {
+  margin-left: auto;
+  width: 34px; height: 34px;
+  border-radius: 9px;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text-dim);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+.modal-close:hover { background: var(--surface-3); color: var(--text); }
+.modal-body {
+  padding: 24px;
+  max-height: calc(100vh - 240px);
+  overflow-y: auto;
+}
+.modal-body::-webkit-scrollbar { width: 6px; }
+.modal-body::-webkit-scrollbar-thumb { background: var(--border-2); border-radius: 99px; }
+
+/* ============================================================
+   FORM ELEMENTS
+   ============================================================ */
+.field {
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 13px;
+  font-size: 13px;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  font-family: inherit;
+}
+.field::placeholder { color: var(--text-muted); }
+.field:focus { border-color: #3B82F6; box-shadow: 0 0 0 3px rgba(59,130,246,0.12); }
+select.field { cursor: pointer; }
+
+.option-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-dim);
+  margin-bottom: 6px;
+  letter-spacing: -0.005em;
+}
+.options-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+}
+
+/* ============================================================
+   DROP ZONE
+   ============================================================ */
+.drop-zone {
+  border: 2px dashed var(--border-2);
+  border-radius: 14px;
+  background: var(--surface-2);
+  padding: 32px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.drop-zone:hover { border-color: #3B82F6; background: var(--active-bg); }
+.drop-zone.dragover {
+  border-color: #3B82F6;
+  background: var(--active-bg);
+  transform: scale(1.005);
+}
+.drop-zone-icon {
+  width: 48px; height: 48px;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+.drop-zone-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+.drop-zone-sub {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 11px 20px;
+  border-radius: 10px;
+  font-size: 13.5px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.2s;
+  width: 100%;
+}
+.btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.btn-primary {
+  background: #3B82F6;
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(59,130,246,0.28);
+}
+.btn-primary:hover:not(:disabled) {
+  background: #2563EB;
+  box-shadow: 0 6px 16px rgba(59,130,246,0.4);
+  transform: translateY(-1px);
+}
+.btn-primary:active:not(:disabled) { transform: translateY(0); }
+.btn-ghost {
+  background: var(--surface-2);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+.btn-ghost:hover:not(:disabled) { background: var(--surface-3); }
+
+/* ============================================================
+   FILE LIST
+   ============================================================ */
+.file-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 12px;
+  max-height: 160px;
+  overflow-y: auto;
+}
+.file-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  font-size: 12px;
+  color: var(--text-dim);
+  animation: fadeIn 0.25s ease;
+}
+.file-item .name {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--text);
+  font-weight: 500;
+}
+.file-item .remove {
+  color: var(--text-muted);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 3px;
+  border-radius: 4px;
+  transition: color 0.15s;
+  display: flex;
+}
+.file-item .remove:hover { color: #EF4444; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ============================================================
+   PROGRESS BAR
+   ============================================================ */
+.progress-wrap {
+  margin-top: 16px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  display: none;
+}
+.progress-wrap.active { display: block; animation: fadeIn 0.3s; }
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-dim);
+  margin-bottom: 8px;
+}
+.progress-bar-bg {
+  height: 6px;
+  background: var(--border);
+  border-radius: 99px;
+  overflow: hidden;
+}
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #3B82F6, #6366F1);
+  border-radius: 99px;
+  transition: width 0.3s ease;
+  width: 0%;
+}
+
+/* ============================================================
+   TOAST
+   ============================================================ */
+#toastContainer {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 300;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
+}
+.toast {
+  pointer-events: auto;
+  min-width: 260px;
+  max-width: 380px;
+  padding: 13px 16px;
+  border-radius: 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  font-size: 13px;
+  color: var(--text);
+  animation: toastIn 0.35s cubic-bezier(.2,.7,.3,1);
+  font-weight: 500;
+}
+.toast.removing { animation: toastOut 0.25s ease forwards; }
+.toast.success { border-left: 3px solid #10B981; }
+.toast.error   { border-left: 3px solid #EF4444; }
+.toast.info    { border-left: 3px solid #3B82F6; }
+.toast-icon {
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.toast.success .toast-icon { background: #D1FAE5; color: #059669; }
+.toast.error   .toast-icon { background: #FEE2E2; color: #DC2626; }
+.toast.info    .toast-icon { background: #DBEAFE; color: #2563EB; }
+:root[data-theme="dark"] .toast.success .toast-icon { background: rgba(16,185,129,0.2); color: #34D399; }
+:root[data-theme="dark"] .toast.error   .toast-icon { background: rgba(239,68,68,0.2); color: #F87171; }
+:root[data-theme="dark"] .toast.info    .toast-icon { background: rgba(59,130,246,0.2); color: #60A5FA; }
+@keyframes toastIn { from { opacity: 0; transform: translateX(30px); } to { opacity: 1; transform: translateX(0); } }
+@keyframes toastOut { to { opacity: 0; transform: translateX(30px); } }
+
+/* ============================================================
+   INFO CARDS (About page)
+   ============================================================ */
+.info-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 24px;
+  margin-bottom: 16px;
+}
+.info-card h3 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 10px;
+  letter-spacing: -0.02em;
+}
+.info-card p {
+  font-size: 13.5px;
+  color: var(--text-dim);
+  line-height: 1.65;
+  margin-bottom: 10px;
+}
+.info-card p:last-child { margin-bottom: 0; }
+.info-card code {
+  background: var(--surface-3);
+  padding: 2px 6px;
+  border-radius: 5px;
+  font-size: 12px;
+  color: #3B82F6;
+  font-family: ui-monospace, monospace;
+}
+.info-card strong { color: var(--text); font-weight: 600; }
+
+.feature-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 11px;
+  border-radius: 99px;
+  background: var(--surface-3);
+  color: var(--text-dim);
+  font-size: 11.5px;
+  font-weight: 600;
+  border: 1px solid var(--border);
+}
+
+/* ============================================================
+   CV BUILDER — Full page
+   ============================================================ */
+.cv-layout {
+  display: grid;
+  grid-template-columns: 420px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+@media (max-width: 1024px) {
+  .cv-layout { grid-template-columns: 1fr; }
+}
+.cv-form {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 22px;
+  max-height: calc(100vh - 180px);
+  overflow-y: auto;
+}
+.cv-form::-webkit-scrollbar { width: 5px; }
+.cv-form::-webkit-scrollbar-thumb { background: var(--border-2); border-radius: 99px; }
+.cv-form-section {
+  padding-bottom: 18px;
+  margin-bottom: 18px;
+  border-bottom: 1px solid var(--border);
+}
+.cv-form-section:last-of-type { border-bottom: none; }
+.cv-form-section h4 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 11.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+.cv-form-section .fields { display: flex; flex-direction: column; gap: 8px; }
+
+.cv-item {
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface-2);
+  margin-bottom: 8px;
+}
+.cv-item-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+}
+.cv-item-remove {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 11px;
+  padding: 2px 6px;
+  border-radius: 5px;
+  transition: all 0.15s;
+}
+.cv-item-remove:hover { background: #FEE2E2; color: #DC2626; }
+
+.add-btn {
+  padding: 8px 14px;
+  border: 1px dashed var(--border-2);
+  border-radius: 9px;
+  background: transparent;
+  color: #3B82F6;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s;
+  width: 100%;
+}
+.add-btn:hover { background: var(--active-bg); border-color: #3B82F6; border-style: solid; }
+
+/* Resume preview */
+.resume-preview-wrap {
+  position: sticky;
+  top: 90px;
+}
+#resumePreview {
+  width: 100%;
+  max-width: 794px;
+  aspect-ratio: 1 / 1.4142;
+  background: #ffffff;
+  color: #1e293b;
+  box-shadow: 0 20px 50px -12px rgba(15,23,42,0.18);
+  border-radius: 8px;
+  overflow: hidden;
+  font-family: 'Inter', sans-serif;
+}
+.resume-body { padding: 48px 52px; height: 100%; }
+
+/* ============================================================
+   VIEWS
+   ============================================================ */
+.view { display: none; }
+.view.active { display: block; }
+
+/* ============================================================
+   EMPTY STATE
+   ============================================================ */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text-muted);
+}
+.empty-state-icon {
+  width: 64px; height: 64px;
+  margin: 0 auto 16px;
+  border-radius: 16px;
+  background: var(--surface-3);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text-muted);
+}
+.empty-state h3 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+.empty-state p { font-size: 13px; max-width: 340px; margin: 0 auto; line-height: 1.55; }
+
+/* ============================================================
+   LOADING
+   ============================================================ */
+#loading {
+  position: fixed; inset: 0;
+  background: var(--bg);
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 16px;
+  transition: opacity 0.4s;
+}
+#loading.hidden { opacity: 0; pointer-events: none; }
+.loader-ring {
+  width: 40px; height: 40px;
+  border: 3px solid var(--border);
+  border-top-color: #3B82F6;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ============================================================
+   PRINT
+   ============================================================ */
+@media print {
+  body * { visibility: hidden; }
+  #resumePreview, #resumePreview * { visibility: visible; }
+  #resumePreview { position: absolute; left: 0; top: 0; box-shadow: none; }
+}
+
+/* ============================================================
+   MOBILE
+   ============================================================ */
+@media (max-width: 900px) {
+  .sidebar {
+    position: fixed;
+    left: 0; top: 0;
+    transform: translateX(-100%);
+    box-shadow: 0 0 40px rgba(0,0,0,0.2);
+  }
+  .sidebar.open { transform: translateX(0); }
+  .mobile-menu-btn { display: flex; }
+  .sidebar-backdrop {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(15,23,42,0.4);
+    z-index: 29;
+  }
+  .sidebar-backdrop.active { display: block; }
+  .trust-badge { display: none; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Loading -->
+<div id="loading">
+  <div class="loader-ring"></div>
+  <p style="font-size:12px; color:var(--text-muted); font-weight:600;">Loading tools…</p>
+</div>
+
+<div class="app-shell">
+
+  <!-- ============================================================
+       SIDEBAR
+       ============================================================ -->
+  <aside class="sidebar" id="sidebar">
+    <div class="logo">
+      <div class="logo-mark">PDF</div>
+      <div class="logo-text">
+        <h1>PDF <span>Toolkit</span></h1>
+        <p>Simple Tools · Fast Results</p>
+      </div>
+    </div>
+
+    <nav id="sidebarNav">
+      <button class="nav-item active" data-view="home">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"/></svg>
+        Home
+      </button>
+      <button class="nav-item" data-view="tools">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z"/></svg>
+        All Tools
+      </button>
+      <button class="nav-item" data-view="recent">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        Recent
+      </button>
+      <button class="nav-item" data-view="favorites">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/></svg>
+        Favorites
+      </button>
+      <button class="nav-item" data-view="cv">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg>
+        CV Builder
+      </button>
+      <button class="nav-item" data-view="about">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"/></svg>
+        About &amp; Privacy
+      </button>
+    </nav>
+
+    <div class="sidebar-foot">
+      <div class="note">
+        Make your PDF work for you! <span class="smiley">☺</span>
+        <em>Files processed locally.</em>
+      </div>
+    </div>
+  </aside>
+
+  <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+  <!-- ============================================================
+       MAIN
+       ============================================================ -->
+  <div class="main">
+
+    <!-- Topbar -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="mobile-menu-btn" id="mobileMenuBtn">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/></svg>
+        </button>
+        <div>
+          <div class="page-title" id="pageTitle">Home</div>
+          <div class="page-subtitle" id="pageSubtitle">All tools · 100% in your browser</div>
+        </div>
+      </div>
+
+      <div style="display:flex; align-items:center; gap:12px;">
+        <div class="trust-badge">
+          <div class="trust-shield">
+            <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12.516 2.17a.75.75 0 00-1.032 0 11.209 11.209 0 01-7.877 3.08.75.75 0 00-.722.515A12.74 12.74 0 002.25 9.75c0 5.942 4.064 10.933 9.563 12.348a.749.749 0 00.374 0c5.499-1.415 9.563-6.406 9.563-12.348 0-1.39-.223-2.73-.635-3.985a.75.75 0 00-.722-.516l-.143.001c-2.996 0-5.717-1.17-7.734-3.08zm3.094 8.016a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" clip-rule="evenodd"/></svg>
+          </div>
+          <div class="trust-text">
+            <strong>Safe &amp; Secure</strong>
+            <span>Your files are private</span>
+          </div>
+        </div>
+
+        <button class="theme-btn" id="themeBtn" aria-label="Toggle theme" title="Toggle theme">
+          <svg id="themeIconSun" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="display:none;"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"/></svg>
+          <svg id="themeIconMoon" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Content -->
+    <main class="content">
+
+      <!-- HOME VIEW -->
+      <div class="view active" id="view-home">
+        <div id="homeContent"></div>
+      </div>
+
+      <!-- ALL TOOLS VIEW -->
+      <div class="view" id="view-tools">
+        <div id="toolsContent"></div>
+      </div>
+
+      <!-- RECENT -->
+      <div class="view" id="view-recent">
+        <div id="recentContent"></div>
+      </div>
+
+      <!-- FAVORITES -->
+      <div class="view" id="view-favorites">
+        <div id="favoritesContent"></div>
+      </div>
+
+      <!-- CV BUILDER -->
+      <div class="view" id="view-cv">
+        <div class="cv-layout">
+          <div class="cv-form">
+            <div class="cv-form-section">
+              <h4>Personal Information</h4>
+              <div class="fields">
+                <input type="text" id="cvName" placeholder="Full Name" class="field" />
+                <input type="text" id="cvTitle" placeholder="Professional Title" class="field" />
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+                  <input type="email" id="cvEmail" placeholder="Email" class="field" />
+                  <input type="tel" id="cvPhone" placeholder="Phone" class="field" />
+                </div>
+                <input type="text" id="cvLocation" placeholder="Location" class="field" />
+                <textarea id="cvSummary" rows="3" placeholder="Professional summary..." class="field" style="resize:none; font-family:inherit;"></textarea>
+              </div>
+            </div>
+
+            <div class="cv-form-section">
+              <h4>Experience</h4>
+              <div id="expContainer"></div>
+              <button id="addExp" class="add-btn">+ Add Experience</button>
+            </div>
+
+            <div class="cv-form-section">
+              <h4>Education</h4>
+              <div id="eduContainer"></div>
+              <button id="addEdu" class="add-btn">+ Add Education</button>
+            </div>
+
+            <div class="cv-form-section">
+              <h4>Skills</h4>
+              <input type="text" id="cvSkills" placeholder="React, TypeScript, Figma (comma-separated)" class="field" />
+            </div>
+
+            <button id="cvDownload" class="btn btn-primary" style="margin-top:8px;">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg>
+              Download CV as PDF
+            </button>
+          </div>
+
+          <div class="resume-preview-wrap">
+            <div id="resumePreview">
+              <div class="resume-body">
+                <div style="border-bottom:2px solid #0f172a; padding-bottom:16px; margin-bottom:20px;">
+                  <h1 id="rpName" style="font-family:'Plus Jakarta Sans',sans-serif; font-size:26px; font-weight:700; color:#0f172a; line-height:1; letter-spacing:-0.02em;">Your Name</h1>
+                  <p id="rpTitle" style="font-size:12px; color:#64748b; font-weight:500; margin-top:6px;">Professional Title</p>
+                  <div id="rpContact" style="display:flex; flex-wrap:wrap; gap:8px 16px; margin-top:10px; font-size:10px; color:#64748b;"></div>
+                </div>
+                <div id="rpSummaryBlock" style="margin-bottom:20px;">
+                  <h4 style="font-size:9px; font-weight:700; letter-spacing:.2em; text-transform:uppercase; color:#94a3b8; margin-bottom:8px;">Profile</h4>
+                  <p id="rpSummary" style="font-size:10px; line-height:1.65; color:#475569;"></p>
+                </div>
+                <div id="rpExpBlock" style="margin-bottom:20px;">
+                  <h4 style="font-size:9px; font-weight:700; letter-spacing:.2em; text-transform:uppercase; color:#94a3b8; margin-bottom:10px;">Experience</h4>
+                  <div id="rpExpList" style="display:flex; flex-direction:column; gap:12px;"></div>
+                </div>
+                <div id="rpEduBlock" style="margin-bottom:20px;">
+                  <h4 style="font-size:9px; font-weight:700; letter-spacing:.2em; text-transform:uppercase; color:#94a3b8; margin-bottom:10px;">Education</h4>
+                  <div id="rpEduList" style="display:flex; flex-direction:column; gap:8px;"></div>
+                </div>
+                <div id="rpSkillsBlock">
+                  <h4 style="font-size:9px; font-weight:700; letter-spacing:.2em; text-transform:uppercase; color:#94a3b8; margin-bottom:10px;">Skills</h4>
+                  <div id="rpSkillsList" style="display:flex; flex-wrap:wrap; gap:6px;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ABOUT -->
+      <div class="view" id="view-about">
+        <div class="info-card">
+          <h3>Built different. Literally.</h3>
+          <p><strong>PDF Toolkit runs entirely in your browser.</strong> Every tool — merge, split, compress, convert, edit, sign, redact — uses JavaScript running on your own device. There is no backend server. There is no database.</p>
+          <p><strong>Nothing you upload here is uploaded anywhere.</strong> When you open a PDF or image, it stays on your device. When you close the tab, it's gone. We literally have no way to see your files, because they never reach us.</p>
+        </div>
+
+        <div class="info-card">
+          <h3>How it actually works</h3>
+          <p>PDF manipulation uses <code>pdf-lib</code> v1.17.1. PDF rendering for JPG export uses <code>pdf.js</code> v3.11. CV export uses <code>html2pdf.js</code>. Batch downloads are zipped client-side with <code>JSZip</code>. All libraries run locally in your browser — no API calls, no analytics on your documents.</p>
+          <p>You can verify this yourself: open the browser's DevTools → Network tab. You'll see no file uploads, ever. Just the initial page load.</p>
+        </div>
+
+        <div class="info-card">
+          <h3>Who it's for</h3>
+          <p>Anyone who values their privacy. Students turning in assignments. Developers shipping contracts. Freelancers sending invoices. People who just don't want their tax documents sitting on someone else's server.</p>
+          <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:14px;">
+            <span class="feature-pill">✓ No sign-up</span>
+            <span class="feature-pill">✓ No file limits</span>
+            <span class="feature-pill">✓ No watermarks</span>
+            <span class="feature-pill">✓ No ads</span>
+            <span class="feature-pill">✓ Works offline</span>
+            <span class="feature-pill">✓ Open source libraries</span>
+          </div>
+        </div>
+
+        <div class="info-card">
+          <h3>Honest limitations</h3>
+          <p>We're not going to pretend to be perfect. Here's what we can't do:</p>
+          <p>• <strong>OCR</strong> (image → searchable text) requires heavy ML models — not available client-side yet.<br>
+          • <strong>Password-protected PDFs</strong> with strong encryption may fail to open.<br>
+          • <strong>Compression ratios</strong> depend on your file — scanned images compress more than text PDFs.<br>
+          • <strong>Very large files</strong> (100+ MB) may hit browser memory limits.</p>
+          <p>But for 95% of everyday PDF tasks, this toolkit does the job without asking you to hand over your files.</p>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal" id="modal">
+  <div class="modal-panel">
+    <div class="modal-header">
+      <div class="modal-header-icon" id="modalIcon"></div>
+      <div>
+        <div class="modal-title" id="modalTitle"></div>
+        <div class="modal-sub" id="modalSub"></div>
+      </div>
+      <button class="modal-close" id="modalClose">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<div id="toastContainer"></div>
+
+<script>
+'use strict';
+
+/* ============================================================
+   THEME
+   ============================================================ */
+(function initTheme() {
+  const root = document.documentElement;
+  const stored = localStorage.getItem('pdftk-theme');
+  const prefers = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  root.setAttribute('data-theme', stored || prefers);
+  updateThemeIcon();
+  document.getElementById('themeBtn').addEventListener('click', () => {
+    const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    localStorage.setItem('pdftk-theme', next);
+    updateThemeIcon();
+  });
+  function updateThemeIcon() {
+    const isDark = root.getAttribute('data-theme') === 'dark';
+    document.getElementById('themeIconSun').style.display = isDark ? 'block' : 'none';
+    document.getElementById('themeIconMoon').style.display = isDark ? 'none' : 'block';
+  }
+})();
+
+/* ============================================================
+   LIBRARIES
+   ============================================================ */
+const PDFLibReady = typeof window.PDFLib !== 'undefined';
+const PdfJsReady = typeof window.pdfjsLib !== 'undefined';
+if (PdfJsReady) {
+  try { pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js'; } catch (e) {}
+}
+
+/* ============================================================
+   HELPERS
+   ============================================================ */
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+
+function toast(msg, type = 'info', duration = 3000) {
+  const c = $('#toastContainer');
+  const el = document.createElement('div');
+  el.className = `toast ${type}`;
+  const icons = {
+    success: '<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>',
+    error: '<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>',
+    info: '<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"/></svg>'
+  };
+  el.innerHTML = `<div class="toast-icon">${icons[type]}</div><span>${msg}</span>`;
+  c.appendChild(el);
+  setTimeout(() => { el.classList.add('removing'); setTimeout(() => el.remove(), 280); }, duration);
+}
+
+function downloadBytes(bytes, filename, mime = 'application/pdf') {
+  const blob = new Blob([bytes], { type: mime });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = filename;
+  document.body.appendChild(a); a.click();
+  setTimeout(() => { a.remove(); URL.revokeObjectURL(url); }, 300);
+}
+
+function readAB(file) {
+  return new Promise((res, rej) => {
+    const r = new FileReader();
+    r.onload = () => res(r.result); r.onerror = rej;
+    r.readAsArrayBuffer(file);
+  });
+}
+
+function readDataURL(file) {
+  return new Promise((res, rej) => {
+    const r = new FileReader();
+    r.onload = () => res(r.result); r.onerror = rej;
+    r.readAsDataURL(file);
+  });
+}
+
+const PAGE_SIZES = { A4: [595.28, 841.89], Letter: [612, 792], Legal: [612, 1008] };
+
+function resizePdfPage(page, newW, newH, fitMode = 'contain', margin = 0) {
+  const { width, height } = page.getSize();
+  const availW = newW - margin * 2, availH = newH - margin * 2;
+  const sx = availW / width, sy = availH / height;
+  if (fitMode === 'stretch') { page.scaleContent(sx, sy); page.setSize(newW, newH); return; }
+  const scale = fitMode === 'cover' ? Math.max(sx, sy) : Math.min(sx, sy);
+  page.scaleContent(scale, scale);
+  page.translateContent((newW - width * scale) / 2, (newH - height * scale) / 2);
+  page.setSize(newW, newH);
+}
+
+function bindDrop(zone, input, onFiles) {
+  if (!zone || !input || typeof onFiles !== 'function') return;
+  ['dragenter','dragover'].forEach(evt => {
+    zone.addEventListener(evt, e => { e.preventDefault(); e.stopPropagation(); zone.classList.add('dragover'); });
+  });
+  ['dragleave','drop'].forEach(evt => {
+    zone.addEventListener(evt, e => { e.preventDefault(); e.stopPropagation(); zone.classList.remove('dragover'); });
+  });
+  zone.addEventListener('drop', e => { if (e.dataTransfer && e.dataTransfer.files) onFiles(e.dataTransfer.files); });
+  input.addEventListener('change', () => { if (input.files && input.files.length) { onFiles(input.files); input.value = ''; } });
+}
+
+/* ============================================================
+   SHARED UI
+   ============================================================ */
+const dropUI = (id, title, sub, accept = 'application/pdf,.pdf', multiple = false) => `
+  <label for="${id}" class="drop-zone">
+    <svg class="drop-zone-icon" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z"/></svg>
+    <p class="drop-zone-title">${title}</p>
+    <p class="drop-zone-sub">${sub}</p>
+  </label>
+  <input type="file" id="${id}" style="position:absolute; width:1px; height:1px; opacity:0; pointer-events:none;" ${multiple ? 'multiple' : ''} accept="${accept}" />
+`;
+
+const fileListUI = (id) => `<div class="file-list" id="${id}"></div>`;
+
+const actionBtnUI = (id, label, primary = true) => `
+  <button id="${id}" class="btn ${primary ? 'btn-primary' : 'btn-ghost'}" style="margin-top:20px;" disabled>
+    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg>
+    ${label}
+  </button>`;
+
+const progressUI = (id) => `
+  <div class="progress-wrap" id="${id}">
+    <div class="progress-label">
+      <span class="progress-status">Processing…</span>
+      <span class="progress-pct">0%</span>
+    </div>
+    <div class="progress-bar-bg"><div class="progress-bar-fill"></div></div>
+  </div>`;
+
+function setProgress(root, pct, status) {
+  const wrap = $('.progress-wrap', root);
+  if (!wrap) return;
+  wrap.classList.add('active');
+  $('.progress-bar-fill', wrap).style.width = Math.min(100, pct) + '%';
+  $('.progress-pct', wrap).textContent = Math.round(pct) + '%';
+  if (status) $('.progress-status', wrap).textContent = status;
+}
+function hideProgress(root) {
+  const wrap = $('.progress-wrap', root);
+  if (wrap) wrap.classList.remove('active');
+}
+
+const pageOptionsUI = () => `
+  <div style="margin-top:20px; padding-top:20px; border-top:1px solid var(--border);">
+    <p style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.1em; color:var(--text-muted); margin-bottom:12px;">Output Settings</p>
+    <div class="options-grid">
+      <div><label class="option-label">Page Size</label>
+        <select class="field" data-opt="size"><option value="original">Original</option><option value="A4">A4</option><option value="Letter">Letter</option><option value="Legal">Legal</option></select>
+      </div>
+      <div><label class="option-label">Orientation</label>
+        <select class="field" data-opt="orient"><option value="auto">Auto</option><option value="portrait">Portrait</option><option value="landscape">Landscape</option></select>
+      </div>
+      <div><label class="option-label">Auto-Fit</label>
+        <select class="field" data-opt="fit"><option value="contain">Contain</option><option value="cover">Cover</option><option value="stretch">Stretch</option></select>
+      </div>
+      <div><label class="option-label">Margin (pt)</label>
+        <input type="number" class="field" data-opt="margin" value="0" min="0" max="100" />
+      </div>
+    </div>
+  </div>`;
+
+function readOpts(root) {
+  const o = {};
+  $$('[data-opt]', root).forEach(el => { o[el.dataset.opt] = el.value; });
+  return o;
+}
+
+function applyPageOptions(doc, opts) {
+  if (!opts || (opts.size === 'original' && opts.orient === 'auto')) return;
+  doc.getPages().forEach(page => {
+    const { width: ow, height: oh } = page.getSize();
+    let newW = ow, newH = oh;
+    if (opts.size !== 'original' && PAGE_SIZES[opts.size]) {
+      let [w, h] = PAGE_SIZES[opts.size];
+      newW = w; newH = h;
+      if (opts.orient === 'landscape' || (opts.orient === 'auto' && ow > oh)) { newW = h; newH = w; }
+    } else if (opts.orient !== 'auto') {
+      if (opts.orient === 'landscape' && oh > ow) { newW = oh; newH = ow; }
+      if (opts.orient === 'portrait' && ow > oh) { newW = oh; newH = ow; }
+    }
+    if (newW !== ow || newH !== oh) resizePdfPage(page, newW, newH, opts.fit || 'contain', Number(opts.margin) || 0);
+  });
+}
+
+/* ============================================================
+   ICONS
+   ============================================================ */
+const I = {
+  merge: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 00-2 2v14a2 2 0 002 2h3M16 3h3a2 2 0 012 2v14a2 2 0 01-2 2h-3M12 3v18"/></svg>',
+  split: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 00-2 2v14a2 2 0 002 2h3M16 3h3a2 2 0 012 2v14a2 2 0 01-2 2h-3M12 3v18"/></svg>',
+  remove: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m3 0v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6h14zM10 11v6M14 11v6"/></svg>',
+  extract: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2M16 12l-4 4-4-4M12 16V3"/></svg>',
+  organize: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h10M4 18h16"/></svg>',
+  compress: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3v3a2 2 0 01-2 2H3M21 8h-3a2 2 0 01-2-2V3M3 16h3a2 2 0 012 2v3M16 21v-3a2 2 0 012-2h3"/></svg>',
+  repair: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 105.4 5.4l-3.5 3.5L21 21l-3 3-5.8-5.8-3.5 3.5a4 4 0 11-5.4-5.4l7-7z"/></svg>',
+  optimize: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+  jpg2pdf: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>',
+  html2pdf: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 007 0l4-4a5 5 0 00-7-7l-1 1M14 11a5 5 0 00-7 0l-4 4a5 5 0 007 7l1-1"/></svg>',
+  pdf2jpg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="M21 15l-5-5L5 21"/></svg>',
+  rotate: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 11-3-6.7L21 8M21 3v5h-5"/></svg>',
+  numbers: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9h16M4 15h16M10 3L8 21M16 3l-2 18"/></svg>',
+  watermark: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5l3.3 6.7 7.4 1.1-5.4 5.2 1.3 7.4L12 19.4l-6.6 3.5 1.3-7.4-5.4-5.2 7.4-1.1L12 2.5z"/></svg>',
+  crop: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2v14a2 2 0 002 2h14M18 22V8a2 2 0 00-2-2H2"/></svg>',
+  sign: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg>',
+  redact: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/><path d="M2 2l20 20"/></svg>',
+  cv: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>'
+};
+
+/* ============================================================
+   TOOL CARD VISUAL SYSTEM
+   ============================================================ */
+const VISUAL = {
+  blue:    { icon: '#3B82F6', iconBg: '#3B82F6', cardBg: '#EFF6FF', cardBorder: '#DBEAFE', darkCardBg: 'rgba(59,130,246,0.08)', darkCardBorder: 'rgba(59,130,246,0.2)' },
+  green:   { icon: '#10B981', iconBg: '#10B981', cardBg: '#ECFDF5', cardBorder: '#D1FAE5', darkCardBg: 'rgba(16,185,129,0.08)', darkCardBorder: 'rgba(16,185,129,0.2)' },
+  red:     { icon: '#EF4444', iconBg: '#EF4444', cardBg: '#FEF2F2', cardBorder: '#FEE2E2', darkCardBg: 'rgba(239,68,68,0.08)', darkCardBorder: 'rgba(239,68,68,0.2)' },
+  purple:  { icon: '#8B5CF6', iconBg: '#8B5CF6', cardBg: '#F5F3FF', cardBorder: '#EDE9FE', darkCardBg: 'rgba(139,92,246,0.08)', darkCardBorder: 'rgba(139,92,246,0.2)' },
+  orange:  { icon: '#F97316', iconBg: '#F97316', cardBg: '#FFF7ED', cardBorder: '#FFEDD5', darkCardBg: 'rgba(249,115,22,0.08)', darkCardBorder: 'rgba(249,115,22,0.2)' },
+  pink:    { icon: '#EC4899', iconBg: '#EC4899', cardBg: '#FDF2F8', cardBorder: '#FCE7F3', darkCardBg: 'rgba(236,72,153,0.08)', darkCardBorder: 'rgba(236,72,153,0.2)' },
+  amber:   { icon: '#F59E0B', iconBg: '#F59E0B', cardBg: '#FFFBEB', cardBorder: '#FEF3C7', darkCardBg: 'rgba(245,158,11,0.08)', darkCardBorder: 'rgba(245,158,11,0.2)' },
+  teal:    { icon: '#14B8A6', iconBg: '#14B8A6', cardBg: '#F0FDFA', cardBorder: '#CCFBF1', darkCardBg: 'rgba(20,184,166,0.08)', darkCardBorder: 'rgba(20,184,166,0.2)' },
+  rose:    { icon: '#F43F5E', iconBg: '#F43F5E', cardBg: '#FFF1F2', cardBorder: '#FFE4E6', darkCardBg: 'rgba(244,63,94,0.08)', darkCardBorder: 'rgba(244,63,94,0.2)' },
+  indigo:  { icon: '#6366F1', iconBg: '#6366F1', cardBg: '#EEF2FF', cardBorder: '#E0E7FF', darkCardBg: 'rgba(99,102,241,0.08)', darkCardBorder: 'rgba(99,102,241,0.2)' }
+};
+
+/* ============================================================
+   TOOL DEFINITIONS
+   ============================================================ */
+const toolMerge = {
+  html: `<div>${dropUI('mIn', 'Drop PDFs here', 'or click · multiple files', 'application/pdf,.pdf', true)}${fileListUI('mList')}<div id="mProg">${progressUI('mProgWrap')}</div>${actionBtnUI('mBtn', 'Merge PDFs')}${pageOptionsUI()}</div>`,
+  init(root) {
+    let files = [];
+    const input = $('#mIn', root), zone = $('label[for="mIn"]', root), list = $('#mList', root), btn = $('#mBtn', root);
+    function handle(fl) {
+      const pdfs = [...fl].filter(f => f.type === 'application/pdf' || f.name.toLowerCase().endsWith('.pdf'));
+      if (!pdfs.length) return toast('Only PDF files accepted', 'error');
+      files = files.concat(pdfs); render();
+    }
+    function render() {
+      list.innerHTML = files.map((f, i) => `<div class="file-item"><span class="name">${f.name}</span><button class="remove" data-i="${i}"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button></div>`).join('');
+      btn.disabled = files.length < 2;
+      $$('[data-i]', list).forEach(b => b.addEventListener('click', () => { files.splice(+b.dataset.i, 1); render(); }));
+    }
+    bindDrop(zone, input, handle);
+    btn.addEventListener('click', async () => {
+      btn.disabled = true;
+      setProgress(root, 10, 'Reading files…');
+      try {
+        const merged = await PDFLib.PDFDocument.create();
+        for (let i = 0; i < files.length; i++) {
+          setProgress(root, 10 + (i / files.length) * 70, `Merging ${i + 1} of ${files.length}…`);
+          const doc = await PDFLib.PDFDocument.load(await readAB(files[i]), { ignoreEncryption: true });
+          const pages = await merged.copyPages(doc, doc.getPageIndices());
+          pages.forEach(p => merged.addPage(p));
+        }
+        setProgress(root, 90, 'Applying options…');
+        applyPageOptions(merged, readOpts(root));
+        downloadBytes(await merged.save(), 'merged.pdf');
+        setProgress(root, 100, 'Done!');
+        toast(`Merged ${files.length} PDFs`, 'success');
+        setTimeout(() => hideProgress(root), 1500);
+      } catch (e) { toast('Failed: ' + e.message, 'error'); hideProgress(root); }
+      finally { btn.disabled = files.length < 2; }
+    });
+  }
+};
+
+const toolSplit = {
+  html: `<div>${dropUI('sIn', 'Drop a PDF', 'or click to browse')}<div id="sInfo" style="font-size:12px; color:var(--text-muted); margin-top:10px;"></div><div class="options-grid" style="margin-top:16px;"><div><label class="option-label">From Page</label><input type="number" id="sFrom" class="field" value="1" min="1"></div><div><label class="option-label">To Page</label><input type="number" id="sTo" class="field" value="1" min="1"></div></div><div id="sProg">${progressUI('sProgWrap')}</div>${actionBtnUI('sBtn', 'Split PDF')}${pageOptionsUI()}</div>`,
+  init(root) {
+    let file = null, count = 0;
+    const input = $('#sIn', root), zone = $('label[for="sIn"]', root);
+    bindDrop(zone, input, async fl => {
+      const f = fl[0]; if (!f) return;
+      file = f;
+      try {
+        const doc = await PDFLib.PDFDocument.load(await readAB(f), { ignoreEncryption: true });
+        count = doc.getPageCount();
+        $('#sFrom', root).max = count; $('#sTo', root).max = count; $('#sTo', root).value = count;
+        $('#sInfo', root).textContent = `✓ ${f.name} — ${count} pages`;
+        $('#sBtn', root).disabled = false;
+      } catch { toast('Could not read PDF', 'error'); }
+    });
+    $('#sBtn', root).addEventListener('click', async () => {
+      const from = Math.max(1, Math.min(+$('#sFrom', root).value, count));
+      const to = Math.max(from, Math.min(+$('#sTo', root).value, count));
+      $('#sBtn', root).disabled = true;
+      setProgress(root, 30, 'Reading…');
+      try {
+        const src = await PDFLib.PDFDocument.load(await readAB(file), { ignoreEncryption: true });
+        setProgress(root, 60, 'Extracting…');
+        const out = await PDFLib.PDFDocument.create();
+        const idx = []; for (let i = from - 1; i <= to - 1; i++) idx.push(i);
+        const pages = await out.copyPages(src, idx);
+        pages.forEach(p => out.addPage(p));
+        setProgress(root, 85, 'Saving…');
+        applyPageOptions(out, readOpts(root));
+        downloadBytes(await out.save(), `split_${from}-${to}.pdf`);
+        setProgress(root, 100, 'Done!');
+        toast(`Extracted pages ${from}–${to}`, 'success');
+        setTimeout(() => hideProgress(root), 1500);
+      } catch (e) { toast('Failed: ' + e.message, 'error'); hideProgress(root); }
+      finally { $('#sBtn', root).disabled = false; }
+    });
+  }
+};
+
+const toolRemove = {
+  html: `<div>${dropUI('rIn', 'Drop a PDF', 'Pages to remove: e.g. 2,5,7-9')}<div id="rInfo" style="font-size:12px; color:var(--text-muted); margin-top:10px;"></div><div style="margin-top:16px;"><label class="option-label">Pages to Remove</label><input type="text" id="rPages" class="field" placeholder="e.g. 2, 5, 7-9"></div><div id="rProg">${progressUI('rProgWrap')}</div>${actionBtnUI('rBtn', 'Remove & Download')}</div>`,
+  init(root) {
+    let file = null, count = 0;
+    const input = $('#rIn', root), zone = $('label[for="rIn"]', root);
+    bindDrop(zone, input, async fl => {
+      const f = fl[0]; if (!f) return;
+      file = f;
+      const doc = await PDFLib.PDFDocument.load(await readAB(f), { ignoreEncryption: true });
+      count = doc.getPageCount();
+      $('#rInfo', root).textContent = `✓ ${f.name} — ${count} pages`;
+      $('#rBtn', root).disabled = false;
+    });
+    $('#rBtn', root).addEventListener('click', async () => {
+      const spec = $('#rPages', root).value.trim();
+      if (!spec) return toast('Enter pages to remove', 'error');
+      const set = new Set();
+      spec.split(',').forEach(p => {
+        p = p.trim();
+        if (p.includes('-')) { const [a, b] = p.split('-').map(Number); for (let i = a; i <= b; i++) set.add(i); }
+        else set.add(Number(p));
+      });
+      setProgress(root, 30, 'Processing…');
+      try {
+        const src = await PDFLib.PDFDocument.load(await readAB(file), { ignoreEncryption: true });
+        const out = await PDFLib.PDFDocument.create();
+        const keep = []; for (let i = 1; i <= count; i++) if (!set.has(i)) keep.push(i - 1);
+        if (!keep.length) return toast('Cannot remove all pages', 'error');
+        const pages = await out.copyPages(src, keep);
+        pages.forEach(p => out.addPage(p));
+        setProgress(root, 90, 'Saving…');
+        downloadBytes(await out.save(), 'removed.pdf');
+        setProgress(root, 100, 'Done!');
+        toast(`Removed ${count - keep.length} page(s)`, 'success');
+        setTimeout(() => hideProgress(root), 1500);
+      } catch (e) { toast('Failed: ' + e.message, 'error'); hideProgress(root); }
+    });
+  }
+};
+
+const toolExtract = {
+  html: `<div>${dropUI('eIn', 'Drop a PDF', 'Extract specific pages')}<div id="eInfo" style="font-size:12px; color:var(--text-muted); margin-top:10px;"></div><div style="margin-top:16px;"><label class="option-label">Pages to Extract</label><input type="text" id="ePages" class="field" placeholder="e.g. 1,3,5-7"></div><div id="eProg">${progressUI('eProgWrap')}</div>${actionBtnUI('eBtn', 'Extract Pages')}</div>`,
+  init(root) {
+    let file = null, count = 0;
+    const input = $('#eIn', root), zone = $('label[for="eIn"]', root);
+    bindDrop(zone, input, async fl => {
+      const f = fl[0]; if (!f) return;
+      file = f;
+      const doc = await PDFLib.PDFDocument.load(await readAB(f), { ignoreEncryption: true });
+      count = doc.getPageCount();
+      $('#eInfo', root).textContent = `✓ ${f.name} — ${count} pages`;
+      $('#eBtn', root).disabled = false;
+    });
+    $('#eBtn', root).addEventListener('click', async () => {
+      const spec = $('#ePages', root).value.trim();
+      if (!spec) return toast('Enter pages to extract', 'error');
+      const set = new Set();
+      spec.split(',').forEach(p => {
+        p = p.trim();
+        if (p.includes('-')) { const [a, b] = p.split('-').map(Number); for (let i = a; i <= b; i++) set.add(i); }
+        else set.add(Number(p));
+      });
+      const keep = [...set].filter(n => n >= 1 && n <= count).sort((a, b) => a - b).map(n => n - 1);
+      if (!keep.length) return toast('No valid pages', 'error');
+      setProgress(root, 40, 'Extracting…');
+      try {
+        const src = await PDFLib.PDFDocument.load(await readAB(file), { ignoreEncryption: true });
+        const out = await PDFLib.PDFDocument.create();
+        const pages = await out.copyPages(src, keep);
+        pages.forEach(p => out.addPage(p));
+        setProgress(root, 90, 'Saving…');
+        downloadBytes(await out.save(), `extracted_${keep.length}pages.pdf`);
+        setProgress(root, 100, 'Done!');
+        toast(`Extracted ${keep.length} page(s)`, 'success');
+        setTimeout(() => hideProgress(root), 1500);
+      } catch (e) { toast('Failed: ' + e.message, 'error'); hideProgress(root); }
+    });
+  }
+};
+
+const toolOrganize = {
+  html: `<div>${dropUI('oIn', 'Drop a PDF', 'Then click pages in your desired order')}<div id="oInfo" style="font-size:12px; color:var(--text-muted); margin-top:10px;"></div><div id="oGrid" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(80px, 1fr)); gap:8px; margin-top:14px; max-height:260px; overflow-y:auto;"></div>${actionBtnUI('oBtn', 'Save Reordered PDF')}</div>`,
+  init(root) {
+    let file = null, order = [];
+    const input = $('#oIn', root), zone = $('label[for="oIn"]', root);
+    bindDrop(zone, input, async fl => {
+      const f = fl[0]; if (!f) return;
+      file = f;
+      const doc = await PDFLib.PDFDocument.load(await readAB(f), { ignoreEncryption: true });
+      const count = doc.getPageCount();
+      order = [];
+      $('#oInfo', root).textContent = `✓ ${count} pages — click to set order`;
+      const grid = $('#oGrid', root);
+      grid.innerHTML = '';
+      for (let i = 0; i < count; i++) {
+        const b = document.createElement('button');
+        b.style.cssText = 'padding:10px; border-radius:9px; background:var(--surface-2); border:1px solid var(--border); color:var(--text); font-size:12px; font-weight:600; cursor:pointer; transition:all .2s; font-family:inherit;';
+        b.textContent = `Page ${i + 1}`;
+        b.addEventListener('click', () => {
+          const idx = order.indexOf(i);
+          if (idx > -1) { order.splice(idx, 1); b.style.background = 'var(--surface-2)'; b.style.borderColor = 'var(--border)'; b.textContent = `Page ${i + 1}`; }
+          else { order.push(i); b.style.background = 'var(--active-bg)'; b.style.borderColor = '#3B82F6'; b.textContent = `#${order.length} · P${i + 1}`; }
+          $('#oBtn', root).disabled = order.length === 0;
+        });
+        grid.appendChild(b);
+      }
+      $('#oBtn', root).disabled = true;
+    });
+    $('#oBtn', root).addEventListener('click', async () => {
+      try {
+        const src = await PDFLib.PDFDocument.load(await readAB(file), { ignoreEncryption: true });
+        const out = await PDFLib.PDFDocument.create();
+        const pages = await out.copyPages(src, order);
+        pages.forEach(p => out.addPage(p));
+        downloadBytes(await out.save(), 'reordered.pdf');
+        toast(`Saved ${order.length}-page PDF`, 'success');
+      } catch (e) { toast('Failed: ' + e.message, 'error'); }
+    });
+  }
+};
+
+const toolCompress = {
+  html: `<div>${dropUI('cIn', 'Drop a PDF', 'Compress by rasterizing at lower quality')}<div id="cInfo" style="font-size:12px; color:var(--text-muted); margin-top:10px;"></div><div class="options-grid" style="margin-top:16px;"><div><label class="option-label">Quality</label><select class="field" id="cQ"><option value="0.5">Small (50%)</option><option value="0.7" selected>Balanced (70%)</option><option value="0.85">High (85%)</option></select></div><div><label class="option-label">DPI</label><select class="field" id="cD"><option value="1">72</option><option value="1.5" selected>108</option><option value="2">144</option></select></div></div><div id="cProg">${progressUI('cProgWrap')}</div>${actionBtnUI('cBtn', 'Compress PDF')}</div>`,
+  init(root) {
+    let file = null;
+    const input = $('#cIn', root), zone = $('label[for="cIn"]', root);
+    bindDrop(zone, input, fl => {
+      const f = fl[0]; if (!f) return;
+      file = f;
+      $('#cInfo', root).textContent = `✓ ${f.name} (${(f.size / 1024).toFixed(0)} KB)`;
+      $('#cBtn', root).disabled = false;
+    });
+    $('#cBtn', root).addEventListener('click', async () => {
+      if (!PdfJsReady) return toast('pdf.js not loaded', 'error');
+      const q = parseFloat($('#cQ', root).value), s = parseFloat($('#cD', root).value);
+      $('#cBtn', root).disabled = true;
+      setProgress(root, 5, 'Rendering pages…');
+      try {
+        const buf = await readAB(file);
+        const pdf = await pdfjsLib.getDocument({ data: buf }).promise;
+        const out = await PDFLib.PDFDocument.create();
+        for (let i = 1; i <= pdf.numPages; i++) {
+          setProgress(root, 5 + (i / pdf.numPages) * 80, `Page ${i} of ${pdf.numPages}…`);
+          const page = await pdf.getPage(i);
+          const vp = page.getViewport({ scale: s });
+          const cv = document.createElement('canvas');
+          cv.width = vp.width; cv.height = vp.height;
+          const ctx = cv.getContext('2d');
+          ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, cv.width, cv.height);
+          await page.render({ canvasContext: ctx, viewport: vp }).promise;
+          const jpg = cv.toDataURL('image/jpeg', q);
+          const jpgBytes = await (await fetch(jpg)).arrayBuffer();
+          const img = await out.embedJpg(jpgBytes);
+          const p = out.addPage([vp.width, vp.height]);
+          p.drawImage(img, { x: 0, y: 0, width: vp.width, height: vp.height });
+        }
+        setProgress(root, 95, 'Saving…');
+        const bytes = await out.save();
+        downloadBytes(bytes, 'compressed.pdf');
+        setProgress(root, 100, 'Done!');
+        const reduction = ((1 - bytes.byteLength / file.size) * 100).toFixed(0);
+        toast(reduction > 0 ? `Saved ${reduction}% smaller` : 'Compressed', 'success');
+        setTimeout(() => hideProgress(root), 1500);
+      } catch (e) { toast('Failed: ' + e.message, 'error'); hideProgress(root); }
+      finally { $('#cBtn', root).disabled = false; }
+    });
+  }
+};
+
+const toolRepair = {
+  html: `<div>${dropUI('rpIn', 'Drop a PDF', 'Attempts to rebuild structural integrity')}<div id="rpInfo" style="font-size:12px; color:var(--text-muted); margin-top:10px;"></div>${actionBtnUI('rpBtn', 'Repair PDF')}</div>`,
+  init(root) {
+    let file = null;
+    const input = $('#rpIn', root), zone = $('label[for="rpIn"]', root);
+    bindDrop(zone, input, fl => {
+      const f = fl[0]; if (!f) return;
+      file = f;
+      $('#rpInfo', root).textContent = `✓ ${f.name}`;
+      $('#rpBtn', root).disabled = false;
+    });
+    $('#rpBtn', root).addEventListener('click', async () => {
+      try {
+        const doc = await PDFLib.PDFDocument.load(await readAB(file), { ignoreEncryption: true, updateMetadata: false });
+        downloadBytes(await doc.save(), 'repaired.pdf');
+        toast('Repaired successfully', 'success');
+      } catch (e) { toast('Repair failed: ' + e.message, 'error'); }
+    });
+  }
+};
+
+const toolJpg2Pdf = {
+  html: `<div>${dropUI('jIn', 'Drop images', 'JPG, PNG, WEBP · multiple', 'image/*', true)}${fileListUI('jList')}<div style="margin-top:16px;"><label class="option-label">Page Size</label><select class="field" data-opt="size"><option value="A4" selected>A4</option><option value="Letter">Letter</option><option value="Legal">Legal</option><option value="fit">Fit to image</option></select></div><div class="options-grid" style="margin-top:12px;"><div><label class="option-label">Orientation</label><select class="field" data-opt="orient"><option value="portrait" selected>Portrait</option><option value="landscape">Landscape</option><option value="auto">Auto</option></select></div><div><label class="option-label">Auto-Fit</label><select class="field" data-opt="fitmode"><option value="contain" selected>Contain</option><option value="cover">Cover</option><option value="stretch">Stretch</option></select></div><div><label class="option-label">Margin</label><input type="number" class="field" data-opt="margin" value="20" min="0"></div></div><div id="jProg">${progressUI('jProgWrap')}</div>${actionBtnUI('jBtn', 'Convert to PDF')}</div>`,
+  init(root) {
+    let imgs = [];
+    const input = $('#jIn', root), zone = $('label[for="jIn"]', root), list = $('#jList', root);
+    bindDrop(zone, input, fl => {
+      const valid = [...fl].filter(f => /image\//.test(f.type));
+      if (!valid.length) return toast('No images', 'error');
+      imgs = imgs.concat(valid); render();
+    });
+    function render() {
+      list.innerHTML = imgs.map((f, i) => `<div class="file-item"><span class="name">${f.name}</span><button class="remove" data-i="${i}"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button></div>`).join('');
+      $('#jBtn', root).disabled = imgs.length === 0;
+      $$('[data-i]', list).forEach(b => b.addEventListener('click', () => { imgs.splice(+b.dataset.i, 1); render(); }));
+    }
+    $('#jBtn', root).addEventListener('click', async () => {
+      $('#jBtn', root).disabled = true;
+      setProgress(root, 10, 'Processing…');
+      try {
+        const doc = await PDFLib.PDFDocument.create();
+        const sizeSel = $('[data-opt="size"]', root).value;
+        const orient = $('[data-opt="orient"]', root).value;
+        const fitMode = $('[data-opt="fitmode"]', root).value;
+        const margin = Number($('[data-opt="margin"]', root).value) || 0;
+        for (let i = 0; i < imgs.length; i++) {
+          setProgress(root, 10 + (i / imgs.length) * 80, `Image ${i + 1} of ${imgs.length}…`);
+          const f = imgs[i];
+          const ab = await readAB(f);
+          let img;
+          if (/png/i.test(f.type)) img = await doc.embedPng(ab);
+          else if (/jpe?g/i.test(f.type)) img = await doc.embedJpg(ab);
+          else {
+            const dataUrl = await readDataURL(f);
+            const htmlImg = await new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = dataUrl; });
+            const cv = document.createElement('canvas');
+            cv.width = htmlImg.naturalWidth; cv.height = htmlImg.naturalHeight;
+            cv.getContext('2d').drawImage(htmlImg, 0, 0);
+            const jpgUrl = cv.toDataURL('image/jpeg', 0.92);
+            img = await doc.embedJpg(await (await fetch(jpgUrl)).arrayBuffer());
+          }
+          let pw, ph;
+          if (sizeSel === 'fit') { pw = img.width + margin * 2; ph = img.height + margin * 2; }
+          else {
+            let [w, h] = PAGE_SIZES[sizeSel] || PAGE_SIZES.A4;
+            if (orient === 'landscape' || (orient === 'auto' && img.width > img.height)) { pw = h; ph = w; }
+            else { pw = w; ph = h; }
+          }
+          const page = doc.addPage([pw, ph]);
+          const availW = pw - margin * 2, availH = ph - margin * 2;
+          const sx = availW / img.width, sy = availH / img.height;
+          let dw, dh;
+          if (fitMode === 'stretch') { dw = availW; dh = availH; }
+          else { const s = fitMode === 'cover' ? Math.max(sx, sy) : Math.min(sx, sy); dw = img.width * s; dh = img.height * s; }
+          page.drawImage(img, { x: (pw - dw) / 2, y: (ph - dh) / 2, width: dw, height: dh });
+        }
+        setProgress(root, 95, 'Saving…');
+        downloadBytes(await doc.save(), 'images.pdf');
+        setProgress(root, 100, 'Done!');
+        toast(`Converted ${imgs.length} image(s)`, 'success');
+        setTimeout(() => hideProgress(root), 1500);
+      } catch (e) { toast('Failed: ' + e.message, 'error'); hideProgress(root); }
+      finally { $('#jBtn', root).disabled = imgs.length === 0; }
+    });
+  }
+};
+
+const toolHtml2Pdf = {
+  html: `<div><label class="option-label">Paste HTML or text</label><textarea id="hC" rows="8" class="field" style="font-family:ui-monospace,monospace; resize:vertical;" placeholder="<h1>Hello</h1><p>Your content…</p>"></textarea><div class="options-grid" style="margin-top:14px;"><div><label class="option-label">Page Size</label><select class="field" id="hS"><option value="a4" selected>A4</option><option value="letter">Letter</option><option value="legal">Legal</option></select></div><div><label class="option-label">Orientation</label><select class="field" id="hO"><option value="portrait" selected>Portrait</option><option value="landscape">Landscape</option></select></div></div>${actionBtnUI('hBtn', 'Convert to PDF')}</div>`,
+  init(root) {
+    const btn = $('#hBtn', root);
+    btn.disabled = false;
+    btn.addEventListener('click', async () => {
+      const content = $('#hC', root).value.trim();
+      if (!content) return toast('Enter some content', 'error');
+      const wrap = document.createElement('div');
+      wrap.style.cssText = 'position:fixed; left:-99999px; top:0; width:794px; background:#fff; color:#111; padding:40px; font-family:Inter, sans-serif;';
+      wrap.innerHTML = /<[a-z][\s\S]*>/i.test(content) ? content : `<p style="white-space:pre-wrap">${content}</p>`;
+      document.body.appendChild(wrap);
+      try {
+        await html2pdf().set({
+          margin: 0, filename: 'document.pdf',
+          image: { type: 'jpeg', quality: 0.98 },
+          html2canvas: { scale: 2, useCORS: true, backgroundColor: '#ffffff' },
+          jsPDF: { unit: 'mm', format: $('#hS', root).value, orientation: $('#hO', root).value }
+        }).from(wrap).save();
+        toast('PDF generated', 'success');
+      } catch (e) { toast('Failed: ' + e.message, 'error'); }
+      finally { wrap.remove(); }
+    });
+  }
+};
+
+const toolPdf2Jpg = {
+  html: `<div>${dropUI('pIn', 'Drop a PDF', 'Pages exported as JPG in a ZIP')}<div id="pInfo" style="font-size:12px; color:var(--text-muted); margin-top:10px;"></div><div class="options-grid" style="margin-top:16px;"><div><label class="option-label">Resolution</label><select class="field" id="pS"><option value="1">72 DPI</option><option value="1.5" selected>108 DPI</option><option value="2">144 DPI</option><option value="3">216 DPI</option></select></div><div><label class="option-label">Quality</label><select class="field" id="pQ"><option value="0.7">Medium</option><option value="0.85" selected>High</option><option value="0.95">Max</option></select></div></div><div id="pProg">${progressUI('pProgWrap')}</div>${actionBtnUI('pBtn', 'Extract as JPG (ZIP)')}</div>`,
+  init(root) {
+    let file = null;
+    const input = $('#pIn', root), zone = $('label[for="pIn"]', root);
+    bindDrop(zone, input, fl => {
+      const f = fl[0]; if (!f) return;
+      file = f;
+      $('#pInfo', root).textContent = `✓ ${f.name}`;
+      $('#pBtn', root).disabled = false;
+    });
+    $('#pBtn', root).addEventListener('click', async () => {
+      if (!PdfJsReady) return toast('pdf.js not loaded', 'error');
+      $('#pBtn', root).disabled = true;
+      setProgress(root, 5, 'Rendering…');
+      try {
+        const scale = parseFloat($('#pS', root).value);
+        const quality = parseFloat($('#pQ', root).value);
+        const buf = await readAB(file);
+        const pdf = await pdfjsLib.getDocument({ data: buf }).promise;
+        const zip = new JSZip();
+        for (let i = 1; i <= pdf.numPages; i++) {
+          setProgress(root, 5 + (i / pdf.numPages) * 85, `Page ${i} of ${pdf.numPages}…`);
+          const page = await pdf.getPage(i);
+          const vp = page.getViewport({ scale });
+          const cv = document.createElement('canvas');
+          cv.width = vp.width; cv.height = vp.height;
+          const ctx = cv.getContext('2d');
+          ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, cv.width, cv.height);
+          await page.render({ canvasContext: ctx, viewport: vp }).promise;
+          const blob = await new Promise(r => cv.toBlob(r, 'image/jpeg', quality));
+          zip.file(`page-${String(i).padStart(3, '0')}.jpg`, blob);
+        }
+        setProgress(root, 95, 'Zipping…');
+        const zipBlob = await zip.generateAsync({ type: 'blob' });
+        const url = URL.createObjectURL(zipBlob);
+        const a = document.createElement('a');
+        a.href = url; a.download = 'pages.zip'; a.click();
+        setTimeout(() => URL.revokeObjectURL(url), 500);
+        setProgress(root, 100, 'Done!');
+        toast(`Exported ${pdf.numPages} JPG(s)`, 'success');
+        setTimeout(() => hideProgress(root), 1500);
+      } catch (e) { toast('Failed: ' + e.message, 'error'); hideProgress(root); }
+      finally { $('#pBtn', root).disabled = false; }
+    });
+  }
+};
+
+const toolRotate = {
+  html: `<div>${dropUI('rtIn', 'Drop a PDF', 'Rotate all or specific pages')}<div id="rtInfo" style="font-size:12px; color:var(--text-muted); margin-top:10px;"></div><div class="options-grid" style="margin-top:16px;"><div><label class="option-label">Angle</label><select class="field" id="rtA"><option value="90">90° clockwise</option><option value="180">180°</option><option value="270">90° counter-clockwise</option></select></div><div><label class="option-label">Pages</label><input type="text" id="rtP" class="field" value="all" placeholder="all or 1,3,5-7"></div></div>${actionBtnUI('rtBtn', 'Rotate PDF')}</div>`,
+  init(root) {
+    let file = null, count = 0;
+    const input = $('#rtIn', root), zone = $('label[for="rtIn"]', root);
+    bindDrop(zone, input, async fl => {
+      const f = fl[0]; if (!f) return;
+      file = f;
+      const doc = await PDFLib.PDFDocument.load(await readAB(f), { ignoreEncryption: true });
+      count = doc.getPageCount();
+      $('#rtInfo', root).textContent = `✓ ${f.name} — ${count} pages`;
+      $('#rtBtn', root).disabled = false;
+    });
+    $('#rtBtn', root).addEventListener('click', async () => {
+      const angle = parseInt($('#rtA', root).value, 10);
+      const spec = $('#rtP', root).value.trim().toLowerCase();
+      const set = new Set();
+      if (spec === 'all' || spec === '') { for (let i = 1; i <= count; i++) set.add(i); }
+      else spec.split(',').forEach(p => {
+        p = p.trim();
+        if (p.includes('-')) { const [a, b] = p.split('-').map(Number); for (let i = a; i <= b; i++) set.add(i); }
+        else set.add(Number(p));
+      });
+      try {
+        const doc = await PDFLib.PDFDocument.load(await readAB(file), { ignoreEncryption: true });
+        doc.getPages().forEach((pg, i) => { if (set.has(i + 1)) pg.setRotation(PDFLib.degrees(angle)); });
+        downloadBytes(await doc.save(), 'rotated.pdf');
+        toast(`Rotated ${set.size} page(s)`, 'success');
+      } catch (e) { toast('Failed: ' + e.message, 'error'); }
+    });
+  }
+};
+
+const toolNumbers = {
+  html: `<div>${dropUI('nIn', 'Drop a PDF', 'Add page numbers')}<div id="nInfo" style="font-size:12px; color:var(--text-muted); margin-top:10px;"></div><div class="options-grid" style="margin-top:16px;"><div><label class="option-label">Position</label><select class="field" id="nP"><option value="bottom-center">Bottom center</option><option value="bottom-right">Bottom right</option><option value="bottom-left">Bottom left</option><option value="top-center">Top center</option><option value="top-right">Top right</option></select></div><div><label class="option-label">Format</label><select class="field" id="nF"><option value="n">1, 2, 3…</option><option value="n-of-t">1 of N</option><option value="page-n">Page 1</option></select></div><div><label class="option-label">Size</label><input type="number" id="nS" class="field" value="10" min="6" max="24"></div><div><label class="option-label">Start at</label><input type="number" id="nSt" class="field" value="1" min="1"></div></div>${actionBtnUI('nBtn', 'Add Page Numbers')}</div>`,
+  init(root) {
+    let file = null;
+    const input = $('#nIn', root), zone = $('label[for="nIn"]', root);
+    bindDrop(zone, input, fl => {
+      const f = fl[0]; if (!f) return;
+      file = f;
+      $('#nInfo', root).textContent = `✓ ${f.name}`;
+      $('#nBtn', root).disabled = false;
+    });
+    $('#nBtn', root).addEventListener('click', async () => {
+      try {
+        const doc = await PDFLib.PDFDocument.load(await readAB(file), { ignoreEncryption: true });
+        const font = await doc.embedFont(PDFLib.StandardFonts.Helvetica);
+        const size = parseInt($('#nS', root).value, 10);
+        const pos = $('#nP', root).value;
+        const fmt = $('#nF', root).value;
+        const start = parseInt($('#nSt', root).value, 10);
+        const pages = doc.getPages();
+        const total = pages.length;
+        pages.forEach((pg, i) => {
+          const { width, height } = pg.getSize();
+          const num = i + start;
+          let text;
+          if (fmt === 'n-of-t') text = `${num} of ${total + start - 1}`;
+          else if (fmt === 'page-n') text = `Page ${num}`;
+          else text = `${num}`;
+          const tw = font.widthOfTextAtSize(text, size);
+          const margin = 24;
+          let x, y;
+          if (pos.startsWith('bottom')) y = margin; else y = height - margin - size;
+          if (pos.endsWith('left')) x = margin;
+          else if (pos.endsWith('right')) x = width - tw - margin;
+          else x = (width - tw) / 2;
+          pg.drawText(text, { x, y, size, font, color: PDFLib.rgb(0.25, 0.25, 0.3) });
+        });
+        downloadBytes(await doc.save(), 'numbered.pdf');
+        toast('Page numbers added', 'success');
+      } catch (e) { toast('Failed: ' + e.message, 'error'); }
+    });
+  }
+};
+
+const toolWatermark = {
+  html: `<div>${dropUI('wIn', 'Drop a PDF', 'Add a text watermark')}<div id="wInfo" style="font-size:12px; color:var(--text-muted); margin-top:10px;"></div><div style="margin-top:16px;"><label class="option-label">Watermark Text</label><input type="text" id="wT" class="field" value="CONFIDENTIAL"></div><div class="options-grid" style="margin-top:12px;"><div><label class="option-label">Opacity</label><input type="number" id="wO" class="field" value="0.15" min="0.05" max="1" step="0.05"></div><div><label class="option-label">Size</label><input type="number" id="wS" class="field" value="60" min="12" max="200"></div><div><label class="option-label">Angle</label><input type="number" id="wA" class="field" value="45" min="-180" max="180"></div><div><label class="option-label">Color</label><select class="field" id="wC"><option value="red">Red</option><option value="blue">Blue</option><option value="gray" selected>Gray</option><option value="black">Black</option></select></div></div>${actionBtnUI('wBtn', 'Add Watermark')}</div>`,
+  init(root) {
+    let file = null;
+    const input = $('#wIn', root), zone = $('label[for="wIn"]', root);
+    bindDrop(zone, input, fl => {
+      const f = fl[0]; if (!f) return;
+      file = f;
+      $('#wInfo', root).textContent = `✓ ${f.name}`;
+      $('#wBtn', root).disabled = false;
+    });
+    $('#wBtn', root).addEventListener('click', async () => {
+      const text = $('#wT', root).value.trim();
+      if (!text) return toast('Enter watermark text', 'error');
+      const opacity = parseFloat($('#wO', root).value);
+      const size = parseInt($('#wS', root).value, 10);
+      const angle = parseInt($('#wA', root).value, 10);
+      const colorName = $('#wC', root).value;
+      const colors = { red: PDFLib.rgb(0.9, 0.2, 0.2), blue: PDFLib.rgb(0.2, 0.4, 0.9), gray: PDFLib.rgb(0.5, 0.5, 0.5), black: PDFLib.rgb(0, 0, 0) };
+      try {
+        const doc = await PDFLib.PDFDocument.load(await readAB(file), { ignoreEncryption: true });
+        const font = await doc.embedFont(PDFLib.StandardFonts.HelveticaBold);
+        doc.getPages().forEach(pg => {
+          const { width, height } = pg.getSize();
+          const tw = font.widthOfTextAtSize(text, size);
+          const rad = (angle * Math.PI) / 180;
+          pg.drawText(text, {
+            x: width / 2 - (tw / 2) * Math.cos(rad),
+            y: height / 2 - (tw / 2) * Math.sin(rad),
+            size, font, color: colors[colorName], opacity, rotate: PDFLib.degrees(angle)
+          });
+        });
+        downloadBytes(await doc.save(), 'watermarked.pdf');
+        toast('Watermark added', 'success');
+      } catch (e) { toast('Failed: ' + e.message, 'error'); }
+    });
+  }
+};
+
+const toolCrop = {
+  html: `<div>${dropUI('crIn', 'Drop a PDF', 'Trim page margins')}<div id="crInfo" style="font-size:12px; color:var(--text-muted); margin-top:10px;"></div><div class="options-grid" style="margin-top:16px;"><div><label class="option-label">Top (pt)</label><input type="number" id="crT" class="field" value="20" min="0"></div><div><label class="option-label">Right (pt)</label><input type="number" id="crR" class="field" value="20" min="0"></div><div><label class="option-label">Bottom (pt)</label><input type="number" id="crB" class="field" value="20" min="0"></div><div><label class="option-label">Left (pt)</label><input type="number" id="crL" class="field" value="20" min="0"></div></div>${actionBtnUI('crBtn', 'Crop PDF')}</div>`,
+  init(root) {
+    let file = null;
+    const input = $('#crIn', root), zone = $('label[for="crIn"]', root);
+    bindDrop(zone, input, fl => {
+      const f = fl[0]; if (!f) return;
+      file = f;
+      $('#crInfo', root).textContent = `✓ ${f.name}`;
+      $('#crBtn', root).disabled = false;
+    });
+    $('#crBtn', root).addEventListener('click', async () => {
+      const t = +$('#crT', root).value, r = +$('#crR', root).value;
+      const b = +$('#crB', root).value, l = +$('#crL', root).value;
+      try {
+        const doc = await PDFLib.PDFDocument.load(await readAB(file), { ignoreEncryption: true });
+        doc.getPages().forEach(pg => {
+          const { width, height } = pg.getSize();
+          const nw = width - l - r, nh = height - t - b;
+          if (nw <= 0 || nh <= 0) return;
+          pg.setCropBox(l, b, nw, nh);
+          pg.setMediaBox(l, b, nw, nh);
+        });
+        downloadBytes(await doc.save(), 'cropped.pdf');
+        toast('Pages cropped', 'success');
+      } catch (e) { toast('Failed: ' + e.message, 'error'); }
+    });
+  }
+};
+
+const toolSign = {
+  html: `<div>${dropUI('sgIn', 'Drop a PDF', 'Then upload your signature')}<div id="sgInfo" style="font-size:12px; color:var(--text-muted); margin-top:10px;"></div><div style="margin-top:16px;"><label class="option-label">Signature Image</label><label for="sgSig" class="drop-zone" style="padding:16px;"><p class="drop-zone-sub">Click to upload PNG/JPG</p></label><input type="file" id="sgSig" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;" accept="image/*"></div><div id="sgPrev" style="margin-top:10px;"></div><div class="options-grid" style="margin-top:16px;"><div><label class="option-label">Position</label><select class="field" id="sgP"><option value="br">Bottom Right</option><option value="bl">Bottom Left</option><option value="bc">Bottom Center</option><option value="tr">Top Right</option></select></div><div><label class="option-label">Width %</label><input type="number" id="sgW" class="field" value="25" min="5" max="80"></div><div><label class="option-label">Pages</label><input type="text" id="sgPg" class="field" value="last" placeholder="last, first, all, 1,3"></div></div>${actionBtnUI('sgBtn', 'Sign PDF')}</div>`,
+  init(root) {
+    let file = null, sig = null;
+    const input = $('#sgIn', root), zone = $('label[for="sgIn"]', root), sigInput = $('#sgSig', root);
+    bindDrop(zone, input, fl => {
+      const f = fl[0]; if (!f) return;
+      file = f;
+      $('#sgInfo', root).textContent = `✓ ${f.name}`;
+      update();
+    });
+    sigInput.addEventListener('change', async () => {
+      const f = sigInput.files[0]; if (!f) return;
+      sig = f;
+      const url = await readDataURL(f);
+      $('#sgPrev', root).innerHTML = `<img src="${url}" style="max-height:60px; border-radius:8px; border:1px solid var(--border);">`;
+      update();
+    });
+    function update() { $('#sgBtn', root).disabled = !(file && sig); }
+    $('#sgBtn', root).addEventListener('click', async () => {
+      const pos = $('#sgP', root).value;
+      const wPct = parseInt($('#sgW', root).value, 10) / 100;
+      const spec = $('#sgPg', root).value.trim().toLowerCase();
+      try {
+        const doc = await PDFLib.PDFDocument.load(await readAB(file), { ignoreEncryption: true });
+        const sigData = await readAB(sig);
+        let embedded;
+        if (/png/i.test(sig.type)) embedded = await doc.embedPng(sigData);
+        else embedded = await doc.embedJpg(sigData);
+        const pages = doc.getPages();
+        const targets = new Set();
+        if (spec === 'last') targets.add(pages.length);
+        else if (spec === 'first') targets.add(1);
+        else if (spec === 'all') pages.forEach((_, i) => targets.add(i + 1));
+        else spec.split(',').forEach(p => {
+          p = p.trim();
+          if (p.includes('-')) { const [a, b] = p.split('-').map(Number); for (let i = a; i <= b; i++) targets.add(i); }
+          else targets.add(Number(p));
+        });
+        pages.forEach((pg, i) => {
+          if (!targets.has(i + 1)) return;
+          const { width, height } = pg.getSize();
+          const w = width * wPct;
+          const h = w * (embedded.height / embedded.width);
+          const m = 30;
+          let x, y;
+          if (pos === 'br') { x = width - w - m; y = m; }
+          else if (pos === 'bl') { x = m; y = m; }
+          else if (pos === 'bc') { x = (width - w) / 2; y = m; }
+          else { x = width - w - m; y = height - h - m; }
+          pg.drawImage(embedded, { x, y, width: w, height: h });
+        });
+        downloadBytes(await doc.save(), 'signed.pdf');
+        toast(`Signed ${targets.size} page(s)`, 'success');
+      } catch (e) { toast('Failed: ' + e.message, 'error'); }
+    });
+  }
+};
+
+const toolRedact = {
+  html: `<div>${dropUI('rdIn', 'Drop a PDF', 'Black out regions with rectangles')}<div id="rdInfo" style="font-size:12px; color:var(--text-muted); margin-top:10px;"></div><div style="padding:12px; background:var(--surface-2); border-radius:10px; font-size:11.5px; color:var(--text-dim); margin-top:14px; line-height:1.5;">Coordinates in PDF points (72pt = 1 inch), measured from bottom-left. So on A4 (595×842), x=50, y=50 is bottom-left area.</div><div id="rdRects" style="display:flex; flex-direction:column; gap:8px; margin-top:14px;"></div><button id="rdAdd" class="add-btn" style="margin-top:8px;">+ Add Rectangle</button>${actionBtnUI('rdBtn', 'Apply Redactions')}</div>`,
+  init(root) {
+    let file = null, pc = 0;
+    const input = $('#rdIn', root), zone = $('label[for="rdIn"]', root), rectsEl = $('#rdRects', root);
+    bindDrop(zone, input, async fl => {
+      const f = fl[0]; if (!f) return;
+      file = f;
+      const doc = await PDFLib.PDFDocument.load(await readAB(f), { ignoreEncryption: true });
+      pc = doc.getPageCount();
+      $('#rdInfo', root).textContent = `✓ ${f.name} — ${pc} pages`;
+      $('#rdBtn', root).disabled = false;
+      addRect();
+    });
+    function addRect() {
+      const row = document.createElement('div');
+      row.className = 'redact-row';
+      row.style.cssText = 'display:grid; grid-template-columns:repeat(6, 1fr); gap:6px;';
+      row.innerHTML = `
+        <input type="number" class="field" data-k="page" placeholder="Page" value="1" min="1" max="${pc || 1}" style="padding:8px 6px; font-size:11px;">
+        <input type="number" class="field" data-k="x" placeholder="X" value="50" style="padding:8px 6px; font-size:11px;">
+        <input type="number" class="field" data-k="y" placeholder="Y" value="50" style="padding:8px 6px; font-size:11px;">
+        <input type="number" class="field" data-k="w" placeholder="Width" value="200" style="padding:8px 6px; font-size:11px;">
+        <input type="number" class="field" data-k="h" placeholder="Height" value="40" style="padding:8px 6px; font-size:11px;">
+        <button class="btn btn-ghost" style="padding:6px;">✕</button>`;
+      row.querySelector('button').addEventListener('click', () => row.remove());
+      rectsEl.appendChild(row);
+    }
+    $('#rdAdd', root).addEventListener('click', addRect);
+    $('#rdBtn', root).addEventListener('click', async () => {
+      const rows = $$('.redact-row', rectsEl);
+      if (!rows.length) return toast('Add at least one rectangle', 'error');
+      try {
+        const doc = await PDFLib.PDFDocument.load(await readAB(file), { ignoreEncryption: true });
+        const pages = doc.getPages();
+        rows.forEach(r => {
+          const p = parseInt(r.querySelector('[data-k="page"]').value, 10) - 1;
+          const x = +r.querySelector('[data-k="x"]').value;
+          const y = +r.querySelector('[data-k="y"]').value;
+          const w = +r.querySelector('[data-k="w"]').value;
+          const h = +r.querySelector('[data-k="h"]').value;
+          if (pages[p]) pages[p].drawRectangle({ x, y, width: w, height: h, color: PDFLib.rgb(0, 0, 0) });
+        });
+        downloadBytes(await doc.save(), 'redacted.pdf');
+        toast('Redactions applied', 'success');
+      } catch (e) { toast('Failed: ' + e.message, 'error'); }
+    });
+  }
+};
+
+/* ============================================================
+   TOOL REGISTRY
+   ============================================================ */
+const TOOLS = [
+  // Organize (blue)
+  { id:'merge', cat:'organize', name:'Merge PDF', desc:'Combine multiple PDFs into one file.', icon:'merge', color:'blue', tool: toolMerge },
+  { id:'split', cat:'organize', name:'Split PDF', desc:'Split by page range.', icon:'split', color:'blue', tool: toolSplit },
+  { id:'remove', cat:'organize', name:'Remove Pages', desc:'Delete unwanted pages.', icon:'remove', color:'blue', tool: toolRemove },
+  { id:'extract', cat:'organize', name:'Extract Pages', desc:'Pull out specific pages.', icon:'extract', color:'blue', tool: toolExtract },
+  { id:'organize', cat:'organize', name:'Organize PDF', desc:'Reorder pages visually.', icon:'organize', color:'blue', tool: toolOrganize },
+
+  // Optimize (green/purple)
+  { id:'compress', cat:'optimize', name:'Compress PDF', desc:'Reduce file size.', icon:'compress', color:'green', tool: toolCompress },
+  { id:'repair', cat:'optimize', name:'Repair PDF', desc:'Fix corrupted files.', icon:'repair', color:'green', tool: toolRepair },
+  { id:'optimize', cat:'optimize', name:'Optimize PDF', desc:'Rebuild and clean PDF structure.', icon:'optimize', color:'purple', tool: toolRepair },
+
+  // Convert to PDF (violet/pink/amber)
+  { id:'jpg2pdf', cat:'convertTo', name:'JPG to PDF', desc:'Images to A4 PDF.', icon:'jpg2pdf', color:'amber', tool: toolJpg2Pdf },
+  { id:'html2pdf', cat:'convertTo', name:'HTML to PDF', desc:'Web content to PDF.', icon:'html2pdf', color:'purple', tool: toolHtml2Pdf },
+
+  // Convert from PDF (pink/red)
+  { id:'pdf2jpg', cat:'convertFrom', name:'PDF to JPG', desc:'Pages to images (ZIP).', icon:'pdf2jpg', color:'red', tool: toolPdf2Jpg },
+  { id:'rotate', cat:'convertFrom', name:'Rotate PDF', desc:'Rotate pages.', icon:'rotate', color:'purple', tool: toolRotate },
+
+  // Edit (orange/teal/red)
+  { id:'numbers', cat:'edit', name:'Page Numbers', desc:'Add page numbering.', icon:'numbers', color:'amber', tool: toolNumbers },
+  { id:'watermark', cat:'edit', name:'Watermark', desc:'Stamp text on pages.', icon:'watermark', color:'teal', tool: toolWatermark },
+  { id:'crop', cat:'edit', name:'Crop PDF', desc:'Trim margins.', icon:'crop', color:'rose', tool: toolCrop },
+
+  // Security (rose/indigo)
+  { id:'sign', cat:'security', name:'Sign PDF', desc:'Add signature image.', icon:'sign', color:'indigo', tool: toolSign },
+  { id:'redact', cat:'security', name:'Redact PDF', desc:'Black out regions.', icon:'redact', color:'rose', tool: toolRedact }
+];
+
+const CATEGORIES = [
+  { id:'organize', name:'Organize PDF', color:'#3B82F6' },
+  { id:'optimize', name:'Optimize PDF', color:'#10B981' },
+  { id:'convertTo', name:'Convert to PDF', color:'#8B5CF6' },
+  { id:'convertFrom', name:'Convert from PDF', color:'#EC4899' },
+  { id:'edit', name:'Edit PDF', color:'#F59E0B' },
+  { id:'security', name:'PDF Security', color:'#F43F5E' }
+];
+
+/* ============================================================
+   STATE — Favorites, Recent
+   ============================================================ */
+const store = {
+  getFavs() { try { return JSON.parse(localStorage.getItem('pdftk-favs') || '[]'); } catch { return []; } },
+  setFavs(v) { localStorage.setItem('pdftk-favs', JSON.stringify(v)); },
+  isFav(id) { return this.getFavs().includes(id); },
+  toggleFav(id) {
+    const f = this.getFavs();
+    const i = f.indexOf(id);
+    if (i > -1) f.splice(i, 1); else f.push(id);
+    this.setFavs(f);
+    return i === -1;
+  },
+  getRecent() { try { return JSON.parse(localStorage.getItem('pdftk-recent') || '[]'); } catch { return []; } },
+  addRecent(id) {
+    let r = this.getRecent().filter(x => x !== id);
+    r.unshift(id);
+    r = r.slice(0, 10);
+    localStorage.setItem('pdftk-recent', JSON.stringify(r));
+  }
+};
+
+/* ============================================================
+   RENDER CARD
+   ============================================================ */
+function renderCard(tool) {
+  const v = VISUAL[tool.color];
+  const isFav = store.isFav(tool.id);
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  const bg = isDark ? v.darkCardBg : v.cardBg;
+  const border = isDark ? v.darkCardBorder : v.cardBorder;
+
+  const card = document.createElement('button');
+  card.className = 'tool-card';
+  card.type = 'button';
+  card.style.background = bg;
+  card.style.borderColor = border;
+  card.style.setProperty('--card-color', v.icon);
+  card.style.setProperty('--card-border', v.icon);
+
+  card.innerHTML = `
+    <button class="fav-btn ${isFav ? 'faved' : ''}" title="${isFav ? 'Remove from favorites' : 'Add to favorites'}" aria-label="Toggle favorite">
+      <svg fill="${isFav ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/></svg>
+    </button>
+    <div class="tool-card-top">
+      <div class="tool-card-icon" style="background:${v.iconBg};">${I[tool.icon]}</div>
+      <div class="tool-card-arrow">
+        <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"/></svg>
+      </div>
+    </div>
+    <div class="tool-card-name">${tool.name}</div>
+    <div class="tool-card-desc">${tool.desc}</div>
+  `;
+
+  // fav button
+  card.querySelector('.fav-btn').addEventListener('click', (e) => {
+    e.stopPropagation();
+    const nowFav = store.toggleFav(tool.id);
+    const btn = e.currentTarget;
+    btn.classList.toggle('faved', nowFav);
+    btn.querySelector('svg').setAttribute('fill', nowFav ? 'currentColor' : 'none');
+    toast(nowFav ? 'Added to favorites' : 'Removed from favorites', 'success', 1500);
+    // Re-render favorites view if visible
+    if (document.getElementById('view-favorites').classList.contains('active')) renderFavoritesView();
+  });
+
+  card.addEventListener('click', () => openToolModal(tool));
+  return card;
+}
+
+/* ============================================================
+   RENDER CATEGORY SECTION
+   ============================================================ */
+function renderCategory(cat, container) {
+  const catEl = document.createElement('div');
+  catEl.className = 'category';
+  const tools = TOOLS.filter(t => t.cat === cat.id);
+
+  catEl.innerHTML = `
+    <div class="cat-header">
+      <div class="cat-title-wrap">
+        <span class="cat-title">${cat.name}</span>
+        <span class="cat-bar" style="color:${cat.color}; background:${cat.color};"></span>
+      </div>
+      <span class="cat-count">${tools.length} Tool${tools.length !== 1 ? 's' : ''}</span>
+    </div>
+  `;
+  const grid = document.createElement('div');
+  grid.className = 'tools-grid';
+  tools.forEach(t => grid.appendChild(renderCard(t)));
+  catEl.appendChild(grid);
+  container.appendChild(catEl);
+}
+
+/* ============================================================
+   VIEWS
+   ============================================================ */
+function renderHomeView() {
+  const c = document.getElementById('homeContent');
+  c.innerHTML = '';
+
+  // Featured CV Builder
+  const featured = document.createElement('button');
+  featured.className = 'featured-card';
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  featured.style.background = isDark ? 'rgba(245,158,11,0.08)' : '#FFFBEB';
+  featured.style.borderColor = isDark ? 'rgba(245,158,11,0.25)' : '#FEF3C7';
+  featured.innerHTML = `
+    <div class="featured-icon">${I.cv}</div>
+    <div class="featured-content">
+      <h3>CV / Resume Builder</h3>
+      <p>Build a clean, ATS-friendly resume with a live preview. Download as PDF — free, no sign-up.</p>
+    </div>
+    <div class="featured-cta">Open Builder →</div>
+  `;
+  featured.addEventListener('click', () => switchView('cv'));
+  c.appendChild(featured);
+
+  // All categories
+  CATEGORIES.forEach(cat => renderCategory(cat, c));
+}
+
+function renderToolsView() {
+  const c = document.getElementById('toolsContent');
+  c.innerHTML = '';
+  CATEGORIES.forEach(cat => renderCategory(cat, c));
+}
+
+function renderRecentView() {
+  const c = document.getElementById('recentContent');
+  c.innerHTML = '';
+  const recentIds = store.getRecent();
+  if (!recentIds.length) {
+    c.innerHTML = `<div class="empty-state"><div class="empty-state-icon"><svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div><h3>No recent tools</h3><p>Tools you use will show up here for quick access.</p></div>`;
+    return;
+  }
+  const grid = document.createElement('div');
+  grid.className = 'tools-grid';
+  recentIds.forEach(id => {
+    const t = TOOLS.find(x => x.id === id);
+    if (t) grid.appendChild(renderCard(t));
+  });
+  c.appendChild(grid);
+}
+
+function renderFavoritesView() {
+  const c = document.getElementById('favoritesContent');
+  c.innerHTML = '';
+  const favIds = store.getFavs();
+  if (!favIds.length) {
+    c.innerHTML = `<div class="empty-state"><div class="empty-state-icon"><svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/></svg></div><h3>No favorites yet</h3><p>Hover over any tool card and click the heart to save it here.</p></div>`;
+    return;
+  }
+  const grid = document.createElement('div');
+  grid.className = 'tools-grid';
+  favIds.forEach(id => {
+    const t = TOOLS.find(x => x.id === id);
+    if (t) grid.appendChild(renderCard(t));
+  });
+  c.appendChild(grid);
+}
+
+/* ============================================================
+   NAV
+   ============================================================ */
+const viewTitles = {
+  home: { title: 'Home', sub: 'All tools · 100% in your browser' },
+  tools: { title: 'All Tools', sub: '16 tools · grouped by category' },
+  recent: { title: 'Recent', sub: 'Your recently used tools' },
+  favorites: { title: 'Favorites', sub: 'Your saved tools' },
+  cv: { title: 'CV Builder', sub: 'Live preview · Instant PDF export' },
+  about: { title: 'About & Privacy', sub: 'How this works, and why we built it' }
+};
+
+function switchView(name) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById('view-' + name).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.toggle('active', n.dataset.view === name));
+  const info = viewTitles[name];
+  document.getElementById('pageTitle').textContent = info.title;
+  document.getElementById('pageSubtitle').textContent = info.sub;
+  // Close mobile sidebar
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebarBackdrop').classList.remove('active');
+  // Re-render dynamic views
+  if (name === 'recent') renderRecentView();
+  if (name === 'favorites') renderFavoritesView();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+document.querySelectorAll('.nav-item').forEach(btn => {
+  btn.addEventListener('click', () => switchView(btn.dataset.view));
+});
+
+/* Mobile menu */
+document.getElementById('mobileMenuBtn').addEventListener('click', () => {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sidebarBackdrop').classList.toggle('active');
+});
+document.getElementById('sidebarBackdrop').addEventListener('click', () => {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebarBackdrop').classList.remove('active');
+});
+
+/* ============================================================
+   MODAL
+   ============================================================ */
+let modalCleanup = null;
+
+function openToolModal(tool) {
+  const v = VISUAL[tool.color];
+  const icon = document.getElementById('modalIcon');
+  icon.style.background = v.iconBg;
+  icon.innerHTML = I[tool.icon];
+  document.getElementById('modalTitle').textContent = tool.name;
+  document.getElementById('modalSub').textContent = tool.desc;
+
+  const body = document.getElementById('modalBody');
+  body.innerHTML = tool.tool.html;
+  document.getElementById('modal').classList.add('active');
+  document.body.style.overflow = 'hidden';
+
+  // Track recent
+  store.addRecent(tool.id);
+
+  try { modalCleanup = tool.tool.init(body); }
+  catch (e) { console.error(e); toast('Failed to load tool', 'error'); }
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.remove('active');
+  document.body.style.overflow = '';
+  setTimeout(() => {
+    document.getElementById('modalBody').innerHTML = '';
+    if (typeof modalCleanup === 'function') modalCleanup();
+    modalCleanup = null;
+  }, 250);
+}
+
+document.getElementById('modalClose').addEventListener('click', closeModal);
+document.getElementById('modal').addEventListener('click', e => {
+  if (e.target.id === 'modal') closeModal();
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && document.getElementById('modal').classList.contains('active')) closeModal();
+});
+
+/* ============================================================
+   CV BUILDER
+   ============================================================ */
+(function initCV() {
+  const expContainer = $('#expContainer');
+  const eduContainer = $('#eduContainer');
+  let expId = 0, eduId = 0;
+
+  function addExp() {
+    const id = expId++;
+    const d = document.createElement('div');
+    d.className = 'cv-item exp-entry';
+    d.innerHTML = `
+      <div class="cv-item-head"><span>Position ${id + 1}</span><button type="button" class="cv-item-remove remove-exp">Remove</button></div>
+      <input type="text" placeholder="Job Title" class="cv-exp-title field" style="margin-bottom:6px;" />
+      <input type="text" placeholder="Company" class="cv-exp-company field" style="margin-bottom:6px;" />
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-bottom:6px;">
+        <input type="text" placeholder="Start" class="cv-exp-start field" />
+        <input type="text" placeholder="End" class="cv-exp-end field" />
+      </div>
+      <textarea rows="2" placeholder="What you did…" class="cv-exp-desc field" style="resize:none; font-family:inherit;"></textarea>`;
+    expContainer.appendChild(d);
+    d.querySelector('.remove-exp').addEventListener('click', () => { d.remove(); sync(); });
+    sync();
+  }
+  function addEdu() {
+    const id = eduId++;
+    const d = document.createElement('div');
+    d.className = 'cv-item edu-entry';
+    d.innerHTML = `
+      <div class="cv-item-head"><span>Education ${id + 1}</span><button type="button" class="cv-item-remove remove-edu">Remove</button></div>
+      <input type="text" placeholder="Degree" class="cv-edu-degree field" style="margin-bottom:6px;" />
+      <input type="text" placeholder="Institution" class="cv-edu-school field" style="margin-bottom:6px;" />
+      <input type="text" placeholder="Year" class="cv-edu-year field" />`;
+    eduContainer.appendChild(d);
+    d.querySelector('.remove-edu').addEventListener('click', () => { d.remove(); sync(); });
+    sync();
+  }
+  addExp(); addEdu();
+  $('#addExp').addEventListener('click', addExp);
+  $('#addEdu').addEventListener('click', addEdu);
+  ['cvName', 'cvTitle', 'cvEmail', 'cvPhone', 'cvLocation', 'cvSummary', 'cvSkills'].forEach(id => {
+    document.getElementById(id).addEventListener('input', sync);
+  });
+  expContainer.addEventListener('input', sync);
+  eduContainer.addEventListener('input', sync);
+
+  function sync() {
+    $('#rpName').textContent = ($('#cvName').value || 'Your Name').trim();
+    $('#rpTitle').textContent = ($('#cvTitle').value || 'Professional Title').trim();
+    const contacts = [$('#cvEmail').value.trim(), $('#cvPhone').value.trim(), $('#cvLocation').value.trim()].filter(Boolean);
+    $('#rpContact').innerHTML = contacts.map(c => `<span>${c}</span>`).join('');
+    const sum = $('#cvSummary').value.trim();
+    $('#rpSummaryBlock').style.display = sum ? 'block' : 'none';
+    $('#rpSummary').textContent = sum;
+
+    const expData = [];
+    $$('.exp-entry', expContainer).forEach(e => {
+      const t = e.querySelector('.cv-exp-title').value.trim();
+      const c = e.querySelector('.cv-exp-company').value.trim();
+      const s = e.querySelector('.cv-exp-start').value.trim();
+      const en = e.querySelector('.cv-exp-end').value.trim();
+      const d = e.querySelector('.cv-exp-desc').value.trim();
+      if (t || c) expData.push({ t, c, s, en, d });
+    });
+    $('#rpExpBlock').style.display = expData.length ? 'block' : 'none';
+    $('#rpExpList').innerHTML = expData.map(e => {
+      const range = [e.s, e.en].filter(Boolean).join(' — ');
+      return `<div>
+        <div style="display:flex; justify-content:space-between; align-items:baseline; gap:12px;">
+          <span style="font-size:11px; font-weight:700; color:#0f172a;">${e.t}</span>
+          <span style="font-size:9px; color:#94a3b8; white-space:nowrap; font-weight:500;">${range}</span>
+        </div>
+        ${e.c ? `<div style="font-size:10px; color:#0284c7; font-weight:600; margin-top:2px;">${e.c}</div>` : ''}
+        ${e.d ? `<p style="font-size:10px; color:#475569; margin-top:4px; line-height:1.6;">${e.d}</p>` : ''}
+      </div>`;
+    }).join('');
+
+    const eduData = [];
+    $$('.edu-entry', eduContainer).forEach(e => {
+      const dg = e.querySelector('.cv-edu-degree').value.trim();
+      const sc = e.querySelector('.cv-edu-school').value.trim();
+      const y = e.querySelector('.cv-edu-year').value.trim();
+      if (dg || sc) eduData.push({ dg, sc, y });
+    });
+    $('#rpEduBlock').style.display = eduData.length ? 'block' : 'none';
+    $('#rpEduList').innerHTML = eduData.map(e => `<div>
+      <div style="display:flex; justify-content:space-between; align-items:baseline; gap:12px;">
+        <span style="font-size:11px; font-weight:700; color:#0f172a;">${e.dg}</span>
+        <span style="font-size:9px; color:#94a3b8; white-space:nowrap; font-weight:500;">${e.y}</span>
+      </div>
+      ${e.sc ? `<div style="font-size:10px; color:#475569; margin-top:2px;">${e.sc}</div>` : ''}
+    </div>`).join('');
+
+    const skillsRaw = $('#cvSkills').value.trim();
+    $('#rpSkillsBlock').style.display = skillsRaw ? 'block' : 'none';
+    if (skillsRaw) {
+      $('#rpSkillsList').innerHTML = skillsRaw.split(',').map(s => s.trim()).filter(Boolean)
+        .map(s => `<span style="font-size:9px; background:#f1f5f9; color:#334155; padding:4px 8px; border-radius:6px; font-weight:500; border:1px solid #e2e8f0;">${s}</span>`).join('');
+    }
+  }
+  sync();
+
+  $('#cvDownload').addEventListener('click', () => {
+    const name = ($('#cvName').value || 'resume').trim().replace(/\s+/g, '_').toLowerCase();
+    toast('Generating PDF…', 'info', 1500);
+    html2pdf().set({
+      margin: 0, filename: `${name}_cv.pdf`,
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 3, useCORS: true, backgroundColor: '#ffffff', logging: false },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    }).from($('#resumePreview')).save()
+      .then(() => toast('CV downloaded', 'success'))
+      .catch(e => toast('Export failed: ' + e.message, 'error'));
+  });
+})();
+
+/* ============================================================
+   INIT
+   ============================================================ */
+try {
+  renderHomeView();
+  renderToolsView();
+} catch (e) {
+  console.error(e);
+  toast('Some tools failed to load', 'error');
+}
+
+setTimeout(() => {
+  document.getElementById('loading').classList.add('hidden');
+}, 300);
+
+console.log('%c PDF Toolkit ready ', 'background:#3B82F6; color:#fff; font-weight:700; padding:6px 12px; border-radius:6px;');
+console.log('16 tools · 100% client-side · ' + TOOLS.length + ' loaded');
+</script>
+
+</body>
+</html>
