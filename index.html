@@ -31,9 +31,6 @@
 </script>
 
 <style>
-/* ============================================================
-   THEME TOKENS
-   ============================================================ */
 :root[data-theme="light"] {
   --bg: #F8FAFC;
   --sidebar-bg: #FFFFFF;
@@ -82,13 +79,7 @@ body {
 }
 .font-display { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; letter-spacing: -0.02em; }
 
-/* ============================================================
-   LAYOUT
-   ============================================================ */
-.app-shell {
-  display: flex;
-  min-height: 100vh;
-}
+.app-shell { display: flex; min-height: 100vh; }
 
 .sidebar {
   width: 260px;
@@ -108,16 +99,8 @@ body {
 .sidebar::-webkit-scrollbar { width: 4px; }
 .sidebar::-webkit-scrollbar-thumb { background: var(--border-2); border-radius: 99px; }
 
-.main {
-  flex: 1;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-}
+.main { flex: 1; min-width: 0; display: flex; flex-direction: column; }
 
-/* ============================================================
-   LOGO
-   ============================================================ */
 .logo {
   display: flex;
   align-items: center;
@@ -147,19 +130,10 @@ body {
   border-radius: 50%;
   border: 2px solid var(--sidebar-bg);
 }
-.logo-text h1 {
-  font-size: 17px; font-weight: 800; line-height: 1;
-  color: var(--text);
-}
+.logo-text h1 { font-size: 17px; font-weight: 800; line-height: 1; color: var(--text); }
 .logo-text h1 span { color: #3B82F6; }
-.logo-text p {
-  font-size: 10.5px; color: var(--text-muted); margin-top: 3px;
-  font-weight: 500; letter-spacing: -0.01em;
-}
+.logo-text p { font-size: 10.5px; color: var(--text-muted); margin-top: 3px; font-weight: 500; }
 
-/* ============================================================
-   NAV ITEMS
-   ============================================================ */
 .nav-item {
   display: flex;
   align-items: center;
@@ -213,16 +187,8 @@ body {
   padding: 4px 8px;
 }
 .sidebar-foot .note em { color: var(--text-muted); font-style: normal; font-size: 11px; display: block; margin-top: 6px; font-weight: 500; }
-.smiley {
-  display: inline-block;
-  transform: rotate(-8deg);
-  margin-left: 4px;
-  font-style: normal;
-}
+.smiley { display: inline-block; transform: rotate(-8deg); margin-left: 4px; font-style: normal; }
 
-/* ============================================================
-   TOPBAR
-   ============================================================ */
 .topbar {
   background: var(--sidebar-bg);
   border-bottom: 1px solid var(--border);
@@ -246,17 +212,8 @@ body {
   align-items: center; justify-content: center;
   cursor: pointer;
 }
-.page-title {
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--text);
-  font-family: 'Plus Jakarta Sans', sans-serif;
-}
-.page-subtitle {
-  font-size: 12px;
-  color: var(--text-muted);
-  margin-top: 1px;
-}
+.page-title { font-size: 15px; font-weight: 700; color: var(--text); font-family: 'Plus Jakarta Sans', sans-serif; }
+.page-subtitle { font-size: 12px; color: var(--text-muted); margin-top: 1px; }
 
 .trust-badge {
   display: flex;
@@ -287,13 +244,8 @@ body {
   font-family: 'Plus Jakarta Sans', sans-serif;
 }
 :root[data-theme="dark"] .trust-text strong { color: #6EE7B7; }
-.trust-text span {
-  font-size: 10.5px;
-  color: #059669;
-}
+.trust-text span { font-size: 10.5px; color: #059669; }
 :root[data-theme="dark"] .trust-text span { color: #34D399; }
-
-.top-actions { display: flex; align-items: center; gap: 10px; }
 
 .theme-btn {
   width: 38px; height: 38px;
@@ -307,22 +259,15 @@ body {
 }
 .theme-btn:hover { background: var(--surface-3); border-color: var(--border-2); }
 
-/* ============================================================
-   CONTENT AREA
-   ============================================================ */
 .content {
   flex: 1;
   padding: 28px 32px 48px;
   max-width: 1400px;
   width: 100%;
 }
-@media (max-width: 768px) {
-  .content { padding: 20px 16px 40px; }
-}
+@media (max-width: 768px) { .content { padding: 20px 16px 40px; } }
 
-.category {
-  margin-bottom: 34px;
-}
+.category { margin-bottom: 34px; }
 .cat-header {
   display: flex;
   align-items: center;
@@ -330,11 +275,7 @@ body {
   margin-bottom: 16px;
   gap: 12px;
 }
-.cat-title-wrap {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
+.cat-title-wrap { display: flex; align-items: center; gap: 12px; }
 .cat-title {
   font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 19px;
@@ -342,11 +283,7 @@ body {
   color: var(--text);
   letter-spacing: -0.02em;
 }
-.cat-bar {
-  width: 36px; height: 4px;
-  border-radius: 99px;
-  background: currentColor;
-}
+.cat-bar { width: 36px; height: 4px; border-radius: 99px; background: currentColor; }
 .cat-count {
   font-size: 11px;
   font-weight: 600;
@@ -357,9 +294,6 @@ body {
   border: 1px solid var(--border);
 }
 
-/* ============================================================
-   TOOL CARD
-   ============================================================ */
 .tools-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
@@ -389,10 +323,7 @@ body {
   box-shadow: 0 12px 28px -8px rgba(15,23,42,0.15), 0 0 0 1px var(--card-border);
 }
 .tool-card:active { transform: translateY(-1px) scale(0.995); }
-.tool-card:focus-visible {
-  outline: 2px solid #3B82F6;
-  outline-offset: 2px;
-}
+.tool-card:focus-visible { outline: 2px solid #3B82F6; outline-offset: 2px; }
 
 .tool-card-top {
   display: flex;
@@ -418,9 +349,7 @@ body {
   flex-shrink: 0;
   transition: transform 0.2s;
 }
-:root[data-theme="dark"] .tool-card-arrow {
-  background: rgba(255,255,255,0.1);
-}
+:root[data-theme="dark"] .tool-card-arrow { background: rgba(255,255,255,0.1); }
 .tool-card:hover .tool-card-arrow { transform: translateX(3px); }
 .tool-card-arrow svg { width: 13px; height: 13px; }
 
@@ -461,9 +390,6 @@ body {
 .fav-btn.faved { opacity: 1; color: #EF4444; }
 .fav-btn.faved svg { fill: currentColor; }
 
-/* ============================================================
-   FEATURED CARD (CV Builder)
-   ============================================================ */
 .featured-card {
   border-radius: 16px;
   padding: 24px;
@@ -500,11 +426,7 @@ body {
   letter-spacing: -0.02em;
   margin-bottom: 4px;
 }
-.featured-content p {
-  font-size: 13px;
-  color: var(--text-dim);
-  line-height: 1.5;
-}
+.featured-content p { font-size: 13px; color: var(--text-dim); line-height: 1.5; }
 .featured-cta {
   display: flex; align-items: center; gap: 8px;
   padding: 10px 18px;
@@ -522,9 +444,6 @@ body {
 }
 .featured-cta:hover { transform: translateX(2px); box-shadow: 0 8px 22px -4px rgba(245,158,11,0.6); }
 
-/* ============================================================
-   MODAL
-   ============================================================ */
 .modal {
   position: fixed; inset: 0;
   z-index: 100;
@@ -544,7 +463,7 @@ body {
   background: var(--surface);
   border-radius: 18px;
   width: 100%;
-  max-width: 720px;
+  max-width: 820px;
   border: 1px solid var(--border);
   box-shadow: 0 24px 60px rgba(15,23,42,0.2);
   overflow: hidden;
@@ -573,11 +492,7 @@ body {
   color: var(--text);
   letter-spacing: -0.015em;
 }
-.modal-sub {
-  font-size: 12px;
-  color: var(--text-muted);
-  margin-top: 2px;
-}
+.modal-sub { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
 .modal-close {
   margin-left: auto;
   width: 34px; height: 34px;
@@ -593,15 +508,12 @@ body {
 .modal-close:hover { background: var(--surface-3); color: var(--text); }
 .modal-body {
   padding: 24px;
-  max-height: calc(100vh - 240px);
+  max-height: calc(100vh - 200px);
   overflow-y: auto;
 }
 .modal-body::-webkit-scrollbar { width: 6px; }
 .modal-body::-webkit-scrollbar-thumb { background: var(--border-2); border-radius: 99px; }
 
-/* ============================================================
-   FORM ELEMENTS
-   ============================================================ */
 .field {
   width: 100%;
   background: var(--surface);
@@ -632,9 +544,6 @@ select.field { cursor: pointer; }
   gap: 12px;
 }
 
-/* ============================================================
-   DROP ZONE
-   ============================================================ */
 .drop-zone {
   border: 2px dashed var(--border-2);
   border-radius: 14px;
@@ -654,25 +563,10 @@ select.field { cursor: pointer; }
   background: var(--active-bg);
   transform: scale(1.005);
 }
-.drop-zone-icon {
-  width: 48px; height: 48px;
-  color: var(--text-muted);
-  margin-bottom: 12px;
-}
-.drop-zone-title {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text);
-  margin-bottom: 4px;
-}
-.drop-zone-sub {
-  font-size: 12px;
-  color: var(--text-muted);
-}
+.drop-zone-icon { width: 48px; height: 48px; color: var(--text-muted); margin-bottom: 12px; }
+.drop-zone-title { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+.drop-zone-sub { font-size: 12px; color: var(--text-muted); }
 
-/* ============================================================
-   BUTTONS
-   ============================================================ */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -706,16 +600,23 @@ select.field { cursor: pointer; }
   border: 1px solid var(--border);
 }
 .btn-ghost:hover:not(:disabled) { background: var(--surface-3); }
+.btn-success {
+  background: #10B981;
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(16,185,129,0.28);
+}
+.btn-success:hover:not(:disabled) {
+  background: #059669;
+  box-shadow: 0 6px 16px rgba(16,185,129,0.4);
+  transform: translateY(-1px);
+}
 
-/* ============================================================
-   FILE LIST
-   ============================================================ */
 .file-list {
   display: flex;
   flex-direction: column;
   gap: 6px;
   margin-top: 12px;
-  max-height: 160px;
+  max-height: 200px;
   overflow-y: auto;
 }
 .file-item {
@@ -729,6 +630,14 @@ select.field { cursor: pointer; }
   font-size: 12px;
   color: var(--text-dim);
   animation: fadeIn 0.25s ease;
+  cursor: grab;
+  user-select: none;
+}
+.file-item.dragging { opacity: 0.5; border-style: dashed; }
+.file-item .handle {
+  color: var(--text-muted);
+  cursor: grab;
+  display: flex;
 }
 .file-item .name {
   flex: 1;
@@ -749,11 +658,9 @@ select.field { cursor: pointer; }
   display: flex;
 }
 .file-item .remove:hover { color: #EF4444; }
+
 @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
 
-/* ============================================================
-   PROGRESS BAR
-   ============================================================ */
 .progress-wrap {
   margin-top: 16px;
   padding: 14px 16px;
@@ -785,9 +692,34 @@ select.field { cursor: pointer; }
   width: 0%;
 }
 
-/* ============================================================
-   TOAST
-   ============================================================ */
+.result-panel {
+  margin-top: 16px;
+  padding: 16px;
+  border-radius: 12px;
+  background: #ECFDF5;
+  border: 1px solid #A7F3D0;
+  display: none;
+  animation: fadeIn 0.3s;
+}
+:root[data-theme="dark"] .result-panel {
+  background: rgba(16,185,129,0.12);
+  border-color: rgba(16,185,129,0.3);
+}
+.result-panel.active { display: block; }
+.result-panel .result-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #065F46;
+  margin-bottom: 4px;
+}
+:root[data-theme="dark"] .result-panel .result-title { color: #6EE7B7; }
+.result-panel .result-sub {
+  font-size: 12px;
+  color: #059669;
+  margin-bottom: 12px;
+}
+:root[data-theme="dark"] .result-panel .result-sub { color: #34D399; }
+
 #toastContainer {
   position: fixed;
   top: 20px;
@@ -834,9 +766,6 @@ select.field { cursor: pointer; }
 @keyframes toastIn { from { opacity: 0; transform: translateX(30px); } to { opacity: 1; transform: translateX(0); } }
 @keyframes toastOut { to { opacity: 0; transform: translateX(30px); } }
 
-/* ============================================================
-   INFO CARDS (About page)
-   ============================================================ */
 .info-card {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -882,18 +811,81 @@ select.field { cursor: pointer; }
   border: 1px solid var(--border);
 }
 
-/* ============================================================
-   CV BUILDER — Full page
-   ============================================================ */
+/* Page thumbnails */
+.page-thumbs {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+  gap: 10px;
+  margin-top: 14px;
+  max-height: 280px;
+  overflow-y: auto;
+  padding: 4px;
+}
+.page-thumb {
+  position: relative;
+  border-radius: 8px;
+  border: 2px solid var(--border);
+  background: var(--surface-2);
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color 0.15s, transform 0.15s, box-shadow 0.15s;
+  user-select: none;
+}
+.page-thumb:hover { border-color: #3B82F6; transform: translateY(-2px); }
+.page-thumb.selected { border-color: #3B82F6; box-shadow: 0 0 0 2px rgba(59,130,246,0.25); }
+.page-thumb.dragging { opacity: 0.4; border-style: dashed; }
+.page-thumb canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #fff;
+}
+.page-thumb .page-label {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  background: rgba(15,23,42,0.75);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 600;
+  text-align: center;
+  padding: 3px 0;
+}
+.page-thumb .order-badge {
+  position: absolute;
+  top: 4px; left: 4px;
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  background: #3B82F6;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* Crop preview */
+.crop-preview-wrap {
+  margin-top: 16px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--surface-3);
+  display: none;
+}
+.crop-preview-wrap.active { display: block; }
+.crop-preview-wrap canvas {
+  display: block;
+  max-width: 100%;
+  margin: 0 auto;
+  background: #fff;
+}
+
 .cv-layout {
   display: grid;
   grid-template-columns: 420px 1fr;
   gap: 24px;
   align-items: start;
 }
-@media (max-width: 1024px) {
-  .cv-layout { grid-template-columns: 1fr; }
-}
+@media (max-width: 1024px) { .cv-layout { grid-template-columns: 1fr; } }
 .cv-form {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -966,11 +958,7 @@ select.field { cursor: pointer; }
 }
 .add-btn:hover { background: var(--active-bg); border-color: #3B82F6; border-style: solid; }
 
-/* Resume preview */
-.resume-preview-wrap {
-  position: sticky;
-  top: 90px;
-}
+.resume-preview-wrap { position: sticky; top: 90px; }
 #resumePreview {
   width: 100%;
   max-width: 794px;
@@ -984,15 +972,9 @@ select.field { cursor: pointer; }
 }
 .resume-body { padding: 48px 52px; height: 100%; }
 
-/* ============================================================
-   VIEWS
-   ============================================================ */
 .view { display: none; }
 .view.active { display: block; }
 
-/* ============================================================
-   EMPTY STATE
-   ============================================================ */
 .empty-state {
   text-align: center;
   padding: 60px 20px;
@@ -1015,9 +997,6 @@ select.field { cursor: pointer; }
 }
 .empty-state p { font-size: 13px; max-width: 340px; margin: 0 auto; line-height: 1.55; }
 
-/* ============================================================
-   LOADING
-   ============================================================ */
 #loading {
   position: fixed; inset: 0;
   background: var(--bg);
@@ -1039,18 +1018,12 @@ select.field { cursor: pointer; }
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* ============================================================
-   PRINT
-   ============================================================ */
 @media print {
   body * { visibility: hidden; }
   #resumePreview, #resumePreview * { visibility: visible; }
   #resumePreview { position: absolute; left: 0; top: 0; box-shadow: none; }
 }
 
-/* ============================================================
-   MOBILE
-   ============================================================ */
 @media (max-width: 900px) {
   .sidebar {
     position: fixed;
@@ -1074,17 +1047,12 @@ select.field { cursor: pointer; }
 
 <body>
 
-<!-- Loading -->
 <div id="loading">
   <div class="loader-ring"></div>
   <p style="font-size:12px; color:var(--text-muted); font-weight:600;">Loading tools…</p>
 </div>
 
 <div class="app-shell">
-
-  <!-- ============================================================
-       SIDEBAR
-       ============================================================ -->
   <aside class="sidebar" id="sidebar">
     <div class="logo">
       <div class="logo-mark">PDF</div>
@@ -1131,12 +1099,7 @@ select.field { cursor: pointer; }
 
   <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
 
-  <!-- ============================================================
-       MAIN
-       ============================================================ -->
   <div class="main">
-
-    <!-- Topbar -->
     <header class="topbar">
       <div class="topbar-left">
         <button class="mobile-menu-btn" id="mobileMenuBtn">
@@ -1166,30 +1129,12 @@ select.field { cursor: pointer; }
       </div>
     </header>
 
-    <!-- Content -->
     <main class="content">
+      <div class="view active" id="view-home"><div id="homeContent"></div></div>
+      <div class="view" id="view-tools"><div id="toolsContent"></div></div>
+      <div class="view" id="view-recent"><div id="recentContent"></div></div>
+      <div class="view" id="view-favorites"><div id="favoritesContent"></div></div>
 
-      <!-- HOME VIEW -->
-      <div class="view active" id="view-home">
-        <div id="homeContent"></div>
-      </div>
-
-      <!-- ALL TOOLS VIEW -->
-      <div class="view" id="view-tools">
-        <div id="toolsContent"></div>
-      </div>
-
-      <!-- RECENT -->
-      <div class="view" id="view-recent">
-        <div id="recentContent"></div>
-      </div>
-
-      <!-- FAVORITES -->
-      <div class="view" id="view-favorites">
-        <div id="favoritesContent"></div>
-      </div>
-
-      <!-- CV BUILDER -->
       <div class="view" id="view-cv">
         <div class="cv-layout">
           <div class="cv-form">
@@ -1206,30 +1151,25 @@ select.field { cursor: pointer; }
                 <textarea id="cvSummary" rows="3" placeholder="Professional summary..." class="field" style="resize:none; font-family:inherit;"></textarea>
               </div>
             </div>
-
             <div class="cv-form-section">
               <h4>Experience</h4>
               <div id="expContainer"></div>
               <button id="addExp" class="add-btn">+ Add Experience</button>
             </div>
-
             <div class="cv-form-section">
               <h4>Education</h4>
               <div id="eduContainer"></div>
               <button id="addEdu" class="add-btn">+ Add Education</button>
             </div>
-
             <div class="cv-form-section">
               <h4>Skills</h4>
               <input type="text" id="cvSkills" placeholder="React, TypeScript, Figma (comma-separated)" class="field" />
             </div>
-
             <button id="cvDownload" class="btn btn-primary" style="margin-top:8px;">
               <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg>
               Download CV as PDF
             </button>
           </div>
-
           <div class="resume-preview-wrap">
             <div id="resumePreview">
               <div class="resume-body">
@@ -1260,20 +1200,17 @@ select.field { cursor: pointer; }
         </div>
       </div>
 
-      <!-- ABOUT -->
       <div class="view" id="view-about">
         <div class="info-card">
           <h3>Built different. Literally.</h3>
           <p><strong>PDF Toolkit runs entirely in your browser.</strong> Every tool — merge, split, compress, convert, edit, sign, redact — uses JavaScript running on your own device. There is no backend server. There is no database.</p>
           <p><strong>Nothing you upload here is uploaded anywhere.</strong> When you open a PDF or image, it stays on your device. When you close the tab, it's gone. We literally have no way to see your files, because they never reach us.</p>
         </div>
-
         <div class="info-card">
           <h3>How it actually works</h3>
-          <p>PDF manipulation uses <code>pdf-lib</code> v1.17.1. PDF rendering for JPG export uses <code>pdf.js</code> v3.11. CV export uses <code>html2pdf.js</code>. Batch downloads are zipped client-side with <code>JSZip</code>. All libraries run locally in your browser — no API calls, no analytics on your documents.</p>
+          <p>PDF manipulation uses <code>pdf-lib</code> v1.17.1. PDF rendering for JPG export and live previews uses <code>pdf.js</code> v3.11. CV export uses <code>html2pdf.js</code>. Batch downloads are zipped client-side with <code>JSZip</code>. All libraries run locally in your browser — no API calls, no analytics on your documents.</p>
           <p>You can verify this yourself: open the browser's DevTools → Network tab. You'll see no file uploads, ever. Just the initial page load.</p>
         </div>
-
         <div class="info-card">
           <h3>Who it's for</h3>
           <p>Anyone who values their privacy. Students turning in assignments. Developers shipping contracts. Freelancers sending invoices. People who just don't want their tax documents sitting on someone else's server.</p>
@@ -1286,7 +1223,6 @@ select.field { cursor: pointer; }
             <span class="feature-pill">✓ Open source libraries</span>
           </div>
         </div>
-
         <div class="info-card">
           <h3>Honest limitations</h3>
           <p>We're not going to pretend to be perfect. Here's what we can't do:</p>
@@ -1297,12 +1233,10 @@ select.field { cursor: pointer; }
           <p>But for 95% of everyday PDF tasks, this toolkit does the job without asking you to hand over your files.</p>
         </div>
       </div>
-
     </main>
   </div>
 </div>
 
-<!-- Modal -->
 <div class="modal" id="modal">
   <div class="modal-panel">
     <div class="modal-header">
@@ -1330,7 +1264,6 @@ select.field { cursor: pointer; }
 (function initTheme() {
   const root = document.documentElement;
   const stored = localStorage.getItem('pdftk-theme');
-  // Default to light mode for first-time visitors (not OS preference)
   root.setAttribute('data-theme', stored || 'light');
   updateThemeIcon();
   document.getElementById('themeBtn').addEventListener('click', () => {
@@ -1425,34 +1358,40 @@ function bindDrop(zone, input, onFiles) {
   input.addEventListener('change', () => { if (input.files && input.files.length) { onFiles(input.files); input.value = ''; } });
 }
 
-/* ============================================================
-   SHARED UI
-   ============================================================ */
-const dropUI = (id, title, sub, accept = 'application/pdf,.pdf', multiple = false) => `
-  <label for="${id}" class="drop-zone">
-    <svg class="drop-zone-icon" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z"/></svg>
-    <p class="drop-zone-title">${title}</p>
-    <p class="drop-zone-sub">${sub}</p>
-  </label>
-  <input type="file" id="${id}" style="position:absolute; width:1px; height:1px; opacity:0; pointer-events:none;" ${multiple ? 'multiple' : ''} accept="${accept}" />
-`;
+/* Live page thumbnails via pdf.js */
+async function renderThumbs(arrayBuffer, container, opts = {}) {
+  if (!PdfJsReady) return 0;
+  const { maxPages = 40, scale = 0.35, onClick, selectable = false, orderMode = false } = opts;
+  container.innerHTML = '';
+  const pdf = await pdfjsLib.getDocument({ data: arrayBuffer.slice(0) }).promise;
+  const count = Math.min(pdf.numPages, maxPages);
+  for (let i = 1; i <= count; i++) {
+    const page = await pdf.getPage(i);
+    const vp = page.getViewport({ scale });
+    const canvas = document.createElement('canvas');
+    canvas.width = vp.width;
+    canvas.height = vp.height;
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = '#fff';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    await page.render({ canvasContext: ctx, viewport: vp }).promise;
 
-const fileListUI = (id) => `<div class="file-list" id="${id}"></div>`;
+    const thumb = document.createElement('div');
+    thumb.className = 'page-thumb';
+    thumb.dataset.page = i;
+    thumb.appendChild(canvas);
+    const label = document.createElement('div');
+    label.className = 'page-label';
+    label.textContent = `Page ${i}`;
+    thumb.appendChild(label);
 
-const actionBtnUI = (id, label, primary = true) => `
-  <button id="${id}" class="btn ${primary ? 'btn-primary' : 'btn-ghost'}" style="margin-top:20px;" disabled>
-    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg>
-    ${label}
-  </button>`;
-
-const progressUI = (id) => `
-  <div class="progress-wrap" id="${id}">
-    <div class="progress-label">
-      <span class="progress-status">Processing…</span>
-      <span class="progress-pct">0%</span>
-    </div>
-    <div class="progress-bar-bg"><div class="progress-bar-fill"></div></div>
-  </div>`;
+    if (onClick) {
+      thumb.addEventListener('click', () => onClick(i, thumb));
+    }
+    container.appendChild(thumb);
+  }
+  return pdf.numPages;
+}
 
 function setProgress(root, pct, status) {
   const wrap = $('.progress-wrap', root);
@@ -1466,6 +1405,60 @@ function hideProgress(root) {
   const wrap = $('.progress-wrap', root);
   if (wrap) wrap.classList.remove('active');
 }
+
+function showResult(root, title, sub, onDownload) {
+  let panel = $('.result-panel', root);
+  if (!panel) {
+    panel = document.createElement('div');
+    panel.className = 'result-panel';
+    root.appendChild(panel);
+  }
+  panel.innerHTML = `
+    <div class="result-title">${title}</div>
+    <div class="result-sub">${sub}</div>
+    <button class="btn btn-success" id="resultDownloadBtn">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg>
+      Download Ready File
+    </button>`;
+  panel.classList.add('active');
+  const btn = $('#resultDownloadBtn', panel);
+  btn.addEventListener('click', onDownload);
+  // Hide the process button
+  const processBtn = root.querySelector('[data-role="process"]');
+  if (processBtn) processBtn.style.display = 'none';
+}
+
+function hideResult(root) {
+  const panel = $('.result-panel', root);
+  if (panel) panel.classList.remove('active');
+  const processBtn = root.querySelector('[data-role="process"]');
+  if (processBtn) processBtn.style.display = '';
+}
+
+const dropUI = (id, title, sub, accept = 'application/pdf,.pdf', multiple = false) => `
+  <label for="${id}" class="drop-zone">
+    <svg class="drop-zone-icon" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z"/></svg>
+    <p class="drop-zone-title">${title}</p>
+    <p class="drop-zone-sub">${sub}</p>
+  </label>
+  <input type="file" id="${id}" style="position:absolute; width:1px; height:1px; opacity:0; pointer-events:none;" ${multiple ? 'multiple' : ''} accept="${accept}" />
+`;
+
+const fileListUI = (id) => `<div class="file-list" id="${id}"></div>`;
+const progressUI = () => `
+  <div class="progress-wrap">
+    <div class="progress-label">
+      <span class="progress-status">Processing…</span>
+      <span class="progress-pct">0%</span>
+    </div>
+    <div class="progress-bar-bg"><div class="progress-bar-fill"></div></div>
+  </div>`;
+
+const processBtnUI = (id, label) => `
+  <button id="${id}" data-role="process" class="btn btn-primary" style="margin-top:20px;" disabled>
+    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0112 15a9.065 9.065 0 00-6.23-.693L5 14.5m14.8.8l1.402 1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0112 21c-2.773 0-5.491-.235-8.135-.687-1.718-.293-2.3-2.379-1.067-3.611L5 14.5"/></svg>
+    ${label}
+  </button>`;
 
 const pageOptionsUI = () => `
   <div style="margin-top:20px; padding-top:20px; border-top:1px solid var(--border);">
@@ -1533,9 +1526,6 @@ const I = {
   cv: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>'
 };
 
-/* ============================================================
-   TOOL CARD VISUAL SYSTEM
-   ============================================================ */
 const VISUAL = {
   blue:    { icon: '#3B82F6', iconBg: '#3B82F6', cardBg: '#EFF6FF', cardBorder: '#DBEAFE', darkCardBg: 'rgba(59,130,246,0.08)', darkCardBorder: 'rgba(59,130,246,0.2)' },
   green:   { icon: '#10B981', iconBg: '#10B981', cardBg: '#ECFDF5', cardBorder: '#D1FAE5', darkCardBg: 'rgba(16,185,129,0.08)', darkCardBorder: 'rgba(16,185,129,0.2)' },
@@ -1550,26 +1540,65 @@ const VISUAL = {
 };
 
 /* ============================================================
-   TOOL DEFINITIONS
+   TOOL DEFINITIONS — Improved with live previews + ready download
    ============================================================ */
+
 const toolMerge = {
-  html: `<div>${dropUI('mIn', 'Drop PDFs here', 'or click · multiple files', 'application/pdf,.pdf', true)}${fileListUI('mList')}<div id="mProg">${progressUI('mProgWrap')}</div>${actionBtnUI('mBtn', 'Merge PDFs')}${pageOptionsUI()}</div>`,
+  html: `<div>${dropUI('mIn', 'Drop PDFs here', 'or click · multiple files · drag to reorder', 'application/pdf,.pdf', true)}${fileListUI('mList')}${progressUI()}${processBtnUI('mBtn', 'Merge PDFs')}${pageOptionsUI()}</div>`,
   init(root) {
     let files = [];
+    let resultBytes = null;
     const input = $('#mIn', root), zone = $('label[for="mIn"]', root), list = $('#mList', root), btn = $('#mBtn', root);
+
+    function render() {
+      list.innerHTML = files.map((f, i) => `
+        <div class="file-item" draggable="true" data-i="${i}">
+          <span class="handle"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M8 6h.01M8 12h.01M8 18h.01M16 6h.01M16 12h.01M16 18h.01"/></svg></span>
+          <span class="name">${f.name}</span>
+          <button class="remove" data-i="${i}" type="button"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button>
+        </div>`).join('');
+      btn.disabled = files.length < 2;
+      hideResult(root);
+      resultBytes = null;
+
+      // Drag reorder
+      let dragIdx = null;
+      $$('.file-item', list).forEach(item => {
+        item.addEventListener('dragstart', e => {
+          dragIdx = +item.dataset.i;
+          item.classList.add('dragging');
+          e.dataTransfer.effectAllowed = 'move';
+        });
+        item.addEventListener('dragend', () => item.classList.remove('dragging'));
+        item.addEventListener('dragover', e => { e.preventDefault(); e.dataTransfer.dropEffect = 'move'; });
+        item.addEventListener('drop', e => {
+          e.preventDefault();
+          const targetIdx = +item.dataset.i;
+          if (dragIdx === null || dragIdx === targetIdx) return;
+          const moved = files.splice(dragIdx, 1)[0];
+          files.splice(targetIdx, 0, moved);
+          render();
+        });
+      });
+      $$('[data-i].remove', list).forEach(b => b.addEventListener('click', e => {
+        e.stopPropagation();
+        files.splice(+b.dataset.i, 1);
+        render();
+      }));
+    }
+
     function handle(fl) {
       const pdfs = [...fl].filter(f => f.type === 'application/pdf' || f.name.toLowerCase().endsWith('.pdf'));
       if (!pdfs.length) return toast('Only PDF files accepted', 'error');
-      files = files.concat(pdfs); render();
-    }
-    function render() {
-      list.innerHTML = files.map((f, i) => `<div class="file-item"><span class="name">${f.name}</span><button class="remove" data-i="${i}"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button></div>`).join('');
-      btn.disabled = files.length < 2;
-      $$('[data-i]', list).forEach(b => b.addEventListener('click', () => { files.splice(+b.dataset.i, 1); render(); }));
+      files = files.concat(pdfs);
+      render();
     }
     bindDrop(zone, input, handle);
+
     btn.addEventListener('click', async () => {
+      if (files.length < 2) return;
       btn.disabled = true;
+      hideResult(root);
       setProgress(root, 10, 'Reading files…');
       try {
         const merged = await PDFLib.PDFDocument.create();
@@ -1581,39 +1610,51 @@ const toolMerge = {
         }
         setProgress(root, 90, 'Applying options…');
         applyPageOptions(merged, readOpts(root));
-        downloadBytes(await merged.save(), 'merged.pdf');
-        setProgress(root, 100, 'Done!');
-        toast(`Merged ${files.length} PDFs`, 'success');
-        setTimeout(() => hideProgress(root), 1500);
-      } catch (e) { toast('Failed: ' + e.message, 'error'); hideProgress(root); }
-      finally { btn.disabled = files.length < 2; }
+        resultBytes = await merged.save();
+        setProgress(root, 100, 'Ready!');
+        hideProgress(root);
+        showResult(root, `Merged ${files.length} PDFs successfully`, `File size: ${(resultBytes.byteLength / 1024).toFixed(0)} KB`, () => {
+          downloadBytes(resultBytes, 'merged.pdf');
+          toast('Downloaded merged.pdf', 'success');
+        });
+      } catch (e) {
+        toast('Failed: ' + e.message, 'error');
+        hideProgress(root);
+        btn.disabled = files.length < 2;
+      }
     });
   }
 };
 
 const toolSplit = {
-  html: `<div>${dropUI('sIn', 'Drop a PDF', 'or click to browse')}<div id="sInfo" style="font-size:12px; color:var(--text-muted); margin-top:10px;"></div><div class="options-grid" style="margin-top:16px;"><div><label class="option-label">From Page</label><input type="number" id="sFrom" class="field" value="1" min="1"></div><div><label class="option-label">To Page</label><input type="number" id="sTo" class="field" value="1" min="1"></div></div><div id="sProg">${progressUI('sProgWrap')}</div>${actionBtnUI('sBtn', 'Split PDF')}${pageOptionsUI()}</div>`,
+  html: `<div>${dropUI('sIn', 'Drop a PDF', 'or click to browse')}<div id="sInfo" style="font-size:12px; color:var(--text-muted); margin-top:10px;"></div><div class="page-thumbs" id="sThumbs" style="display:none;"></div><div class="options-grid" style="margin-top:16px;"><div><label class="option-label">From Page</label><input type="number" id="sFrom" class="field" value="1" min="1"></div><div><label class="option-label">To Page</label><input type="number" id="sTo" class="field" value="1" min="1"></div></div>${progressUI()}${processBtnUI('sBtn', 'Split PDF')}${pageOptionsUI()}</div>`,
   init(root) {
-    let file = null, count = 0;
+    let file = null, count = 0, ab = null, resultBytes = null;
     const input = $('#sIn', root), zone = $('label[for="sIn"]', root);
     bindDrop(zone, input, async fl => {
       const f = fl[0]; if (!f) return;
       file = f;
       try {
-        const doc = await PDFLib.PDFDocument.load(await readAB(f), { ignoreEncryption: true });
+        ab = await readAB(f);
+        const doc = await PDFLib.PDFDocument.load(ab, { ignoreEncryption: true });
         count = doc.getPageCount();
         $('#sFrom', root).max = count; $('#sTo', root).max = count; $('#sTo', root).value = count;
         $('#sInfo', root).textContent = `✓ ${f.name} — ${count} pages`;
         $('#sBtn', root).disabled = false;
+        hideResult(root);
+        const thumbs = $('#sThumbs', root);
+        thumbs.style.display = 'grid';
+        await renderThumbs(ab, thumbs, { maxPages: 24, scale: 0.3 });
       } catch { toast('Could not read PDF', 'error'); }
     });
     $('#sBtn', root).addEventListener('click', async () => {
       const from = Math.max(1, Math.min(+$('#sFrom', root).value, count));
       const to = Math.max(from, Math.min(+$('#sTo', root).value, count));
       $('#sBtn', root).disabled = true;
+      hideResult(root);
       setProgress(root, 30, 'Reading…');
       try {
-        const src = await PDFLib.PDFDocument.load(await readAB(file), { ignoreEncryption: true });
+        const src = await PDFLib.PDFDocument.load(ab, { ignoreEncryption: true });
         setProgress(root, 60, 'Extracting…');
         const out = await PDFLib.PDFDocument.create();
         const idx = []; for (let i = from - 1; i <= to - 1; i++) idx.push(i);
@@ -1621,72 +1662,104 @@ const toolSplit = {
         pages.forEach(p => out.addPage(p));
         setProgress(root, 85, 'Saving…');
         applyPageOptions(out, readOpts(root));
-        downloadBytes(await out.save(), `split_${from}-${to}.pdf`);
-        setProgress(root, 100, 'Done!');
-        toast(`Extracted pages ${from}–${to}`, 'success');
-        setTimeout(() => hideProgress(root), 1500);
-      } catch (e) { toast('Failed: ' + e.message, 'error'); hideProgress(root); }
-      finally { $('#sBtn', root).disabled = false; }
+        resultBytes = await out.save();
+        setProgress(root, 100, 'Ready!');
+        hideProgress(root);
+        showResult(root, `Pages ${from}–${to} extracted`, `${to - from + 1} page(s) ready`, () => {
+          downloadBytes(resultBytes, `split_${from}-${to}.pdf`);
+          toast('Downloaded', 'success');
+        });
+      } catch (e) { toast('Failed: ' + e.message, 'error'); hideProgress(root); $('#sBtn', root).disabled = false; }
     });
   }
 };
 
 const toolRemove = {
-  html: `<div>${dropUI('rIn', 'Drop a PDF', 'Pages to remove: e.g. 2,5,7-9')}<div id="rInfo" style="font-size:12px; color:var(--text-muted); margin-top:10px;"></div><div style="margin-top:16px;"><label class="option-label">Pages to Remove</label><input type="text" id="rPages" class="field" placeholder="e.g. 2, 5, 7-9"></div><div id="rProg">${progressUI('rProgWrap')}</div>${actionBtnUI('rBtn', 'Remove & Download')}</div>`,
+  html: `<div>${dropUI('rIn', 'Drop a PDF', 'Then select pages to remove')}<div id="rInfo" style="font-size:12px; color:var(--text-muted); margin-top:10px;"></div><div class="page-thumbs" id="rThumbs" style="display:none;"></div><div style="margin-top:16px;"><label class="option-label">Pages to Remove (or click thumbnails)</label><input type="text" id="rPages" class="field" placeholder="e.g. 2, 5, 7-9"></div>${progressUI()}${processBtnUI('rBtn', 'Remove Pages')}</div>`,
   init(root) {
-    let file = null, count = 0;
+    let file = null, count = 0, ab = null, resultBytes = null;
+    const selected = new Set();
     const input = $('#rIn', root), zone = $('label[for="rIn"]', root);
     bindDrop(zone, input, async fl => {
       const f = fl[0]; if (!f) return;
-      file = f;
-      const doc = await PDFLib.PDFDocument.load(await readAB(f), { ignoreEncryption: true });
+      file = f; selected.clear();
+      ab = await readAB(f);
+      const doc = await PDFLib.PDFDocument.load(ab, { ignoreEncryption: true });
       count = doc.getPageCount();
-      $('#rInfo', root).textContent = `✓ ${f.name} — ${count} pages`;
+      $('#rInfo', root).textContent = `✓ ${f.name} — ${count} pages · click pages to mark for removal`;
       $('#rBtn', root).disabled = false;
+      hideResult(root);
+      const thumbs = $('#rThumbs', root);
+      thumbs.style.display = 'grid';
+      await renderThumbs(ab, thumbs, {
+        maxPages: 40, scale: 0.28,
+        onClick: (pageNum, el) => {
+          if (selected.has(pageNum)) { selected.delete(pageNum); el.classList.remove('selected'); }
+          else { selected.add(pageNum); el.classList.add('selected'); }
+          $('#rPages', root).value = [...selected].sort((a,b)=>a-b).join(', ');
+        }
+      });
     });
     $('#rBtn', root).addEventListener('click', async () => {
       const spec = $('#rPages', root).value.trim();
-      if (!spec) return toast('Enter pages to remove', 'error');
+      if (!spec) return toast('Enter or select pages to remove', 'error');
       const set = new Set();
       spec.split(',').forEach(p => {
         p = p.trim();
         if (p.includes('-')) { const [a, b] = p.split('-').map(Number); for (let i = a; i <= b; i++) set.add(i); }
         else set.add(Number(p));
       });
+      hideResult(root);
       setProgress(root, 30, 'Processing…');
       try {
-        const src = await PDFLib.PDFDocument.load(await readAB(file), { ignoreEncryption: true });
+        const src = await PDFLib.PDFDocument.load(ab, { ignoreEncryption: true });
         const out = await PDFLib.PDFDocument.create();
         const keep = []; for (let i = 1; i <= count; i++) if (!set.has(i)) keep.push(i - 1);
         if (!keep.length) return toast('Cannot remove all pages', 'error');
         const pages = await out.copyPages(src, keep);
         pages.forEach(p => out.addPage(p));
         setProgress(root, 90, 'Saving…');
-        downloadBytes(await out.save(), 'removed.pdf');
-        setProgress(root, 100, 'Done!');
-        toast(`Removed ${count - keep.length} page(s)`, 'success');
-        setTimeout(() => hideProgress(root), 1500);
+        resultBytes = await out.save();
+        setProgress(root, 100, 'Ready!');
+        hideProgress(root);
+        showResult(root, `Removed ${count - keep.length} page(s)`, `${keep.length} pages remaining`, () => {
+          downloadBytes(resultBytes, 'removed.pdf');
+          toast('Downloaded', 'success');
+        });
       } catch (e) { toast('Failed: ' + e.message, 'error'); hideProgress(root); }
     });
   }
 };
 
 const toolExtract = {
-  html: `<div>${dropUI('eIn', 'Drop a PDF', 'Extract specific pages')}<div id="eInfo" style="font-size:12px; color:var(--text-muted); margin-top:10px;"></div><div style="margin-top:16px;"><label class="option-label">Pages to Extract</label><input type="text" id="ePages" class="field" placeholder="e.g. 1,3,5-7"></div><div id="eProg">${progressUI('eProgWrap')}</div>${actionBtnUI('eBtn', 'Extract Pages')}</div>`,
+  html: `<div>${dropUI('eIn', 'Drop a PDF', 'Extract specific pages')}<div id="eInfo" style="font-size:12px; color:var(--text-muted); margin-top:10px;"></div><div class="page-thumbs" id="eThumbs" style="display:none;"></div><div style="margin-top:16px;"><label class="option-label">Pages to Extract (or click thumbnails)</label><input type="text" id="ePages" class="field" placeholder="e.g. 1,3,5-7"></div>${progressUI()}${processBtnUI('eBtn', 'Extract Pages')}</div>`,
   init(root) {
-    let file = null, count = 0;
+    let file = null, count = 0, ab = null, resultBytes = null;
+    const selected = new Set();
     const input = $('#eIn', root), zone = $('label[for="eIn"]', root);
     bindDrop(zone, input, async fl => {
       const f = fl[0]; if (!f) return;
-      file = f;
-      const doc = await PDFLib.PDFDocument.load(await readAB(f), { ignoreEncryption: true });
+      file = f; selected.clear();
+      ab = await readAB(f);
+      const doc = await PDFLib.PDFDocument.load(ab, { ignoreEncryption: true });
       count = doc.getPageCount();
-      $('#eInfo', root).textContent = `✓ ${f.name} — ${count} pages`;
+      $('#eInfo', root).textContent = `✓ ${f.name} — ${count} pages · click to select`;
       $('#eBtn', root).disabled = false;
+      hideResult(root);
+      const thumbs = $('#eThumbs', root);
+      thumbs.style.display = 'grid';
+      await renderThumbs(ab, thumbs, {
+        maxPages: 40, scale: 0.28,
+        onClick: (pageNum, el) => {
+          if (selected.has(pageNum)) { selected.delete(pageNum); el.classList.remove('selected'); }
+          else { selected.add(pageNum); el.classList.add('selected'); }
+          $('#ePages', root).value = [...selected].sort((a,b)=>a-b).join(', ');
+        }
+      });
     });
     $('#eBtn', root).addEventListener('click', async () => {
       const spec = $('#ePages', root).value.trim();
-      if (!spec) return toast('Enter pages to extract', 'error');
+      if (!spec) return toast('Enter or select pages to extract', 'error');
       const set = new Set();
       spec.split(',').forEach(p => {
         p = p.trim();
@@ -1695,82 +1768,135 @@ const toolExtract = {
       });
       const keep = [...set].filter(n => n >= 1 && n <= count).sort((a, b) => a - b).map(n => n - 1);
       if (!keep.length) return toast('No valid pages', 'error');
+      hideResult(root);
       setProgress(root, 40, 'Extracting…');
       try {
-        const src = await PDFLib.PDFDocument.load(await readAB(file), { ignoreEncryption: true });
+        const src = await PDFLib.PDFDocument.load(ab, { ignoreEncryption: true });
         const out = await PDFLib.PDFDocument.create();
         const pages = await out.copyPages(src, keep);
         pages.forEach(p => out.addPage(p));
         setProgress(root, 90, 'Saving…');
-        downloadBytes(await out.save(), `extracted_${keep.length}pages.pdf`);
-        setProgress(root, 100, 'Done!');
-        toast(`Extracted ${keep.length} page(s)`, 'success');
-        setTimeout(() => hideProgress(root), 1500);
+        resultBytes = await out.save();
+        setProgress(root, 100, 'Ready!');
+        hideProgress(root);
+        showResult(root, `Extracted ${keep.length} page(s)`, 'Ready to download', () => {
+          downloadBytes(resultBytes, `extracted_${keep.length}pages.pdf`);
+          toast('Downloaded', 'success');
+        });
       } catch (e) { toast('Failed: ' + e.message, 'error'); hideProgress(root); }
     });
   }
 };
 
 const toolOrganize = {
-  html: `<div>${dropUI('oIn', 'Drop a PDF', 'Then click pages in your desired order')}<div id="oInfo" style="font-size:12px; color:var(--text-muted); margin-top:10px;"></div><div id="oGrid" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(80px, 1fr)); gap:8px; margin-top:14px; max-height:260px; overflow-y:auto;"></div>${actionBtnUI('oBtn', 'Save Reordered PDF')}</div>`,
+  html: `<div>${dropUI('oIn', 'Drop a PDF', 'Then drag pages to reorder')}<div id="oInfo" style="font-size:12px; color:var(--text-muted); margin-top:10px;"></div><div class="page-thumbs" id="oGrid" style="display:none;"></div>${progressUI()}${processBtnUI('oBtn', 'Save Reordered PDF')}</div>`,
   init(root) {
-    let file = null, order = [];
+    let file = null, ab = null, order = [], resultBytes = null;
     const input = $('#oIn', root), zone = $('label[for="oIn"]', root);
     bindDrop(zone, input, async fl => {
       const f = fl[0]; if (!f) return;
       file = f;
-      const doc = await PDFLib.PDFDocument.load(await readAB(f), { ignoreEncryption: true });
+      ab = await readAB(f);
+      const doc = await PDFLib.PDFDocument.load(ab, { ignoreEncryption: true });
       const count = doc.getPageCount();
-      order = [];
-      $('#oInfo', root).textContent = `✓ ${count} pages — click to set order`;
+      order = Array.from({ length: count }, (_, i) => i);
+      $('#oInfo', root).textContent = `✓ ${count} pages — drag thumbnails to reorder`;
+      $('#oBtn', root).disabled = false;
+      hideResult(root);
       const grid = $('#oGrid', root);
-      grid.innerHTML = '';
-      for (let i = 0; i < count; i++) {
-        const b = document.createElement('button');
-        b.style.cssText = 'padding:10px; border-radius:9px; background:var(--surface-2); border:1px solid var(--border); color:var(--text); font-size:12px; font-weight:600; cursor:pointer; transition:all .2s; font-family:inherit;';
-        b.textContent = `Page ${i + 1}`;
-        b.addEventListener('click', () => {
-          const idx = order.indexOf(i);
-          if (idx > -1) { order.splice(idx, 1); b.style.background = 'var(--surface-2)'; b.style.borderColor = 'var(--border)'; b.textContent = `Page ${i + 1}`; }
-          else { order.push(i); b.style.background = 'var(--active-bg)'; b.style.borderColor = '#3B82F6'; b.textContent = `#${order.length} · P${i + 1}`; }
-          $('#oBtn', root).disabled = order.length === 0;
+      grid.style.display = 'grid';
+      await renderThumbs(ab, grid, { maxPages: 50, scale: 0.28 });
+      // Make thumbs draggable for reorder
+      makeThumbsSortable(grid, order, () => {
+        // update order badges
+        $$('.page-thumb', grid).forEach((t, idx) => {
+          let badge = t.querySelector('.order-badge');
+          if (!badge) {
+            badge = document.createElement('div');
+            badge.className = 'order-badge';
+            t.appendChild(badge);
+          }
+          badge.textContent = idx + 1;
         });
-        grid.appendChild(b);
-      }
-      $('#oBtn', root).disabled = true;
+      });
     });
+
+    function makeThumbsSortable(container, orderArr, onChange) {
+      let dragEl = null;
+      $$('.page-thumb', container).forEach(thumb => {
+        thumb.draggable = true;
+        thumb.addEventListener('dragstart', e => {
+          dragEl = thumb;
+          thumb.classList.add('dragging');
+          e.dataTransfer.effectAllowed = 'move';
+        });
+        thumb.addEventListener('dragend', () => {
+          thumb.classList.remove('dragging');
+          // rebuild order from DOM
+          const newOrder = [...container.querySelectorAll('.page-thumb')].map(t => +t.dataset.page - 1);
+          orderArr.length = 0;
+          orderArr.push(...newOrder);
+          onChange();
+        });
+        thumb.addEventListener('dragover', e => { e.preventDefault(); e.dataTransfer.dropEffect = 'move'; });
+        thumb.addEventListener('drop', e => {
+          e.preventDefault();
+          if (!dragEl || dragEl === thumb) return;
+          const all = [...container.children];
+          const from = all.indexOf(dragEl);
+          const to = all.indexOf(thumb);
+          if (from < to) container.insertBefore(dragEl, thumb.nextSibling);
+          else container.insertBefore(dragEl, thumb);
+        });
+      });
+      onChange();
+    }
+
     $('#oBtn', root).addEventListener('click', async () => {
+      hideResult(root);
+      setProgress(root, 40, 'Reordering…');
       try {
-        const src = await PDFLib.PDFDocument.load(await readAB(file), { ignoreEncryption: true });
+        const src = await PDFLib.PDFDocument.load(ab, { ignoreEncryption: true });
         const out = await PDFLib.PDFDocument.create();
         const pages = await out.copyPages(src, order);
         pages.forEach(p => out.addPage(p));
-        downloadBytes(await out.save(), 'reordered.pdf');
-        toast(`Saved ${order.length}-page PDF`, 'success');
-      } catch (e) { toast('Failed: ' + e.message, 'error'); }
+        setProgress(root, 90, 'Saving…');
+        resultBytes = await out.save();
+        setProgress(root, 100, 'Ready!');
+        hideProgress(root);
+        showResult(root, `Reordered ${order.length} pages`, 'New order saved', () => {
+          downloadBytes(resultBytes, 'reordered.pdf');
+          toast('Downloaded', 'success');
+        });
+      } catch (e) { toast('Failed: ' + e.message, 'error'); hideProgress(root); }
     });
   }
 };
 
 const toolCompress = {
-  html: `<div>${dropUI('cIn', 'Drop a PDF', 'Compress by rasterizing at lower quality')}<div id="cInfo" style="font-size:12px; color:var(--text-muted); margin-top:10px;"></div><div class="options-grid" style="margin-top:16px;"><div><label class="option-label">Quality</label><select class="field" id="cQ"><option value="0.5">Small (50%)</option><option value="0.7" selected>Balanced (70%)</option><option value="0.85">High (85%)</option></select></div><div><label class="option-label">DPI</label><select class="field" id="cD"><option value="1">72</option><option value="1.5" selected>108</option><option value="2">144</option></select></div></div><div id="cProg">${progressUI('cProgWrap')}</div>${actionBtnUI('cBtn', 'Compress PDF')}</div>`,
+  html: `<div>${dropUI('cIn', 'Drop a PDF', 'Compress by rasterizing at lower quality')}<div id="cInfo" style="font-size:12px; color:var(--text-muted); margin-top:10px;"></div><div class="page-thumbs" id="cThumbs" style="display:none;"></div><div class="options-grid" style="margin-top:16px;"><div><label class="option-label">Quality</label><select class="field" id="cQ"><option value="0.5">Small (50%)</option><option value="0.7" selected>Balanced (70%)</option><option value="0.85">High (85%)</option></select></div><div><label class="option-label">DPI</label><select class="field" id="cD"><option value="1">72</option><option value="1.5" selected>108</option><option value="2">144</option></select></div></div>${progressUI()}${processBtnUI('cBtn', 'Compress PDF')}</div>`,
   init(root) {
-    let file = null;
+    let file = null, ab = null, resultBytes = null;
     const input = $('#cIn', root), zone = $('label[for="cIn"]', root);
-    bindDrop(zone, input, fl => {
+    bindDrop(zone, input, async fl => {
       const f = fl[0]; if (!f) return;
       file = f;
+      ab = await readAB(f);
       $('#cInfo', root).textContent = `✓ ${f.name} (${(f.size / 1024).toFixed(0)} KB)`;
       $('#cBtn', root).disabled = false;
+      hideResult(root);
+      const thumbs = $('#cThumbs', root);
+      thumbs.style.display = 'grid';
+      await renderThumbs(ab, thumbs, { maxPages: 12, scale: 0.25 });
     });
     $('#cBtn', root).addEventListener('click', async () => {
       if (!PdfJsReady) return toast('pdf.js not loaded', 'error');
       const q = parseFloat($('#cQ', root).value), s = parseFloat($('#cD', root).value);
       $('#cBtn', root).disabled = true;
+      hideResult(root);
       setProgress(root, 5, 'Rendering pages…');
       try {
-        const buf = await readAB(file);
-        const pdf = await pdfjsLib.getDocument({ data: buf }).promise;
+        const pdf = await pdfjsLib.getDocument({ data: ab.slice(0) }).promise;
         const out = await PDFLib.PDFDocument.create();
         for (let i = 1; i <= pdf.numPages; i++) {
           setProgress(root, 5 + (i / pdf.numPages) * 80, `Page ${i} of ${pdf.numPages}…`);
@@ -1788,43 +1914,53 @@ const toolCompress = {
           p.drawImage(img, { x: 0, y: 0, width: vp.width, height: vp.height });
         }
         setProgress(root, 95, 'Saving…');
-        const bytes = await out.save();
-        downloadBytes(bytes, 'compressed.pdf');
-        setProgress(root, 100, 'Done!');
-        const reduction = ((1 - bytes.byteLength / file.size) * 100).toFixed(0);
-        toast(reduction > 0 ? `Saved ${reduction}% smaller` : 'Compressed', 'success');
-        setTimeout(() => hideProgress(root), 1500);
-      } catch (e) { toast('Failed: ' + e.message, 'error'); hideProgress(root); }
-      finally { $('#cBtn', root).disabled = false; }
+        resultBytes = await out.save();
+        setProgress(root, 100, 'Ready!');
+        hideProgress(root);
+        const reduction = ((1 - resultBytes.byteLength / file.size) * 100).toFixed(0);
+        showResult(root, reduction > 0 ? `Compressed — ${reduction}% smaller` : 'Compressed', `${(resultBytes.byteLength / 1024).toFixed(0)} KB`, () => {
+          downloadBytes(resultBytes, 'compressed.pdf');
+          toast('Downloaded', 'success');
+        });
+      } catch (e) { toast('Failed: ' + e.message, 'error'); hideProgress(root); $('#cBtn', root).disabled = false; }
     });
   }
 };
 
 const toolRepair = {
-  html: `<div>${dropUI('rpIn', 'Drop a PDF', 'Attempts to rebuild structural integrity')}<div id="rpInfo" style="font-size:12px; color:var(--text-muted); margin-top:10px;"></div>${actionBtnUI('rpBtn', 'Repair PDF')}</div>`,
+  html: `<div>${dropUI('rpIn', 'Drop a PDF', 'Attempts to rebuild structural integrity')}<div id="rpInfo" style="font-size:12px; color:var(--text-muted); margin-top:10px;"></div>${progressUI()}${processBtnUI('rpBtn', 'Repair PDF')}</div>`,
   init(root) {
-    let file = null;
+    let file = null, resultBytes = null;
     const input = $('#rpIn', root), zone = $('label[for="rpIn"]', root);
     bindDrop(zone, input, fl => {
       const f = fl[0]; if (!f) return;
       file = f;
       $('#rpInfo', root).textContent = `✓ ${f.name}`;
       $('#rpBtn', root).disabled = false;
+      hideResult(root);
     });
     $('#rpBtn', root).addEventListener('click', async () => {
+      hideResult(root);
+      setProgress(root, 40, 'Repairing…');
       try {
         const doc = await PDFLib.PDFDocument.load(await readAB(file), { ignoreEncryption: true, updateMetadata: false });
-        downloadBytes(await doc.save(), 'repaired.pdf');
-        toast('Repaired successfully', 'success');
-      } catch (e) { toast('Repair failed: ' + e.message, 'error'); }
+        resultBytes = await doc.save();
+        setProgress(root, 100, 'Ready!');
+        hideProgress(root);
+        showResult(root, 'Repaired successfully', `${(resultBytes.byteLength / 1024).toFixed(0)} KB`, () => {
+          downloadBytes(resultBytes, 'repaired.pdf');
+          toast('Downloaded', 'success');
+        });
+      } catch (e) { toast('Repair failed: ' + e.message, 'error'); hideProgress(root); }
     });
   }
 };
 
 const toolJpg2Pdf = {
-  html: `<div>${dropUI('jIn', 'Drop images', 'JPG, PNG, WEBP · multiple', 'image/*', true)}${fileListUI('jList')}<div style="margin-top:16px;"><label class="option-label">Page Size</label><select class="field" data-opt="size"><option value="A4" selected>A4</option><option value="Letter">Letter</option><option value="Legal">Legal</option><option value="fit">Fit to image</option></select></div><div class="options-grid" style="margin-top:12px;"><div><label class="option-label">Orientation</label><select class="field" data-opt="orient"><option value="portrait" selected>Portrait</option><option value="landscape">Landscape</option><option value="auto">Auto</option></select></div><div><label class="option-label">Auto-Fit</label><select class="field" data-opt="fitmode"><option value="contain" selected>Contain</option><option value="cover">Cover</option><option value="stretch">Stretch</option></select></div><div><label class="option-label">Margin</label><input type="number" class="field" data-opt="margin" value="20" min="0"></div></div><div id="jProg">${progressUI('jProgWrap')}</div>${actionBtnUI('jBtn', 'Convert to PDF')}</div>`,
+  html: `<div>${dropUI('jIn', 'Drop images', 'JPG, PNG, WEBP · multiple', 'image/*', true)}${fileListUI('jList')}<div style="margin-top:16px;"><label class="option-label">Page Size</label><select class="field" data-opt="size"><option value="A4" selected>A4</option><option value="Letter">Letter</option><option value="Legal">Legal</option><option value="fit">Fit to image</option></select></div><div class="options-grid" style="margin-top:12px;"><div><label class="option-label">Orientation</label><select class="field" data-opt="orient"><option value="portrait" selected>Portrait</option><option value="landscape">Landscape</option><option value="auto">Auto</option></select></div><div><label class="option-label">Auto-Fit</label><select class="field" data-opt="fitmode"><option value="contain" selected>Contain</option><option value="cover">Cover</option><option value="stretch">Stretch</option></select></div><div><label class="option-label">Margin</label><input type="number" class="field" data-opt="margin" value="20" min="0"></div></div>${progressUI()}${processBtnUI('jBtn', 'Convert to PDF')}</div>`,
   init(root) {
     let imgs = [];
+    let resultBytes = null;
     const input = $('#jIn', root), zone = $('label[for="jIn"]', root), list = $('#jList', root);
     bindDrop(zone, input, fl => {
       const valid = [...fl].filter(f => /image\//.test(f.type));
@@ -1832,12 +1968,14 @@ const toolJpg2Pdf = {
       imgs = imgs.concat(valid); render();
     });
     function render() {
-      list.innerHTML = imgs.map((f, i) => `<div class="file-item"><span class="name">${f.name}</span><button class="remove" data-i="${i}"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button></div>`).join('');
+      list.innerHTML = imgs.map((f, i) => `<div class="file-item"><span class="name">${f.name}</span><button class="remove" data-i="${i}" type="button"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button></div>`).join('');
       $('#jBtn', root).disabled = imgs.length === 0;
+      hideResult(root);
       $$('[data-i]', list).forEach(b => b.addEventListener('click', () => { imgs.splice(+b.dataset.i, 1); render(); }));
     }
     $('#jBtn', root).addEventListener('click', async () => {
       $('#jBtn', root).disabled = true;
+      hideResult(root);
       setProgress(root, 10, 'Processing…');
       try {
         const doc = await PDFLib.PDFDocument.create();
@@ -1877,18 +2015,20 @@ const toolJpg2Pdf = {
           page.drawImage(img, { x: (pw - dw) / 2, y: (ph - dh) / 2, width: dw, height: dh });
         }
         setProgress(root, 95, 'Saving…');
-        downloadBytes(await doc.save(), 'images.pdf');
-        setProgress(root, 100, 'Done!');
-        toast(`Converted ${imgs.length} image(s)`, 'success');
-        setTimeout(() => hideProgress(root), 1500);
-      } catch (e) { toast('Failed: ' + e.message, 'error'); hideProgress(root); }
-      finally { $('#jBtn', root).disabled = imgs.length === 0; }
+        resultBytes = await doc.save();
+        setProgress(root, 100, 'Ready!');
+        hideProgress(root);
+        showResult(root, `Converted ${imgs.length} image(s)`, 'PDF ready', () => {
+          downloadBytes(resultBytes, 'images.pdf');
+          toast('Downloaded', 'success');
+        });
+      } catch (e) { toast('Failed: ' + e.message, 'error'); hideProgress(root); $('#jBtn', root).disabled = imgs.length === 0; }
     });
   }
 };
 
 const toolHtml2Pdf = {
-  html: `<div><label class="option-label">Paste HTML or text</label><textarea id="hC" rows="8" class="field" style="font-family:ui-monospace,monospace; resize:vertical;" placeholder="<h1>Hello</h1><p>Your content…</p>"></textarea><div class="options-grid" style="margin-top:14px;"><div><label class="option-label">Page Size</label><select class="field" id="hS"><option value="a4" selected>A4</option><option value="letter">Letter</option><option value="legal">Legal</option></select></div><div><label class="option-label">Orientation</label><select class="field" id="hO"><option value="portrait" selected>Portrait</option><option value="landscape">Landscape</option></select></div></div>${actionBtnUI('hBtn', 'Convert to PDF')}</div>`,
+  html: `<div><label class="option-label">Paste HTML or text</label><textarea id="hC" rows="8" class="field" style="font-family:ui-monospace,monospace; resize:vertical;" placeholder="<h1>Hello</h1><p>Your content…</p>"></textarea><div class="options-grid" style="margin-top:14px;"><div><label class="option-label">Page Size</label><select class="field" id="hS"><option value="a4" selected>A4</option><option value="letter">Letter</option><option value="legal">Legal</option></select></div><div><label class="option-label">Orientation</label><select class="field" id="hO"><option value="portrait" selected>Portrait</option><option value="landscape">Landscape</option></select></div></div>${processBtnUI('hBtn', 'Convert to PDF')}</div>`,
   init(root) {
     const btn = $('#hBtn', root);
     btn.disabled = false;
@@ -1906,7 +2046,7 @@ const toolHtml2Pdf = {
           html2canvas: { scale: 2, useCORS: true, backgroundColor: '#ffffff' },
           jsPDF: { unit: 'mm', format: $('#hS', root).value, orientation: $('#hO', root).value }
         }).from(wrap).save();
-        toast('PDF generated', 'success');
+        toast('PDF generated & downloaded', 'success');
       } catch (e) { toast('Failed: ' + e.message, 'error'); }
       finally { wrap.remove(); }
     });
@@ -1914,25 +2054,30 @@ const toolHtml2Pdf = {
 };
 
 const toolPdf2Jpg = {
-  html: `<div>${dropUI('pIn', 'Drop a PDF', 'Pages exported as JPG in a ZIP')}<div id="pInfo" style="font-size:12px; color:var(--text-muted); margin-top:10px;"></div><div class="options-grid" style="margin-top:16px;"><div><label class="option-label">Resolution</label><select class="field" id="pS"><option value="1">72 DPI</option><option value="1.5" selected>108 DPI</option><option value="2">144 DPI</option><option value="3">216 DPI</option></select></div><div><label class="option-label">Quality</label><select class="field" id="pQ"><option value="0.7">Medium</option><option value="0.85" selected>High</option><option value="0.95">Max</option></select></div></div><div id="pProg">${progressUI('pProgWrap')}</div>${actionBtnUI('pBtn', 'Extract as JPG (ZIP)')}</div>`,
+  html: `<div>${dropUI('pIn', 'Drop a PDF', 'Pages exported as JPG in a ZIP')}<div id="pInfo" style="font-size:12px; color:var(--text-muted); margin-top:10px;"></div><div class="page-thumbs" id="pThumbs" style="display:none;"></div><div class="options-grid" style="margin-top:16px;"><div><label class="option-label">Resolution</label><select class="field" id="pS"><option value="1">72 DPI</option><option value="1.5" selected>108 DPI</option><option value="2">144 DPI</option><option value="3">216 DPI</option></select></div><div><label class="option-label">Quality</label><select class="field" id="pQ"><option value="0.7">Medium</option><option value="0.85" selected>High</option><option value="0.95">Max</option></select></div></div>${progressUI()}${processBtnUI('pBtn', 'Extract as JPG (ZIP)')}</div>`,
   init(root) {
-    let file = null;
+    let file = null, ab = null, resultBlob = null;
     const input = $('#pIn', root), zone = $('label[for="pIn"]', root);
-    bindDrop(zone, input, fl => {
+    bindDrop(zone, input, async fl => {
       const f = fl[0]; if (!f) return;
       file = f;
+      ab = await readAB(f);
       $('#pInfo', root).textContent = `✓ ${f.name}`;
       $('#pBtn', root).disabled = false;
+      hideResult(root);
+      const thumbs = $('#pThumbs', root);
+      thumbs.style.display = 'grid';
+      await renderThumbs(ab, thumbs, { maxPages: 16, scale: 0.25 });
     });
     $('#pBtn', root).addEventListener('click', async () => {
       if (!PdfJsReady) return toast('pdf.js not loaded', 'error');
       $('#pBtn', root).disabled = true;
+      hideResult(root);
       setProgress(root, 5, 'Rendering…');
       try {
         const scale = parseFloat($('#pS', root).value);
         const quality = parseFloat($('#pQ', root).value);
-        const buf = await readAB(file);
-        const pdf = await pdfjsLib.getDocument({ data: buf }).promise;
+        const pdf = await pdfjsLib.getDocument({ data: ab.slice(0) }).promise;
         const zip = new JSZip();
         for (let i = 1; i <= pdf.numPages; i++) {
           setProgress(root, 5 + (i / pdf.numPages) * 85, `Page ${i} of ${pdf.numPages}…`);
@@ -1947,32 +2092,38 @@ const toolPdf2Jpg = {
           zip.file(`page-${String(i).padStart(3, '0')}.jpg`, blob);
         }
         setProgress(root, 95, 'Zipping…');
-        const zipBlob = await zip.generateAsync({ type: 'blob' });
-        const url = URL.createObjectURL(zipBlob);
-        const a = document.createElement('a');
-        a.href = url; a.download = 'pages.zip'; a.click();
-        setTimeout(() => URL.revokeObjectURL(url), 500);
-        setProgress(root, 100, 'Done!');
-        toast(`Exported ${pdf.numPages} JPG(s)`, 'success');
-        setTimeout(() => hideProgress(root), 1500);
-      } catch (e) { toast('Failed: ' + e.message, 'error'); hideProgress(root); }
-      finally { $('#pBtn', root).disabled = false; }
+        resultBlob = await zip.generateAsync({ type: 'blob' });
+        setProgress(root, 100, 'Ready!');
+        hideProgress(root);
+        showResult(root, `Exported ${pdf.numPages} JPG(s)`, 'ZIP archive ready', () => {
+          const url = URL.createObjectURL(resultBlob);
+          const a = document.createElement('a');
+          a.href = url; a.download = 'pages.zip'; a.click();
+          setTimeout(() => URL.revokeObjectURL(url), 500);
+          toast('Downloaded', 'success');
+        });
+      } catch (e) { toast('Failed: ' + e.message, 'error'); hideProgress(root); $('#pBtn', root).disabled = false; }
     });
   }
 };
 
 const toolRotate = {
-  html: `<div>${dropUI('rtIn', 'Drop a PDF', 'Rotate all or specific pages')}<div id="rtInfo" style="font-size:12px; color:var(--text-muted); margin-top:10px;"></div><div class="options-grid" style="margin-top:16px;"><div><label class="option-label">Angle</label><select class="field" id="rtA"><option value="90">90° clockwise</option><option value="180">180°</option><option value="270">90° counter-clockwise</option></select></div><div><label class="option-label">Pages</label><input type="text" id="rtP" class="field" value="all" placeholder="all or 1,3,5-7"></div></div>${actionBtnUI('rtBtn', 'Rotate PDF')}</div>`,
+  html: `<div>${dropUI('rtIn', 'Drop a PDF', 'Rotate all or specific pages')}<div id="rtInfo" style="font-size:12px; color:var(--text-muted); margin-top:10px;"></div><div class="page-thumbs" id="rtThumbs" style="display:none;"></div><div class="options-grid" style="margin-top:16px;"><div><label class="option-label">Angle</label><select class="field" id="rtA"><option value="90">90° clockwise</option><option value="180">180°</option><option value="270">90° counter-clockwise</option></select></div><div><label class="option-label">Pages</label><input type="text" id="rtP" class="field" value="all" placeholder="all or 1,3,5-7"></div></div>${progressUI()}${processBtnUI('rtBtn', 'Rotate PDF')}</div>`,
   init(root) {
-    let file = null, count = 0;
+    let file = null, count = 0, ab = null, resultBytes = null;
     const input = $('#rtIn', root), zone = $('label[for="rtIn"]', root);
     bindDrop(zone, input, async fl => {
       const f = fl[0]; if (!f) return;
       file = f;
-      const doc = await PDFLib.PDFDocument.load(await readAB(f), { ignoreEncryption: true });
+      ab = await readAB(f);
+      const doc = await PDFLib.PDFDocument.load(ab, { ignoreEncryption: true });
       count = doc.getPageCount();
       $('#rtInfo', root).textContent = `✓ ${f.name} — ${count} pages`;
       $('#rtBtn', root).disabled = false;
+      hideResult(root);
+      const thumbs = $('#rtThumbs', root);
+      thumbs.style.display = 'grid';
+      await renderThumbs(ab, thumbs, { maxPages: 20, scale: 0.28 });
     });
     $('#rtBtn', root).addEventListener('click', async () => {
       const angle = parseInt($('#rtA', root).value, 10);
@@ -1984,30 +2135,44 @@ const toolRotate = {
         if (p.includes('-')) { const [a, b] = p.split('-').map(Number); for (let i = a; i <= b; i++) set.add(i); }
         else set.add(Number(p));
       });
+      hideResult(root);
+      setProgress(root, 40, 'Rotating…');
       try {
-        const doc = await PDFLib.PDFDocument.load(await readAB(file), { ignoreEncryption: true });
+        const doc = await PDFLib.PDFDocument.load(ab, { ignoreEncryption: true });
         doc.getPages().forEach((pg, i) => { if (set.has(i + 1)) pg.setRotation(PDFLib.degrees(angle)); });
-        downloadBytes(await doc.save(), 'rotated.pdf');
-        toast(`Rotated ${set.size} page(s)`, 'success');
-      } catch (e) { toast('Failed: ' + e.message, 'error'); }
+        resultBytes = await doc.save();
+        setProgress(root, 100, 'Ready!');
+        hideProgress(root);
+        showResult(root, `Rotated ${set.size} page(s)`, 'Ready to download', () => {
+          downloadBytes(resultBytes, 'rotated.pdf');
+          toast('Downloaded', 'success');
+        });
+      } catch (e) { toast('Failed: ' + e.message, 'error'); hideProgress(root); }
     });
   }
 };
 
 const toolNumbers = {
-  html: `<div>${dropUI('nIn', 'Drop a PDF', 'Add page numbers')}<div id="nInfo" style="font-size:12px; color:var(--text-muted); margin-top:10px;"></div><div class="options-grid" style="margin-top:16px;"><div><label class="option-label">Position</label><select class="field" id="nP"><option value="bottom-center">Bottom center</option><option value="bottom-right">Bottom right</option><option value="bottom-left">Bottom left</option><option value="top-center">Top center</option><option value="top-right">Top right</option></select></div><div><label class="option-label">Format</label><select class="field" id="nF"><option value="n">1, 2, 3…</option><option value="n-of-t">1 of N</option><option value="page-n">Page 1</option></select></div><div><label class="option-label">Size</label><input type="number" id="nS" class="field" value="10" min="6" max="24"></div><div><label class="option-label">Start at</label><input type="number" id="nSt" class="field" value="1" min="1"></div></div>${actionBtnUI('nBtn', 'Add Page Numbers')}</div>`,
+  html: `<div>${dropUI('nIn', 'Drop a PDF', 'Add page numbers')}<div id="nInfo" style="font-size:12px; color:var(--text-muted); margin-top:10px;"></div><div class="page-thumbs" id="nThumbs" style="display:none;"></div><div class="options-grid" style="margin-top:16px;"><div><label class="option-label">Position</label><select class="field" id="nP"><option value="bottom-center">Bottom center</option><option value="bottom-right">Bottom right</option><option value="bottom-left">Bottom left</option><option value="top-center">Top center</option><option value="top-right">Top right</option></select></div><div><label class="option-label">Format</label><select class="field" id="nF"><option value="n">1, 2, 3…</option><option value="n-of-t">1 of N</option><option value="page-n">Page 1</option></select></div><div><label class="option-label">Size</label><input type="number" id="nS" class="field" value="10" min="6" max="24"></div><div><label class="option-label">Start at</label><input type="number" id="nSt" class="field" value="1" min="1"></div></div>${progressUI()}${processBtnUI('nBtn', 'Add Page Numbers')}</div>`,
   init(root) {
-    let file = null;
+    let file = null, ab = null, resultBytes = null;
     const input = $('#nIn', root), zone = $('label[for="nIn"]', root);
-    bindDrop(zone, input, fl => {
+    bindDrop(zone, input, async fl => {
       const f = fl[0]; if (!f) return;
       file = f;
+      ab = await readAB(f);
       $('#nInfo', root).textContent = `✓ ${f.name}`;
       $('#nBtn', root).disabled = false;
+      hideResult(root);
+      const thumbs = $('#nThumbs', root);
+      thumbs.style.display = 'grid';
+      await renderThumbs(ab, thumbs, { maxPages: 12, scale: 0.25 });
     });
     $('#nBtn', root).addEventListener('click', async () => {
+      hideResult(root);
+      setProgress(root, 40, 'Adding numbers…');
       try {
-        const doc = await PDFLib.PDFDocument.load(await readAB(file), { ignoreEncryption: true });
+        const doc = await PDFLib.PDFDocument.load(ab, { ignoreEncryption: true });
         const font = await doc.embedFont(PDFLib.StandardFonts.Helvetica);
         const size = parseInt($('#nS', root).value, 10);
         const pos = $('#nP', root).value;
@@ -2031,23 +2196,33 @@ const toolNumbers = {
           else x = (width - tw) / 2;
           pg.drawText(text, { x, y, size, font, color: PDFLib.rgb(0.25, 0.25, 0.3) });
         });
-        downloadBytes(await doc.save(), 'numbered.pdf');
-        toast('Page numbers added', 'success');
-      } catch (e) { toast('Failed: ' + e.message, 'error'); }
+        resultBytes = await doc.save();
+        setProgress(root, 100, 'Ready!');
+        hideProgress(root);
+        showResult(root, 'Page numbers added', 'Ready to download', () => {
+          downloadBytes(resultBytes, 'numbered.pdf');
+          toast('Downloaded', 'success');
+        });
+      } catch (e) { toast('Failed: ' + e.message, 'error'); hideProgress(root); }
     });
   }
 };
 
 const toolWatermark = {
-  html: `<div>${dropUI('wIn', 'Drop a PDF', 'Add a text watermark')}<div id="wInfo" style="font-size:12px; color:var(--text-muted); margin-top:10px;"></div><div style="margin-top:16px;"><label class="option-label">Watermark Text</label><input type="text" id="wT" class="field" value="CONFIDENTIAL"></div><div class="options-grid" style="margin-top:12px;"><div><label class="option-label">Opacity</label><input type="number" id="wO" class="field" value="0.15" min="0.05" max="1" step="0.05"></div><div><label class="option-label">Size</label><input type="number" id="wS" class="field" value="60" min="12" max="200"></div><div><label class="option-label">Angle</label><input type="number" id="wA" class="field" value="45" min="-180" max="180"></div><div><label class="option-label">Color</label><select class="field" id="wC"><option value="red">Red</option><option value="blue">Blue</option><option value="gray" selected>Gray</option><option value="black">Black</option></select></div></div>${actionBtnUI('wBtn', 'Add Watermark')}</div>`,
+  html: `<div>${dropUI('wIn', 'Drop a PDF', 'Add a text watermark')}<div id="wInfo" style="font-size:12px; color:var(--text-muted); margin-top:10px;"></div><div class="page-thumbs" id="wThumbs" style="display:none;"></div><div style="margin-top:16px;"><label class="option-label">Watermark Text</label><input type="text" id="wT" class="field" value="CONFIDENTIAL"></div><div class="options-grid" style="margin-top:12px;"><div><label class="option-label">Opacity</label><input type="number" id="wO" class="field" value="0.15" min="0.05" max="1" step="0.05"></div><div><label class="option-label">Size</label><input type="number" id="wS" class="field" value="60" min="12" max="200"></div><div><label class="option-label">Angle</label><input type="number" id="wA" class="field" value="45" min="-180" max="180"></div><div><label class="option-label">Color</label><select class="field" id="wC"><option value="red">Red</option><option value="blue">Blue</option><option value="gray" selected>Gray</option><option value="black">Black</option></select></div></div>${progressUI()}${processBtnUI('wBtn', 'Add Watermark')}</div>`,
   init(root) {
-    let file = null;
+    let file = null, ab = null, resultBytes = null;
     const input = $('#wIn', root), zone = $('label[for="wIn"]', root);
-    bindDrop(zone, input, fl => {
+    bindDrop(zone, input, async fl => {
       const f = fl[0]; if (!f) return;
       file = f;
+      ab = await readAB(f);
       $('#wInfo', root).textContent = `✓ ${f.name}`;
       $('#wBtn', root).disabled = false;
+      hideResult(root);
+      const thumbs = $('#wThumbs', root);
+      thumbs.style.display = 'grid';
+      await renderThumbs(ab, thumbs, { maxPages: 12, scale: 0.25 });
     });
     $('#wBtn', root).addEventListener('click', async () => {
       const text = $('#wT', root).value.trim();
@@ -2057,8 +2232,10 @@ const toolWatermark = {
       const angle = parseInt($('#wA', root).value, 10);
       const colorName = $('#wC', root).value;
       const colors = { red: PDFLib.rgb(0.9, 0.2, 0.2), blue: PDFLib.rgb(0.2, 0.4, 0.9), gray: PDFLib.rgb(0.5, 0.5, 0.5), black: PDFLib.rgb(0, 0, 0) };
+      hideResult(root);
+      setProgress(root, 40, 'Adding watermark…');
       try {
-        const doc = await PDFLib.PDFDocument.load(await readAB(file), { ignoreEncryption: true });
+        const doc = await PDFLib.PDFDocument.load(ab, { ignoreEncryption: true });
         const font = await doc.embedFont(PDFLib.StandardFonts.HelveticaBold);
         doc.getPages().forEach(pg => {
           const { width, height } = pg.getSize();
@@ -2070,29 +2247,75 @@ const toolWatermark = {
             size, font, color: colors[colorName], opacity, rotate: PDFLib.degrees(angle)
           });
         });
-        downloadBytes(await doc.save(), 'watermarked.pdf');
-        toast('Watermark added', 'success');
-      } catch (e) { toast('Failed: ' + e.message, 'error'); }
+        resultBytes = await doc.save();
+        setProgress(root, 100, 'Ready!');
+        hideProgress(root);
+        showResult(root, 'Watermark added', 'Ready to download', () => {
+          downloadBytes(resultBytes, 'watermarked.pdf');
+          toast('Downloaded', 'success');
+        });
+      } catch (e) { toast('Failed: ' + e.message, 'error'); hideProgress(root); }
     });
   }
 };
 
 const toolCrop = {
-  html: `<div>${dropUI('crIn', 'Drop a PDF', 'Trim page margins')}<div id="crInfo" style="font-size:12px; color:var(--text-muted); margin-top:10px;"></div><div class="options-grid" style="margin-top:16px;"><div><label class="option-label">Top (pt)</label><input type="number" id="crT" class="field" value="20" min="0"></div><div><label class="option-label">Right (pt)</label><input type="number" id="crR" class="field" value="20" min="0"></div><div><label class="option-label">Bottom (pt)</label><input type="number" id="crB" class="field" value="20" min="0"></div><div><label class="option-label">Left (pt)</label><input type="number" id="crL" class="field" value="20" min="0"></div></div>${actionBtnUI('crBtn', 'Crop PDF')}</div>`,
+  html: `<div>${dropUI('crIn', 'Drop a PDF', 'Trim page margins with live preview')}<div id="crInfo" style="font-size:12px; color:var(--text-muted); margin-top:10px;"></div><div class="page-thumbs" id="crThumbs" style="display:none;"></div><div class="options-grid" style="margin-top:16px;"><div><label class="option-label">Top (pt)</label><input type="number" id="crT" class="field" value="20" min="0"></div><div><label class="option-label">Right (pt)</label><input type="number" id="crR" class="field" value="20" min="0"></div><div><label class="option-label">Bottom (pt)</label><input type="number" id="crB" class="field" value="20" min="0"></div><div><label class="option-label">Left (pt)</label><input type="number" id="crL" class="field" value="20" min="0"></div></div><div style="margin-top:12px;"><button id="crPreviewBtn" class="btn btn-ghost" style="width:auto; padding:8px 16px;" disabled>Preview Crop on Page 1</button></div><div class="crop-preview-wrap" id="crPreview"></div>${progressUI()}${processBtnUI('crBtn', 'Crop All Pages')}</div>`,
   init(root) {
-    let file = null;
+    let file = null, ab = null, resultBytes = null, pdfJsDoc = null;
     const input = $('#crIn', root), zone = $('label[for="crIn"]', root);
-    bindDrop(zone, input, fl => {
+    bindDrop(zone, input, async fl => {
       const f = fl[0]; if (!f) return;
       file = f;
+      ab = await readAB(f);
       $('#crInfo', root).textContent = `✓ ${f.name}`;
       $('#crBtn', root).disabled = false;
+      $('#crPreviewBtn', root).disabled = false;
+      hideResult(root);
+      const thumbs = $('#crThumbs', root);
+      thumbs.style.display = 'grid';
+      await renderThumbs(ab, thumbs, { maxPages: 12, scale: 0.25 });
+      if (PdfJsReady) {
+        pdfJsDoc = await pdfjsLib.getDocument({ data: ab.slice(0) }).promise;
+      }
     });
+
+    $('#crPreviewBtn', root).addEventListener('click', async () => {
+      if (!pdfJsDoc) return;
+      const t = +$('#crT', root).value, r = +$('#crR', root).value;
+      const b = +$('#crB', root).value, l = +$('#crL', root).value;
+      const page = await pdfJsDoc.getPage(1);
+      const scale = 1.2;
+      const vp = page.getViewport({ scale });
+      const cv = document.createElement('canvas');
+      const fullW = vp.width, fullH = vp.height;
+      // Crop in canvas coordinates
+      const cropX = l * scale, cropY = t * scale;
+      const cropW = fullW - (l + r) * scale, cropH = fullH - (t + b) * scale;
+      if (cropW <= 0 || cropH <= 0) return toast('Crop margins too large', 'error');
+      cv.width = cropW; cv.height = cropH;
+      const ctx = cv.getContext('2d');
+      // Render full page then draw cropped region
+      const temp = document.createElement('canvas');
+      temp.width = fullW; temp.height = fullH;
+      const tctx = temp.getContext('2d');
+      tctx.fillStyle = '#fff'; tctx.fillRect(0, 0, fullW, fullH);
+      await page.render({ canvasContext: tctx, viewport: vp }).promise;
+      ctx.drawImage(temp, cropX, cropY, cropW, cropH, 0, 0, cropW, cropH);
+      const wrap = $('#crPreview', root);
+      wrap.innerHTML = '';
+      wrap.appendChild(cv);
+      wrap.classList.add('active');
+      toast('Crop preview updated', 'info', 1500);
+    });
+
     $('#crBtn', root).addEventListener('click', async () => {
       const t = +$('#crT', root).value, r = +$('#crR', root).value;
       const b = +$('#crB', root).value, l = +$('#crL', root).value;
+      hideResult(root);
+      setProgress(root, 40, 'Cropping…');
       try {
-        const doc = await PDFLib.PDFDocument.load(await readAB(file), { ignoreEncryption: true });
+        const doc = await PDFLib.PDFDocument.load(ab, { ignoreEncryption: true });
         doc.getPages().forEach(pg => {
           const { width, height } = pg.getSize();
           const nw = width - l - r, nh = height - t - b;
@@ -2100,23 +2323,33 @@ const toolCrop = {
           pg.setCropBox(l, b, nw, nh);
           pg.setMediaBox(l, b, nw, nh);
         });
-        downloadBytes(await doc.save(), 'cropped.pdf');
-        toast('Pages cropped', 'success');
-      } catch (e) { toast('Failed: ' + e.message, 'error'); }
+        resultBytes = await doc.save();
+        setProgress(root, 100, 'Ready!');
+        hideProgress(root);
+        showResult(root, 'Pages cropped', 'Ready to download', () => {
+          downloadBytes(resultBytes, 'cropped.pdf');
+          toast('Downloaded', 'success');
+        });
+      } catch (e) { toast('Failed: ' + e.message, 'error'); hideProgress(root); }
     });
   }
 };
 
 const toolSign = {
-  html: `<div>${dropUI('sgIn', 'Drop a PDF', 'Then upload your signature')}<div id="sgInfo" style="font-size:12px; color:var(--text-muted); margin-top:10px;"></div><div style="margin-top:16px;"><label class="option-label">Signature Image</label><label for="sgSig" class="drop-zone" style="padding:16px;"><p class="drop-zone-sub">Click to upload PNG/JPG</p></label><input type="file" id="sgSig" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;" accept="image/*"></div><div id="sgPrev" style="margin-top:10px;"></div><div class="options-grid" style="margin-top:16px;"><div><label class="option-label">Position</label><select class="field" id="sgP"><option value="br">Bottom Right</option><option value="bl">Bottom Left</option><option value="bc">Bottom Center</option><option value="tr">Top Right</option></select></div><div><label class="option-label">Width %</label><input type="number" id="sgW" class="field" value="25" min="5" max="80"></div><div><label class="option-label">Pages</label><input type="text" id="sgPg" class="field" value="last" placeholder="last, first, all, 1,3"></div></div>${actionBtnUI('sgBtn', 'Sign PDF')}</div>`,
+  html: `<div>${dropUI('sgIn', 'Drop a PDF', 'Then upload your signature')}<div id="sgInfo" style="font-size:12px; color:var(--text-muted); margin-top:10px;"></div><div class="page-thumbs" id="sgThumbs" style="display:none;"></div><div style="margin-top:16px;"><label class="option-label">Signature Image</label><label for="sgSig" class="drop-zone" style="padding:16px;"><p class="drop-zone-sub">Click to upload PNG/JPG</p></label><input type="file" id="sgSig" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;" accept="image/*"></div><div id="sgPrev" style="margin-top:10px;"></div><div class="options-grid" style="margin-top:16px;"><div><label class="option-label">Position</label><select class="field" id="sgP"><option value="br">Bottom Right</option><option value="bl">Bottom Left</option><option value="bc">Bottom Center</option><option value="tr">Top Right</option></select></div><div><label class="option-label">Width %</label><input type="number" id="sgW" class="field" value="25" min="5" max="80"></div><div><label class="option-label">Pages</label><input type="text" id="sgPg" class="field" value="last" placeholder="last, first, all, 1,3"></div></div>${progressUI()}${processBtnUI('sgBtn', 'Sign PDF')}</div>`,
   init(root) {
-    let file = null, sig = null;
+    let file = null, sig = null, ab = null, resultBytes = null;
     const input = $('#sgIn', root), zone = $('label[for="sgIn"]', root), sigInput = $('#sgSig', root);
-    bindDrop(zone, input, fl => {
+    bindDrop(zone, input, async fl => {
       const f = fl[0]; if (!f) return;
       file = f;
+      ab = await readAB(f);
       $('#sgInfo', root).textContent = `✓ ${f.name}`;
       update();
+      hideResult(root);
+      const thumbs = $('#sgThumbs', root);
+      thumbs.style.display = 'grid';
+      await renderThumbs(ab, thumbs, { maxPages: 12, scale: 0.25 });
     });
     sigInput.addEventListener('change', async () => {
       const f = sigInput.files[0]; if (!f) return;
@@ -2130,8 +2363,10 @@ const toolSign = {
       const pos = $('#sgP', root).value;
       const wPct = parseInt($('#sgW', root).value, 10) / 100;
       const spec = $('#sgPg', root).value.trim().toLowerCase();
+      hideResult(root);
+      setProgress(root, 40, 'Signing…');
       try {
-        const doc = await PDFLib.PDFDocument.load(await readAB(file), { ignoreEncryption: true });
+        const doc = await PDFLib.PDFDocument.load(ab, { ignoreEncryption: true });
         const sigData = await readAB(sig);
         let embedded;
         if (/png/i.test(sig.type)) embedded = await doc.embedPng(sigData);
@@ -2159,26 +2394,36 @@ const toolSign = {
           else { x = width - w - m; y = height - h - m; }
           pg.drawImage(embedded, { x, y, width: w, height: h });
         });
-        downloadBytes(await doc.save(), 'signed.pdf');
-        toast(`Signed ${targets.size} page(s)`, 'success');
-      } catch (e) { toast('Failed: ' + e.message, 'error'); }
+        resultBytes = await doc.save();
+        setProgress(root, 100, 'Ready!');
+        hideProgress(root);
+        showResult(root, `Signed ${targets.size} page(s)`, 'Ready to download', () => {
+          downloadBytes(resultBytes, 'signed.pdf');
+          toast('Downloaded', 'success');
+        });
+      } catch (e) { toast('Failed: ' + e.message, 'error'); hideProgress(root); }
     });
   }
 };
 
 const toolRedact = {
-  html: `<div>${dropUI('rdIn', 'Drop a PDF', 'Black out regions with rectangles')}<div id="rdInfo" style="font-size:12px; color:var(--text-muted); margin-top:10px;"></div><div style="padding:12px; background:var(--surface-2); border-radius:10px; font-size:11.5px; color:var(--text-dim); margin-top:14px; line-height:1.5;">Coordinates in PDF points (72pt = 1 inch), measured from bottom-left. So on A4 (595×842), x=50, y=50 is bottom-left area.</div><div id="rdRects" style="display:flex; flex-direction:column; gap:8px; margin-top:14px;"></div><button id="rdAdd" class="add-btn" style="margin-top:8px;">+ Add Rectangle</button>${actionBtnUI('rdBtn', 'Apply Redactions')}</div>`,
+  html: `<div>${dropUI('rdIn', 'Drop a PDF', 'Black out regions with rectangles')}<div id="rdInfo" style="font-size:12px; color:var(--text-muted); margin-top:10px;"></div><div class="page-thumbs" id="rdThumbs" style="display:none;"></div><div style="padding:12px; background:var(--surface-2); border-radius:10px; font-size:11.5px; color:var(--text-dim); margin-top:14px; line-height:1.5;">Coordinates in PDF points (72pt = 1 inch), measured from bottom-left. On A4 (595×842), x=50, y=50 is near the bottom-left corner.</div><div id="rdRects" style="display:flex; flex-direction:column; gap:8px; margin-top:14px;"></div><button id="rdAdd" class="add-btn" style="margin-top:8px;">+ Add Rectangle</button>${progressUI()}${processBtnUI('rdBtn', 'Apply Redactions')}</div>`,
   init(root) {
-    let file = null, pc = 0;
+    let file = null, pc = 0, ab = null, resultBytes = null;
     const input = $('#rdIn', root), zone = $('label[for="rdIn"]', root), rectsEl = $('#rdRects', root);
     bindDrop(zone, input, async fl => {
       const f = fl[0]; if (!f) return;
       file = f;
-      const doc = await PDFLib.PDFDocument.load(await readAB(f), { ignoreEncryption: true });
+      ab = await readAB(f);
+      const doc = await PDFLib.PDFDocument.load(ab, { ignoreEncryption: true });
       pc = doc.getPageCount();
       $('#rdInfo', root).textContent = `✓ ${f.name} — ${pc} pages`;
       $('#rdBtn', root).disabled = false;
-      addRect();
+      hideResult(root);
+      const thumbs = $('#rdThumbs', root);
+      thumbs.style.display = 'grid';
+      await renderThumbs(ab, thumbs, { maxPages: 16, scale: 0.25 });
+      if (!rectsEl.children.length) addRect();
     });
     function addRect() {
       const row = document.createElement('div');
@@ -2190,7 +2435,7 @@ const toolRedact = {
         <input type="number" class="field" data-k="y" placeholder="Y" value="50" style="padding:8px 6px; font-size:11px;">
         <input type="number" class="field" data-k="w" placeholder="Width" value="200" style="padding:8px 6px; font-size:11px;">
         <input type="number" class="field" data-k="h" placeholder="Height" value="40" style="padding:8px 6px; font-size:11px;">
-        <button class="btn btn-ghost" style="padding:6px;">✕</button>`;
+        <button class="btn btn-ghost" style="padding:6px;" type="button">✕</button>`;
       row.querySelector('button').addEventListener('click', () => row.remove());
       rectsEl.appendChild(row);
     }
@@ -2198,8 +2443,10 @@ const toolRedact = {
     $('#rdBtn', root).addEventListener('click', async () => {
       const rows = $$('.redact-row', rectsEl);
       if (!rows.length) return toast('Add at least one rectangle', 'error');
+      hideResult(root);
+      setProgress(root, 40, 'Applying redactions…');
       try {
-        const doc = await PDFLib.PDFDocument.load(await readAB(file), { ignoreEncryption: true });
+        const doc = await PDFLib.PDFDocument.load(ab, { ignoreEncryption: true });
         const pages = doc.getPages();
         rows.forEach(r => {
           const p = parseInt(r.querySelector('[data-k="page"]').value, 10) - 1;
@@ -2209,9 +2456,14 @@ const toolRedact = {
           const h = +r.querySelector('[data-k="h"]').value;
           if (pages[p]) pages[p].drawRectangle({ x, y, width: w, height: h, color: PDFLib.rgb(0, 0, 0) });
         });
-        downloadBytes(await doc.save(), 'redacted.pdf');
-        toast('Redactions applied', 'success');
-      } catch (e) { toast('Failed: ' + e.message, 'error'); }
+        resultBytes = await doc.save();
+        setProgress(root, 100, 'Ready!');
+        hideProgress(root);
+        showResult(root, 'Redactions applied', 'Ready to download', () => {
+          downloadBytes(resultBytes, 'redacted.pdf');
+          toast('Downloaded', 'success');
+        });
+      } catch (e) { toast('Failed: ' + e.message, 'error'); hideProgress(root); }
     });
   }
 };
@@ -2220,32 +2472,21 @@ const toolRedact = {
    TOOL REGISTRY
    ============================================================ */
 const TOOLS = [
-  // Organize (blue)
   { id:'merge', cat:'organize', name:'Merge PDF', desc:'Combine multiple PDFs into one file.', icon:'merge', color:'blue', tool: toolMerge },
-  { id:'split', cat:'organize', name:'Split PDF', desc:'Split by page range.', icon:'split', color:'blue', tool: toolSplit },
-  { id:'remove', cat:'organize', name:'Remove Pages', desc:'Delete unwanted pages.', icon:'remove', color:'blue', tool: toolRemove },
+  { id:'split', cat:'organize', name:'Split PDF', desc:'Split by page range with live preview.', icon:'split', color:'blue', tool: toolSplit },
+  { id:'remove', cat:'organize', name:'Remove Pages', desc:'Delete unwanted pages visually.', icon:'remove', color:'blue', tool: toolRemove },
   { id:'extract', cat:'organize', name:'Extract Pages', desc:'Pull out specific pages.', icon:'extract', color:'blue', tool: toolExtract },
-  { id:'organize', cat:'organize', name:'Organize PDF', desc:'Reorder pages visually.', icon:'organize', color:'blue', tool: toolOrganize },
-
-  // Optimize (green/purple)
+  { id:'organize', cat:'organize', name:'Organize PDF', desc:'Drag pages to reorder.', icon:'organize', color:'blue', tool: toolOrganize },
   { id:'compress', cat:'optimize', name:'Compress PDF', desc:'Reduce file size.', icon:'compress', color:'green', tool: toolCompress },
   { id:'repair', cat:'optimize', name:'Repair PDF', desc:'Fix corrupted files.', icon:'repair', color:'green', tool: toolRepair },
   { id:'optimize', cat:'optimize', name:'Optimize PDF', desc:'Rebuild and clean PDF structure.', icon:'optimize', color:'purple', tool: toolRepair },
-
-  // Convert to PDF (violet/pink/amber)
   { id:'jpg2pdf', cat:'convertTo', name:'JPG to PDF', desc:'Images to A4 PDF.', icon:'jpg2pdf', color:'amber', tool: toolJpg2Pdf },
   { id:'html2pdf', cat:'convertTo', name:'HTML to PDF', desc:'Web content to PDF.', icon:'html2pdf', color:'purple', tool: toolHtml2Pdf },
-
-  // Convert from PDF (pink/red)
   { id:'pdf2jpg', cat:'convertFrom', name:'PDF to JPG', desc:'Pages to images (ZIP).', icon:'pdf2jpg', color:'red', tool: toolPdf2Jpg },
   { id:'rotate', cat:'convertFrom', name:'Rotate PDF', desc:'Rotate pages.', icon:'rotate', color:'purple', tool: toolRotate },
-
-  // Edit (orange/teal/red)
   { id:'numbers', cat:'edit', name:'Page Numbers', desc:'Add page numbering.', icon:'numbers', color:'amber', tool: toolNumbers },
   { id:'watermark', cat:'edit', name:'Watermark', desc:'Stamp text on pages.', icon:'watermark', color:'teal', tool: toolWatermark },
-  { id:'crop', cat:'edit', name:'Crop PDF', desc:'Trim margins.', icon:'crop', color:'rose', tool: toolCrop },
-
-  // Security (rose/indigo)
+  { id:'crop', cat:'edit', name:'Crop PDF', desc:'Trim margins with live preview.', icon:'crop', color:'rose', tool: toolCrop },
   { id:'sign', cat:'security', name:'Sign PDF', desc:'Add signature image.', icon:'sign', color:'indigo', tool: toolSign },
   { id:'redact', cat:'security', name:'Redact PDF', desc:'Black out regions.', icon:'redact', color:'rose', tool: toolRedact }
 ];
@@ -2260,7 +2501,7 @@ const CATEGORIES = [
 ];
 
 /* ============================================================
-   STATE — Favorites, Recent
+   STATE
    ============================================================ */
 const store = {
   getFavs() { try { return JSON.parse(localStorage.getItem('pdftk-favs') || '[]'); } catch { return []; } },
@@ -2283,7 +2524,7 @@ const store = {
 };
 
 /* ============================================================
-   RENDER CARD
+   RENDER
    ============================================================ */
 function renderCard(tool) {
   const v = VISUAL[tool.color];
@@ -2292,8 +2533,6 @@ function renderCard(tool) {
   const bg = isDark ? v.darkCardBg : v.cardBg;
   const border = isDark ? v.darkCardBorder : v.cardBorder;
 
-  // FIX: use div with role="button" — nested <button> is invalid HTML
-  // and was breaking clicks on cards and favorite hearts.
   const card = document.createElement('div');
   card.className = 'tool-card';
   card.setAttribute('role', 'button');
@@ -2317,7 +2556,6 @@ function renderCard(tool) {
     <div class="tool-card-desc">${tool.desc}</div>
   `;
 
-  // Fav button
   card.querySelector('.fav-btn').addEventListener('click', (e) => {
     e.stopPropagation();
     const nowFav = store.toggleFav(tool.id);
@@ -2330,23 +2568,15 @@ function renderCard(tool) {
 
   card.addEventListener('click', () => openToolModal(tool));
   card.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      openToolModal(tool);
-    }
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openToolModal(tool); }
   });
-
   return card;
 }
 
-/* ============================================================
-   RENDER CATEGORY SECTION
-   ============================================================ */
 function renderCategory(cat, container) {
   const catEl = document.createElement('div');
   catEl.className = 'category';
   const tools = TOOLS.filter(t => t.cat === cat.id);
-
   catEl.innerHTML = `
     <div class="cat-header">
       <div class="cat-title-wrap">
@@ -2363,14 +2593,9 @@ function renderCategory(cat, container) {
   container.appendChild(catEl);
 }
 
-/* ============================================================
-   VIEWS
-   ============================================================ */
 function renderHomeView() {
   const c = document.getElementById('homeContent');
   c.innerHTML = '';
-
-  // Featured CV Builder
   const featured = document.createElement('button');
   featured.className = 'featured-card';
   const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
@@ -2386,7 +2611,6 @@ function renderHomeView() {
   `;
   featured.addEventListener('click', () => switchView('cv'));
   c.appendChild(featured);
-
   CATEGORIES.forEach(cat => renderCategory(cat, c));
 }
 
@@ -2460,7 +2684,6 @@ document.querySelectorAll('.nav-item').forEach(btn => {
   btn.addEventListener('click', () => switchView(btn.dataset.view));
 });
 
-/* Mobile menu */
 document.getElementById('mobileMenuBtn').addEventListener('click', () => {
   document.getElementById('sidebar').classList.toggle('open');
   document.getElementById('sidebarBackdrop').classList.toggle('active');
@@ -2645,7 +2868,7 @@ setTimeout(() => {
 }, 300);
 
 console.log('%c PDF Toolkit ready ', 'background:#3B82F6; color:#fff; font-weight:700; padding:6px 12px; border-radius:6px;');
-console.log('16 tools · 100% client-side · ' + TOOLS.length + ' loaded');
+console.log('16 tools · 100% client-side · live previews · ' + TOOLS.length + ' loaded');
 </script>
 
 </body>
