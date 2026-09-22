@@ -7,6 +7,15 @@
 <meta name="description" content="16 free PDF tools that run 100% in your browser. Merge, split, compress, convert, sign, redact, and build a CV. Your files never leave your device." />
 <meta name="robots" content="index, follow" />
 
+  <link rel="manifest" href="/manifest.json" />
+<link rel="icon" type="image/png" href="/icons/icon-192.png" />
+<link rel="apple-touch-icon" href="/icons/icon-192.png" />
+<meta name="theme-color" content="#3B82F6" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<meta name="apple-mobile-web-app-title" content="PDF Toolkit" />
+<link rel="canonical" href="https://www.pdf.salaroutsourcing.com/" />
+
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
@@ -2871,5 +2880,15 @@ console.log('%c PDF Toolkit ready ', 'background:#3B82F6; color:#fff; font-weigh
 console.log('16 tools · 100% client-side · live previews · ' + TOOLS.length + ' loaded');
 </script>
 
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js').catch((err) => {
+        console.warn('SW registration failed:', err);
+      });
+    });
+  }
+</script>
+  
 </body>
 </html>
