@@ -1,0 +1,28 @@
+name: PDF workflows
+on:
+  push:
+    branches: [main, fix/pdf-tools-office-discovery]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  browser-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run vendor
+      - run: npm run content
+      - run: git diff --exit-code -- index.html sitemap.xml vendor merge-pdf split-pdf compress-pdf redact-pdf ocr-pdf office-pdf-workspace privacy
+      - run: npx playwright install --with-deps chromium
+      - run: npm test
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: test-results
+          path: test-results/

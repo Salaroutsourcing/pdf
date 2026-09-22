@@ -1,61 +1,16 @@
-// sw.js — PDF Toolkit Service Worker
-const CACHE_NAME = 'pdftk-v1';
-const PRECACHE = [
-  '/',
-  '/index.html',
-  '/manifest.json'
-];
-
-// CDN assets we want available offline
-const CDN_CACHE = 'pdftk-cdn-v1';
-
-self.addEventListener('install', (event) => {
-  self.skipWaiting();
-  event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(PRECACHE))
-  );
-});
-
-self.addEventListener('activate', (event) => {
-  event.waitUntil(
-    caches.keys().then(keys => Promise.all(
-      keys.filter(k => k !== CACHE_NAME && k !== CDN_CACHE)
-          .map(k => caches.delete(k))
-    )).then(() => self.clients.claim())
-  );
-});
-
-self.addEventListener('fetch', (event) => {
-  const req = event.request;
-  if (req.method !== 'GET') return;
-  const url = new URL(req.url);
-
-  // Don't intercept cross-origin API calls (none expected, but safe)
-  if (url.origin !== self.location.origin && !url.hostname.includes('cdn')) return;
-
-  // CDN assets: stale-while-revalidate
-  if (url.hostname.includes('cdnjs') || url.hostname.includes('unpkg') || url.hostname.includes('jsdelivr')) {
-    event.respondWith(
-      caches.open(CDN_CACHE).then(async (cache) => {
-        const cached = await cache.match(req);
-        const fetched = fetch(req).then(res => {
-          if (res.ok) cache.put(req, res.clone());
-          return res;
-        }).catch(() => cached);
-        return cached || fetched;
-      })
-    );
-    return;
-  }
-
-  // Same-origin: network-first, fall back to cache
-  event.respondWith(
-    fetch(req).then(res => {
-      if (res.ok && url.origin === self.location.origin) {
-        const clone = res.clone();
-        caches.open(CACHE_NAME).then(c => c.put(req, clone));
-      }
-      return res;
-    }).catch(() => caches.match(req).then(r => r || caches.match('/index.html')))
-  );
+const CACHE = 'pdftk-static-v2';
+const CORE = ['/', '/index.html', '/manifest.json', '/vendor/pdf-lib.min.js', '/vendor/pdf.mjs', '/vendor/pdf.worker.mjs', '/vendor/jszip.min.js', '/vendor/html2pdf.bundle.min.js', '/vendor/tesseract.min.js', '/icon/web-app-manifest-192x192.png', '/icon/web-app-manifest-512x512.png'];
+self.addEventListener('install', event => event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(CORE))));
+self.addEventListener('activate', event => event.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k => k.startsWith('pdftk-') && k !== CACHE).map(k => caches.delete(k)))).then(() => self.clients.claim())));
+self.addEventListener('fetch', event => {
+  const request = event.request, url = new URL(request.url);
+  // Cache public, same-origin static resources only. Never intercept document data or external requests.
+  if (request.method !== 'GET' || url.origin !== self.location.origin || url.search) return;
+  const known = CORE.includes(url.pathname) || /^\/vendor\/[a-zA-Z0-9/_.-]+$/.test(url.pathname);
+  if (!known) return;
+  event.respondWith((async () => {
+    const cache = await caches.open(CACHE);
+    try { const response = await fetch(request); if(response.ok) await cache.put(request,response.clone()); return response; }
+    catch { return (await cache.match(request)) || Response.error(); }
+  })());
 });
