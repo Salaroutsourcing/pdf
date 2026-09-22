@@ -2481,35 +2481,130 @@ const toolRedact = {
 /* ============================================================
    TOOL REGISTRY
    ============================================================ */
-const TOOLS = [
-  { id:'merge', cat:'organize', name:'Merge PDF', desc:'Combine multiple PDFs into one file.', icon:'merge', color:'blue', tool: toolMerge },
-  { id:'split', cat:'organize', name:'Split PDF', desc:'Split by page range with live preview.', icon:'split', color:'blue', tool: toolSplit },
-  { id:'remove', cat:'organize', name:'Remove Pages', desc:'Delete unwanted pages visually.', icon:'remove', color:'blue', tool: toolRemove },
-  { id:'extract', cat:'organize', name:'Extract Pages', desc:'Pull out specific pages.', icon:'extract', color:'blue', tool: toolExtract },
-  { id:'organize', cat:'organize', name:'Organize PDF', desc:'Drag pages to reorder.', icon:'organize', color:'blue', tool: toolOrganize },
-  { id:'compress', cat:'optimize', name:'Compress PDF', desc:'Reduce file size.', icon:'compress', color:'green', tool: toolCompress },
-  { id:'repair', cat:'optimize', name:'Repair PDF', desc:'Fix corrupted files.', icon:'repair', color:'green', tool: toolRepair },
-  { id:'optimize', cat:'optimize', name:'Optimize PDF', desc:'Rebuild and clean PDF structure.', icon:'optimize', color:'purple', tool: toolRepair },
-  { id:'ocr', cat:'optimize', name:'OCR PDF', desc:'Extract text from scanned PDFs.', icon:'ocr', color:'pink', tool: toolOCR },
-  { id:'jpg2pdf', cat:'convertTo', name:'JPG to PDF', desc:'Images to A4 PDF.', icon:'jpg2pdf', color:'amber', tool: toolJpg2Pdf },
-  { id:'html2pdf', cat:'convertTo', name:'HTML to PDF', desc:'Web content to PDF.', icon:'html2pdf', color:'purple', tool: toolHtml2Pdf },
-  { id:'pdf2jpg', cat:'convertFrom', name:'PDF to JPG', desc:'Pages to images (ZIP).', icon:'pdf2jpg', color:'red', tool: toolPdf2Jpg },
-  { id:'rotate', cat:'convertFrom', name:'Rotate PDF', desc:'Rotate pages.', icon:'rotate', color:'purple', tool: toolRotate },
-  { id:'numbers', cat:'edit', name:'Page Numbers', desc:'Add page numbering.', icon:'numbers', color:'amber', tool: toolNumbers },
-  { id:'watermark', cat:'edit', name:'Watermark', desc:'Stamp text on pages.', icon:'watermark', color:'teal', tool: toolWatermark },
-  { id:'crop', cat:'edit', name:'Crop PDF', desc:'Trim margins with live preview.', icon:'crop', color:'rose', tool: toolCrop },
-  { id:'sign', cat:'security', name:'Sign PDF', desc:'Add signature image.', icon:'sign', color:'indigo', tool: toolSign },
-  { id:'redact', cat:'security', name:'Redact PDF', desc:'Black out regions.', icon:'redact', color:'rose', tool: toolRedact }
-];
+const toolOCR = {
+  html: `<div>${dropUI('ocrIn', 'Drop a scanned PDF', 'OCR runs entirely in your browser — no uploads')}<div id="ocrInfo" style="font-size:12px; color:var(--text-muted); margin-top:10px;"></div><div class="page-thumbs" id="ocrThumbs" style="display:none;"></div><div class="options-grid" style="margin-top:16px;"><div><label class="option-label">Resolution (DPI)</label><select class="field" id="ocrScale"><option value="1.5">150 DPI</option><option value="2" selected>200 DPI</option><option value="3">300 DPI (slow)</option></select></div></div>${progressUI()}${processBtnUI('ocrBtn', 'Extract Text')}</div>`,
+  init(root) {
+    let file = null, ab = null, resultTxt = null, resultPdf = null;
+    const input = $('#ocrIn', root), zone = $('label[for="ocrIn"]', root);
+    const btn = $('#ocrBtn', root);
 
-const CATEGORIES = [
-  { id:'organize', name:'Organize PDF', color:'#3B82F6' },
-  { id:'optimize', name:'Optimize PDF', color:'#10B981' },
-  { id:'convertTo', name:'Convert to PDF', color:'#8B5CF6' },
-  { id:'convertFrom', name:'Convert from PDF', color:'#EC4899' },
-  { id:'edit', name:'Edit PDF', color:'#F59E0B' },
-  { id:'security', name:'PDF Security', color:'#F43F5E' }
-];
+    bindDrop(zone, input, async fl => {
+      const f = fl[0]; if (!f) return;
+      if (!PdfJsReady) return toast('PDF engine not loaded', 'error');
+      file = f;
+      try {
+        ab = await readAB(f);
+        const doc = await pdfjsLib.getDocument({ data: ab.slice(0) }).promise;
+        $('#ocrInfo', root).textContent = `✓ ${f.name} — ${doc.numPages} pages ready for OCR`;
+        btn.disabled = false;
+        hideResult(root);
+        const thumbs = $('#ocrThumbs', root);
+        thumbs.style.display = 'grid';
+        await renderThumbs(ab, thumbs, { maxPages: 12, scale: 0.25 });
+      } catch (e) {
+        toast('Cannot read PDF: ' + e.message, 'error');
+      }
+    });
+
+    btn.addEventListener('click', async () => {
+      if (!file) return;
+      btn.disabled = true;
+      const scale = parseFloat($('#ocrScale', root).value);
+      hideResult(root);
+      const worker = new Worker('/js/ocr-worker.js');
+      setProgress(root, 1, 'Loading OCR engine…');
+      try {
+        const pdf = await pdfjsLib.getDocument({ data: ab.slice(0) }).promise;
+        const totalPages = pdf.numPages;
+        const results = new Array(totalPages).fill('');
+        let completed = 0;
+
+        worker.onmessage = (e) => {
+          const msg = e.data;
+          if (msg.type === 'progress') {
+            const overall = ((completed + msg.progress) / totalPages) * 100;
+            setProgress(root, Math.max(1, overall), `${msg.status}… (${completed}/${totalPages} pages)`);
+          } else if (msg.type === 'result') {
+            results[msg.pageIndex] = msg.text;
+            completed++;
+            setProgress(root, (completed / totalPages) * 100, `Processed ${completed}/${totalPages} pages`);
+          }
+        };
+
+        for (let i = 0; i < totalPages; i++) {
+          const page = await pdf.getPage(i + 1);
+          const viewport = page.getViewport({ scale });
+          const canvas = new OffscreenCanvas(viewport.width, viewport.height);
+          const ctx = canvas.getContext('2d');
+          ctx.fillStyle = '#ffffff';
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+          await page.render({ canvasContext: ctx, viewport }).promise;
+          const bitmap = canvas.transferToImageBitmap();
+
+          await new Promise((resolve) => {
+            const handler = (ev) => {
+              if (ev.data.pageIndex === i && (ev.data.type === 'result' || ev.data.type === 'error')) {
+                worker.removeEventListener('message', handler);
+                resolve();
+              }
+            };
+            worker.addEventListener('message', handler);
+            worker.postMessage({ type: 'recognize', bitmap, pageIndex: i }, [bitmap]);
+          });
+        }
+        worker.postMessage({ type: 'terminate' });
+
+        const fullText = results
+          .map((text, i) => `===== PAGE ${i + 1} =====\n${text.trim()}`)
+          .join('\n\n');
+
+        resultTxt = new Blob([fullText], { type: 'text/plain;charset=utf-8' });
+
+        try {
+          const srcDoc = await PDFLib.PDFDocument.load(ab, { ignoreEncryption: true });
+          const font = await srcDoc.embedFont(PDFLib.StandardFonts.Helvetica);
+          const pages = srcDoc.getPages();
+          pages.forEach((pg, i) => {
+            const text = (results[i] || '').slice(0, 4000);
+            if (!text.trim()) return;
+            const { height } = pg.getSize();
+            pg.drawText(text.replace(/\s+/g, ' ').slice(0, 500), {
+              x: 20, y: height - 20, size: 1,
+              font, color: PDFLib.rgb(1, 1, 1), opacity: 0.01
+            });
+          });
+          resultPdf = await srcDoc.save();
+        } catch (e) {
+          console.warn('Searchable PDF overlay failed:', e);
+        }
+
+        setProgress(root, 100, 'Ready!');
+        hideProgress(root);
+        showResult(root, `OCR complete — ${totalPages} pages`, 'TXT + searchable PDF ready', () => {
+          if (resultTxt) {
+            const url = URL.createObjectURL(resultTxt);
+            const a = document.createElement('a');
+            a.href = url; a.download = file.name.replace(/\.pdf$/i, '') + '_ocr.txt';
+            document.body.appendChild(a); a.click();
+            setTimeout(() => { a.remove(); URL.revokeObjectURL(url); }, 500);
+          }
+          if (resultPdf) {
+            setTimeout(() => {
+              downloadBytes(resultPdf, file.name.replace(/\.pdf$/i, '') + '_searchable.pdf');
+            }, 400);
+          }
+          toast('Downloaded OCR results', 'success');
+        });
+      } catch (err) {
+        console.error(err);
+        toast('OCR failed: ' + err.message, 'error');
+        hideProgress(root);
+        btn.disabled = false;
+      }
+    });
+  }
+};
+
   
 /* ============================================================
    STATE
