@@ -1698,6 +1698,7 @@ const toolMerge = {
     function handle(fl) {
       const pdfs = [...fl].filter(f => f.type === 'application/pdf' || f.name.toLowerCase().endsWith('.pdf'));
       if (!pdfs.length) return toast('Only PDF files accepted', 'error');
+      if ([...files,...pdfs].reduce((n,f)=>n+f.size,0)>200*1024*1024) return toast("Combined input exceeds 200 MB.","error");
       files = files.concat(pdfs);
       render();
     }
@@ -1900,7 +1901,7 @@ const toolOrganize = {
       const doc = await PDFLib.PDFDocument.load(ab, { ignoreEncryption: false });
       const count = doc.getPageCount();
       order = Array.from({ length: count }, (_, i) => i);
-      $('#oInfo', root).textContent = `✓ ${count} pages — drag thumbnails to reorder`;
+      $('#oInfo', root).textContent = `✓ ${count} pages — reorder the first ${Math.min(count,50)} using arrows or drag. Remaining pages stay at the end.`;
       $('#oBtn', root).disabled = false;
       hideResult(root);
       const grid = $('#oGrid', root);
@@ -1923,8 +1924,23 @@ const toolOrganize = {
 
     function makeThumbsSortable(container, orderArr, onChange) {
       let dragEl = null;
+      function syncOrder() {
+        const visible = [...container.querySelectorAll('.page-thumb')].map(t => +t.dataset.page - 1);
+        const remainder = orderArr.filter(n => !visible.includes(n));
+        orderArr.splice(0, orderArr.length, ...visible, ...remainder);
+        hideResult(root); $('#oBtn',root).disabled=false;
+        onChange();
+      }
       $$('.page-thumb', container).forEach(thumb => {
         thumb.draggable = true;
+        const controls = document.createElement('div');
+        for (const [direction,label] of [[-1,'Move page earlier'],[1,'Move page later']]) {
+          const button = document.createElement('button'); button.type='button'; button.className='btn btn-ghost';
+          button.style.cssText='padding:4px 8px;width:auto;'; button.textContent=direction<0?'←':'→'; button.setAttribute('aria-label',label+' '+thumb.dataset.page);
+          button.addEventListener('click',()=>{ const neighbor=direction<0?thumb.previousElementSibling:thumb.nextElementSibling; if(!neighbor)return; if(direction<0)container.insertBefore(thumb,neighbor);else container.insertBefore(neighbor,thumb); syncOrder(); button.focus(); });
+          controls.append(button);
+        }
+        thumb.append(controls);
         thumb.addEventListener('dragstart', e => {
           dragEl = thumb;
           thumb.classList.add('dragging');
@@ -1933,10 +1949,7 @@ const toolOrganize = {
         thumb.addEventListener('dragend', () => {
           thumb.classList.remove('dragging');
           // rebuild order from DOM
-          const newOrder = [...container.querySelectorAll('.page-thumb')].map(t => +t.dataset.page - 1);
-          orderArr.length = 0;
-          orderArr.push(...newOrder);
-          onChange();
+          syncOrder();
         });
         thumb.addEventListener('dragover', e => { e.preventDefault(); e.dataTransfer.dropEffect = 'move'; });
         thumb.addEventListener('drop', e => {
@@ -2066,6 +2079,7 @@ const toolJpg2Pdf = {
     bindDrop(zone, input, fl => {
       const valid = [...fl].filter(f => /image\//.test(f.type));
       if (!valid.length) return toast('No images', 'error');
+      if ([...imgs,...valid].reduce((n,f)=>n+f.size,0)>200*1024*1024) return toast("Combined input exceeds 200 MB.","error");
       imgs = imgs.concat(valid); render();
     });
     function render() {
