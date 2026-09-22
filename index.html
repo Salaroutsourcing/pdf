@@ -3,24 +3,29 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>PDF Toolkit — Simple Tools · Fast Results · All in One Place</title>
-<meta name="description" content="16 free PDF tools that run 100% in your browser. Merge, split, compress, convert, sign, redact, and build a CV. Your files never leave your device." />
-<meta name="robots" content="index, follow" />
+<title>Free Private PDF Tools for Your Office | PDF Toolkit</title>
+<meta name="description" content="17 free PDF tools that run 100% in your browser. Merge, split, compress, convert, sign, redact, and build a CV. Your files never leave your device." />
+<meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large" />
+<meta property="og:title" content="PDF Toolkit — Your office PDF workspace" />
+<meta property="og:description" content="Private PDF tools for everyday office work. Merge, split, convert and prepare documents in your browser." />
+<meta property="og:url" content="https://www.pdf.salaroutsourcing.com/" />
+<meta property="og:type" content="website" />
 
   <link rel="manifest" href="/manifest.json" />
-<link rel="icon" type="image/png" href="/icons/icon-192.png" />
-<link rel="apple-touch-icon" href="/icons/icon-192.png" />
+<link rel="icon" type="image/png" href="/icon/web-app-manifest-192x192.png" />
+<link rel="apple-touch-icon" href="/icon/web-app-manifest-192x192.png" />
 <meta name="theme-color" content="#3B82F6" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
 <meta name="apple-mobile-web-app-title" content="PDF Toolkit" />
 <link rel="canonical" href="https://www.pdf.salaroutsourcing.com/" />
 
-<script src="https://cdn.tailwindcss.com"></script>
-<script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+<script src="/vendor/pdf-lib.min.js"></script>
+
+<script src="/vendor/html2pdf.bundle.min.js"></script>
+<script src="/vendor/jszip.min.js"></script>
+<script src="/vendor/tesseract.min.js"></script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -31,7 +36,7 @@
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
   "name": "PDF Toolkit",
-  "description": "A 100% client-side PDF utility suite with 16 tools. All processing occurs locally in the browser with zero data storage.",
+  "description": "A 100% client-side PDF utility suite with 17 tools. All processing occurs locally in the browser without uploading document contents. Browser preferences are stored locally.",
   "applicationCategory": "UtilitiesApplication",
   "operatingSystem": "Web",
   "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
@@ -858,6 +863,7 @@ select.field { cursor: pointer; }
   font-weight: 600;
   text-align: center;
   padding: 3px 0;
+  pointer-events: none;
 }
 .page-thumb .order-badge {
   position: absolute;
@@ -1051,12 +1057,28 @@ select.field { cursor: pointer; }
   .sidebar-backdrop.active { display: block; }
   .trust-badge { display: none; }
 }
+
+.office-banner { margin:0 0 26px; padding:28px; border:1px solid var(--border); border-radius:20px; background:var(--surface); display:grid; gap:18px; }
+.office-eyebrow { font-size:10px; font-weight:800; letter-spacing:.14em; color:#2563eb; }
+.office-banner h2 { font-size:clamp(22px,3vw,32px); margin:8px 0; letter-spacing:-.04em; }
+.office-banner p { color:var(--text-dim); line-height:1.65; font-size:13px; max-width:740px; }
+.office-banner label { display:block; font-size:12px; font-weight:600; margin-bottom:8px; }
+.office-controls,.office-actions { display:flex; gap:10px; flex-wrap:wrap; }
+.office-controls input { flex:1; min-width:180px; }
+.office-controls .btn,.office-actions .btn { width:auto; }
+.office-banner .office-note { font-size:11px; }
+.public-guide { padding:26px; border:1px solid var(--border); border-radius:16px; margin-top:24px; background:var(--surface); line-height:1.8; }
+.public-guide a { color:#2563eb; text-decoration:underline; }
+.public-guide ul { padding-left:20px; }
+:focus-visible { outline:3px solid #2563eb; outline-offset:4px; }
+@media(prefers-reduced-motion:reduce) { *,*::before,*::after { animation:none!important; transition:none!important; scroll-behavior:auto!important; } }
+@media(max-width:600px) { .office-banner { padding:18px; } .office-controls .btn { width:100%; } }
 </style>
 </head>
 
 <body>
 
-<div id="loading">
+<div id="loading" aria-hidden="true">
   <div class="loader-ring"></div>
   <p style="font-size:12px; color:var(--text-muted); font-weight:600;">Loading tools…</p>
 </div>
@@ -1111,7 +1133,7 @@ select.field { cursor: pointer; }
   <div class="main">
     <header class="topbar">
       <div class="topbar-left">
-        <button class="mobile-menu-btn" id="mobileMenuBtn">
+        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open navigation">
           <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/></svg>
         </button>
         <div>
@@ -1126,7 +1148,7 @@ select.field { cursor: pointer; }
             <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12.516 2.17a.75.75 0 00-1.032 0 11.209 11.209 0 01-7.877 3.08.75.75 0 00-.722.515A12.74 12.74 0 002.25 9.75c0 5.942 4.064 10.933 9.563 12.348a.749.749 0 00.374 0c5.499-1.415 9.563-6.406 9.563-12.348 0-1.39-.223-2.73-.635-3.985a.75.75 0 00-.722-.516l-.143.001c-2.996 0-5.717-1.17-7.734-3.08zm3.094 8.016a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" clip-rule="evenodd"/></svg>
           </div>
           <div class="trust-text">
-            <strong>Safe &amp; Secure</strong>
+            <strong>Processed locally</strong>
             <span>Your files are private</span>
           </div>
         </div>
@@ -1139,7 +1161,13 @@ select.field { cursor: pointer; }
     </header>
 
     <main class="content">
-      <div class="view active" id="view-home"><div id="homeContent"></div></div>
+      <section class="office-banner" aria-labelledby="officeHeading">
+  <div><span class="office-eyebrow">YOUR EVERYDAY DOCUMENT DESK</span><h2 id="officeHeading">Your office. Your PDF workspace.</h2><p id="officeIntro">Make a familiar home for everyday paperwork. Name your workspace, keep favorite tools close, and install it for quick access.</p></div>
+  <form id="officeForm"><label for="officeName">Office name</label><div class="office-controls"><input id="officeName" class="field" maxlength="60" placeholder="e.g. Salar Accounts Office" required><button class="btn btn-primary" type="submit">Make it mine</button></div></form>
+  <div class="office-actions"><button class="btn btn-ghost" id="officeInstall">Install app</button><button class="btn btn-ghost" id="officeShare">Copy workspace setup link</button><button class="btn btn-ghost" id="officeReset">Reset office name</button></div>
+  <p class="office-note" id="officeStatus" role="status">Saved in this browser only. No account, shared document storage or staff access control. A setup link shares the office name only.</p>
+</section>
+<div class="view active" id="view-home"><div id="homeContent"></div></div>
       <div class="view" id="view-tools"><div id="toolsContent"></div></div>
       <div class="view" id="view-recent"><div id="recentContent"></div></div>
       <div class="view" id="view-favorites"><div id="favoritesContent"></div></div>
@@ -1211,50 +1239,52 @@ select.field { cursor: pointer; }
 
       <div class="view" id="view-about">
         <div class="info-card">
-          <h3>Built different. Literally.</h3>
+          <h3>Privacy you can inspect</h3>
           <p><strong>PDF Toolkit runs entirely in your browser.</strong> Every tool — merge, split, compress, convert, edit, sign, redact — uses JavaScript running on your own device. There is no backend server. There is no database.</p>
-          <p><strong>Nothing you upload here is uploaded anywhere.</strong> When you open a PDF or image, it stays on your device. When you close the tab, it's gone. We literally have no way to see your files, because they never reach us.</p>
+          <p><strong>Nothing you upload here is uploaded anywhere.</strong> When you open a PDF or image, it stays on your device. The application does not upload document contents. Downloaded files stay wherever you save them. Workspace names, favorite tools and recent tool IDs are stored in this browser; documents are not stored by the app.</p>
         </div>
         <div class="info-card">
           <h3>How it actually works</h3>
-          <p>PDF manipulation uses <code>pdf-lib</code> v1.17.1. PDF rendering for JPG export and live previews uses <code>pdf.js</code> v3.11. CV export uses <code>html2pdf.js</code>. Batch downloads are zipped client-side with <code>JSZip</code>. All libraries run locally in your browser — no API calls, no analytics on your documents.</p>
-          <p>You can verify this yourself: open the browser's DevTools → Network tab. You'll see no file uploads, ever. Just the initial page load.</p>
+          <p>PDF manipulation uses <code>pdf-lib</code> v1.17.1. PDF rendering for JPG export and live previews uses <code>pdf.js</code> v4.10.38. CV export uses <code>html2pdf.js</code> v0.14.0. Batch downloads are zipped client-side with <code>JSZip</code>. All libraries run locally in your browser — no API calls, no analytics on your documents.</p>
+          <p>You can verify this yourself: open the browser's DevTools → Network tab. Document processing does not send document contents to a server. Site hosting, Google Fonts and the OCR model provider can receive normal connection information such as your IP address. OCR downloads an English language model when needed.</p>
         </div>
         <div class="info-card">
           <h3>Who it's for</h3>
           <p>Anyone who values their privacy. Students turning in assignments. Developers shipping contracts. Freelancers sending invoices. People who just don't want their tax documents sitting on someone else's server.</p>
           <div style="display:flex; flex-wrap:wrap; gap:8px; margin-top:14px;">
             <span class="feature-pill">✓ No sign-up</span>
-            <span class="feature-pill">✓ No file limits</span>
+            <span class="feature-pill">✓ Clear file limits</span>
             <span class="feature-pill">✓ No watermarks</span>
             <span class="feature-pill">✓ No ads</span>
-            <span class="feature-pill">✓ Works offline</span>
+            <span class="feature-pill">✓ Core tools available after caching</span>
             <span class="feature-pill">✓ Open source libraries</span>
           </div>
         </div>
         <div class="info-card">
           <h3>Honest limitations</h3>
           <p>We're not going to pretend to be perfect. Here's what we can't do:</p>
-          <p>• <strong>OCR</strong> (image → searchable text) requires heavy ML models — not available client-side yet.<br>
-          • <strong>Password-protected PDFs</strong> with strong encryption may fail to open.<br>
-          • <strong>Compression ratios</strong> depend on your file — scanned images compress more than text PDFs.<br>
-          • <strong>Very large files</strong> (100+ MB) may hit browser memory limits.</p>
-          <p>But for 95% of everyday PDF tasks, this toolkit does the job without asking you to hand over your files.</p>
+          <p>• <strong>OCR</strong> extracts English text to TXT and can make mistakes. The language model needs an initial internet connection.<br>
+          • <strong>Encrypted PDFs</strong> are rejected. Open an authorized, unencrypted copy first.<br>
+          • <strong>Compression</strong> produces image-only pages, losing selectable text, links and forms. Some files become larger.<br>
+          • <strong>File limits</strong>: 100 MB per file and 200 MB per selection. Complex PDFs can exhaust browser memory below those limits.</p>
+          <p>Always review downloaded documents. Signature images are not certificate-based digital signatures. Cropping hides content; use redaction to remove it. Redaction rasterizes every page and removes original text, attachments and metadata.</p>
         </div>
       </div>
-    </main>
+
+<!-- public-guide:start --><section class="public-guide"><h2>Private PDF tools for everyday office work</h2><p>PDF Toolkit processes documents in your browser. Merge, split, convert, sign and prepare PDFs without the app uploading their contents. Learn the steps and limitations before working with important documents.</p><ul><li><a href="/merge-pdf/">Merge PDF files privately</a> — Combine contracts, invoices or reports into one PDF without sending document contents to a server.</li><li><a href="/split-pdf/">Split and extract PDF pages</a> — Save a continuous page range from a PDF, or use Extract Pages for specific pages.</li><li><a href="/compress-pdf/">Compress scanned PDFs</a> — Create an image-only PDF with adjustable image quality and resolution. Compression is not lossless and may increase file size.</li><li><a href="/redact-pdf/">Redact PDF regions</a> — Cover selected regions and rebuild every page as an image so original text cannot be recovered from the output text layer.</li><li><a href="/ocr-pdf/">Extract English text from scanned PDFs</a> — Use browser-based OCR to download recognized English text as a TXT file.</li><li><a href="/office-pdf-workspace/">A PDF workspace for your office</a> — Give everyday paperwork a familiar home with an office name, favorite tools and browser installation.</li><li><a href="/privacy/">Privacy and tool limitations</a> — Understand document processing, local preferences, network requests and limitations before using PDF Toolkit.</li></ul><p><a href="https://github.com/Salaroutsourcing/pdf">View source</a> · <a href="https://github.com/Salaroutsourcing/pdf/issues">Report a bug</a></p></section><!-- public-guide:end -->
+</main>
   </div>
 </div>
 
 <div class="modal" id="modal">
-  <div class="modal-panel">
+  <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
     <div class="modal-header">
       <div class="modal-header-icon" id="modalIcon"></div>
       <div>
         <div class="modal-title" id="modalTitle"></div>
         <div class="modal-sub" id="modalSub"></div>
       </div>
-      <button class="modal-close" id="modalClose">
+      <button class="modal-close" id="modalClose" aria-label="Close tool">
         <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
       </button>
     </div>
@@ -1262,23 +1292,62 @@ select.field { cursor: pointer; }
   </div>
 </div>
 
-<div id="toastContainer"></div>
+<div id="toastContainer" role="status" aria-live="polite"></div>
 
-<script>
+<script type="module">
+import * as pdfjsLib from "/vendor/pdf.mjs";
+window.pdfjsLib = pdfjsLib;
 'use strict';
+
+const safeStorage = {
+  get(key) { try { return localStorage.getItem(key); } catch { return null; } },
+  set(key, value) { try { localStorage.setItem(key, value); return true; } catch { return false; } },
+  list(key) { try { const v = JSON.parse(this.get(key)); return Array.isArray(v) ? v.filter(x => typeof x === 'string') : []; } catch { return []; } }
+};
+function escapeHTML(value) {
+  return String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function parsePages(spec, count) {
+  const result = new Set();
+  for (const part of spec.split(',')) {
+    const m = part.trim().match(/^(\d+)(?:\s*-\s*(\d+))?$/);
+    if (!m) throw new Error('Use page numbers or ranges, such as 1,3-5.');
+    const a = Number(m[1]), b = Number(m[2] || m[1]);
+    if (!Number.isSafeInteger(a) || !Number.isSafeInteger(b) || a < 1 || b < a || b > count) throw new Error(`Choose pages between 1 and ${count}.`);
+    for (let n = a; n <= b; n++) result.add(n);
+  }
+  return result;
+}
+// Only inert formatting is accepted. No links, images, styles, or executable attributes.
+function safeHTML(content) {
+  const template = document.createElement('template');
+  template.innerHTML = content;
+  const allowed = new Set('P BR H1 H2 H3 H4 STRONG B EM I U UL OL LI TABLE THEAD TBODY TR TD TH BLOCKQUOTE PRE CODE HR DIV SPAN'.split(' '));
+  const fragment = document.createDocumentFragment();
+  function copy(source, dest) {
+    for (const child of source.childNodes) {
+      if (child.nodeType === Node.TEXT_NODE) dest.append(document.createTextNode(child.textContent));
+      else if (child.nodeType === Node.ELEMENT_NODE && allowed.has(child.tagName)) {
+        const el = document.createElement(child.tagName); copy(child, el); dest.append(el);
+      }
+    }
+  }
+  copy(template.content, fragment); return fragment;
+}
+
 
 /* ============================================================
    THEME
    ============================================================ */
 (function initTheme() {
   const root = document.documentElement;
-  const stored = localStorage.getItem('pdftk-theme');
+  const stored = safeStorage.get('pdftk-theme');
   root.setAttribute('data-theme', stored || 'light');
   updateThemeIcon();
   document.getElementById('themeBtn').addEventListener('click', () => {
     const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
     root.setAttribute('data-theme', next);
-    localStorage.setItem('pdftk-theme', next);
+    safeStorage.set('pdftk-theme', next);
     updateThemeIcon();
   });
   function updateThemeIcon() {
@@ -1294,7 +1363,7 @@ select.field { cursor: pointer; }
 const PDFLibReady = typeof window.PDFLib !== 'undefined';
 const PdfJsReady = typeof window.pdfjsLib !== 'undefined';
 if (PdfJsReady) {
-  try { pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js'; } catch (e) {}
+  try { pdfjsLib.GlobalWorkerOptions.workerSrc = '/vendor/pdf.worker.mjs'; } catch (e) {}
 }
 
 /* ============================================================
@@ -1312,7 +1381,7 @@ function toast(msg, type = 'info', duration = 3000) {
     error: '<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>',
     info: '<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"/></svg>'
   };
-  el.innerHTML = `<div class="toast-icon">${icons[type]}</div><span>${msg}</span>`;
+  el.innerHTML = `<div class="toast-icon">${icons[type]}</div><span>${escapeHTML(msg)}</span>`;
   c.appendChild(el);
   setTimeout(() => { el.classList.add('removing'); setTimeout(() => el.remove(), 280); }, duration);
 }
@@ -1356,15 +1425,38 @@ function resizePdfPage(page, newW, newH, fitMode = 'contain', margin = 0) {
 }
 
 function bindDrop(zone, input, onFiles) {
-  if (!zone || !input || typeof onFiles !== 'function') return;
-  ['dragenter','dragover'].forEach(evt => {
-    zone.addEventListener(evt, e => { e.preventDefault(); e.stopPropagation(); zone.classList.add('dragover'); });
-  });
-  ['dragleave','drop'].forEach(evt => {
-    zone.addEventListener(evt, e => { e.preventDefault(); e.stopPropagation(); zone.classList.remove('dragover'); });
-  });
-  zone.addEventListener('drop', e => { if (e.dataTransfer && e.dataTransfer.files) onFiles(e.dataTransfer.files); });
-  input.addEventListener('change', () => { if (input.files && input.files.length) { onFiles(input.files); input.value = ''; } });
+  if (!zone || !input) return;
+  let loading = false;
+  const root = input.closest('.modal-body') || input.parentElement;
+  async function acceptFiles(list) {
+    if (loading || root.dataset.processing === 'true') return;
+    loading = true;
+    root.dataset.loading = "true";
+    const buttons = [...root.querySelectorAll('[data-role="process"]')];
+    buttons.forEach(b => b.disabled = true);
+    hideResult(root);
+    try {
+      const files = [...list];
+      if (!input.multiple && files.length !== 1) throw new Error('Choose one file for this tool.');
+      if (!files.length || files.some(f => !f.size || f.size > 100 * 1024 * 1024) || files.reduce((n,f) => n + f.size, 0) > 200 * 1024 * 1024) throw new Error('Choose non-empty files up to 100 MB each and 200 MB total per selection.');
+      for (const file of files) {
+        if (input.accept.includes('pdf')) {
+          const header = new TextDecoder().decode(await file.slice(0, 1024).arrayBuffer());
+          if (!header.includes('%PDF-')) throw new Error('Choose a valid PDF file.');
+          await PDFLib.PDFDocument.load(await file.arrayBuffer());
+        } else if (!/^image\/(png|jpeg|webp)$/.test(file.type)) throw new Error('Choose a PNG, JPG or WebP image.');
+      }
+      await onFiles(files);
+    } catch (e) { buttons.forEach(b => b.disabled = true); toast('Cannot open file: ' + e.message, 'error'); }
+    finally { loading = false; delete root.dataset.loading; input.value = ''; }
+  }
+  zone.tabIndex = 0;
+  zone.setAttribute('role', 'button');
+  zone.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); input.click(); } });
+  ['dragenter','dragover'].forEach(evt => zone.addEventListener(evt, e => { e.preventDefault(); zone.classList.add('dragover'); }));
+  ['dragleave','drop'].forEach(evt => zone.addEventListener(evt, e => { e.preventDefault(); zone.classList.remove('dragover'); }));
+  zone.addEventListener('drop', e => acceptFiles(e.dataTransfer.files));
+  input.addEventListener('change', () => acceptFiles(input.files));
 }
 
 /* Live page thumbnails via pdf.js */
@@ -1372,7 +1464,8 @@ async function renderThumbs(arrayBuffer, container, opts = {}) {
   if (!PdfJsReady) return 0;
   const { maxPages = 40, scale = 0.35, onClick, selectable = false, orderMode = false } = opts;
   container.innerHTML = '';
-  const pdf = await pdfjsLib.getDocument({ data: arrayBuffer.slice(0) }).promise;
+  const pdf = await pdfjsLib.getDocument({ isEvalSupported: false, data: arrayBuffer.slice(0) }).promise;
+  try {
   const count = Math.min(pdf.numPages, maxPages);
   for (let i = 1; i <= count; i++) {
     const page = await pdf.getPage(i);
@@ -1400,9 +1493,12 @@ async function renderThumbs(arrayBuffer, container, opts = {}) {
     container.appendChild(thumb);
   }
   return pdf.numPages;
+  } finally { await pdf.destroy(); }
 }
 
 function setProgress(root, pct, status) {
+  root.dataset.processing = "true";
+  const fields = root.querySelector("fieldset"); if(fields) fields.disabled = true;
   const wrap = $('.progress-wrap', root);
   if (!wrap) return;
   wrap.classList.add('active');
@@ -1411,6 +1507,9 @@ function setProgress(root, pct, status) {
   if (status) $('.progress-status', wrap).textContent = status;
 }
 function hideProgress(root) {
+  delete root.dataset.processing;
+  const fields = root.querySelector("fieldset"); if(fields) fields.disabled = false;
+  const process = root.querySelector("[data-role=process]"); if(process) process.disabled = false;
   const wrap = $('.progress-wrap', root);
   if (wrap) wrap.classList.remove('active');
 }
@@ -1564,7 +1663,7 @@ const toolMerge = {
       list.innerHTML = files.map((f, i) => `
         <div class="file-item" draggable="true" data-i="${i}">
           <span class="handle"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M8 6h.01M8 12h.01M8 18h.01M16 6h.01M16 12h.01M16 18h.01"/></svg></span>
-          <span class="name">${f.name}</span>
+          <span class="name">${escapeHTML(f.name)}</span>
           <button class="remove" data-i="${i}" type="button"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button>
         </div>`).join('');
       btn.disabled = files.length < 2;
@@ -1600,6 +1699,7 @@ const toolMerge = {
     function handle(fl) {
       const pdfs = [...fl].filter(f => f.type === 'application/pdf' || f.name.toLowerCase().endsWith('.pdf'));
       if (!pdfs.length) return toast('Only PDF files accepted', 'error');
+      if ([...files,...pdfs].reduce((n,f)=>n+f.size,0)>200*1024*1024) return toast("Combined input exceeds 200 MB.","error");
       files = files.concat(pdfs);
       render();
     }
@@ -1614,7 +1714,7 @@ const toolMerge = {
         const merged = await PDFLib.PDFDocument.create();
         for (let i = 0; i < files.length; i++) {
           setProgress(root, 10 + (i / files.length) * 70, `Merging ${i + 1} of ${files.length}…`);
-          const doc = await PDFLib.PDFDocument.load(await readAB(files[i]), { ignoreEncryption: true });
+          const doc = await PDFLib.PDFDocument.load(await readAB(files[i]), { ignoreEncryption: false });
           const pages = await merged.copyPages(doc, doc.getPageIndices());
           pages.forEach(p => merged.addPage(p));
         }
@@ -1646,7 +1746,7 @@ const toolSplit = {
       file = f;
       try {
         ab = await readAB(f);
-        const doc = await PDFLib.PDFDocument.load(ab, { ignoreEncryption: true });
+        const doc = await PDFLib.PDFDocument.load(ab, { ignoreEncryption: false });
         count = doc.getPageCount();
         $('#sFrom', root).max = count; $('#sTo', root).max = count; $('#sTo', root).value = count;
         $('#sInfo', root).textContent = `✓ ${f.name} — ${count} pages`;
@@ -1658,13 +1758,13 @@ const toolSplit = {
       } catch { toast('Could not read PDF', 'error'); }
     });
     $('#sBtn', root).addEventListener('click', async () => {
-      const from = Math.max(1, Math.min(+$('#sFrom', root).value, count));
-      const to = Math.max(from, Math.min(+$('#sTo', root).value, count));
+      const from = Number($('#sFrom', root).value), to = Number($('#sTo', root).value);
+      if (!Number.isInteger(from) || !Number.isInteger(to) || from < 1 || to < from || to > count) return toast('Enter a valid page range.', 'error');
       $('#sBtn', root).disabled = true;
       hideResult(root);
       setProgress(root, 30, 'Reading…');
       try {
-        const src = await PDFLib.PDFDocument.load(ab, { ignoreEncryption: true });
+        const src = await PDFLib.PDFDocument.load(ab, { ignoreEncryption: false });
         setProgress(root, 60, 'Extracting…');
         const out = await PDFLib.PDFDocument.create();
         const idx = []; for (let i = from - 1; i <= to - 1; i++) idx.push(i);
@@ -1694,7 +1794,7 @@ const toolRemove = {
       const f = fl[0]; if (!f) return;
       file = f; selected.clear();
       ab = await readAB(f);
-      const doc = await PDFLib.PDFDocument.load(ab, { ignoreEncryption: true });
+      const doc = await PDFLib.PDFDocument.load(ab, { ignoreEncryption: false });
       count = doc.getPageCount();
       $('#rInfo', root).textContent = `✓ ${f.name} — ${count} pages · click pages to mark for removal`;
       $('#rBtn', root).disabled = false;
@@ -1713,19 +1813,15 @@ const toolRemove = {
     $('#rBtn', root).addEventListener('click', async () => {
       const spec = $('#rPages', root).value.trim();
       if (!spec) return toast('Enter or select pages to remove', 'error');
-      const set = new Set();
-      spec.split(',').forEach(p => {
-        p = p.trim();
-        if (p.includes('-')) { const [a, b] = p.split('-').map(Number); for (let i = a; i <= b; i++) set.add(i); }
-        else set.add(Number(p));
-      });
+      let set;
+      try { set = parsePages(spec, count); } catch (e) { return toast(e.message, 'error'); }
       hideResult(root);
       setProgress(root, 30, 'Processing…');
       try {
-        const src = await PDFLib.PDFDocument.load(ab, { ignoreEncryption: true });
+        const src = await PDFLib.PDFDocument.load(ab, { ignoreEncryption: false });
         const out = await PDFLib.PDFDocument.create();
         const keep = []; for (let i = 1; i <= count; i++) if (!set.has(i)) keep.push(i - 1);
-        if (!keep.length) return toast('Cannot remove all pages', 'error');
+        if (!keep.length) throw new Error('Cannot remove all pages');
         const pages = await out.copyPages(src, keep);
         pages.forEach(p => out.addPage(p));
         setProgress(root, 90, 'Saving…');
@@ -1751,7 +1847,7 @@ const toolExtract = {
       const f = fl[0]; if (!f) return;
       file = f; selected.clear();
       ab = await readAB(f);
-      const doc = await PDFLib.PDFDocument.load(ab, { ignoreEncryption: true });
+      const doc = await PDFLib.PDFDocument.load(ab, { ignoreEncryption: false });
       count = doc.getPageCount();
       $('#eInfo', root).textContent = `✓ ${f.name} — ${count} pages · click to select`;
       $('#eBtn', root).disabled = false;
@@ -1770,18 +1866,14 @@ const toolExtract = {
     $('#eBtn', root).addEventListener('click', async () => {
       const spec = $('#ePages', root).value.trim();
       if (!spec) return toast('Enter or select pages to extract', 'error');
-      const set = new Set();
-      spec.split(',').forEach(p => {
-        p = p.trim();
-        if (p.includes('-')) { const [a, b] = p.split('-').map(Number); for (let i = a; i <= b; i++) set.add(i); }
-        else set.add(Number(p));
-      });
+      let set;
+      try { set = parsePages(spec, count); } catch (e) { return toast(e.message, 'error'); }
       const keep = [...set].filter(n => n >= 1 && n <= count).sort((a, b) => a - b).map(n => n - 1);
       if (!keep.length) return toast('No valid pages', 'error');
       hideResult(root);
       setProgress(root, 40, 'Extracting…');
       try {
-        const src = await PDFLib.PDFDocument.load(ab, { ignoreEncryption: true });
+        const src = await PDFLib.PDFDocument.load(ab, { ignoreEncryption: false });
         const out = await PDFLib.PDFDocument.create();
         const pages = await out.copyPages(src, keep);
         pages.forEach(p => out.addPage(p));
@@ -1807,10 +1899,10 @@ const toolOrganize = {
       const f = fl[0]; if (!f) return;
       file = f;
       ab = await readAB(f);
-      const doc = await PDFLib.PDFDocument.load(ab, { ignoreEncryption: true });
+      const doc = await PDFLib.PDFDocument.load(ab, { ignoreEncryption: false });
       const count = doc.getPageCount();
       order = Array.from({ length: count }, (_, i) => i);
-      $('#oInfo', root).textContent = `✓ ${count} pages — drag thumbnails to reorder`;
+      $('#oInfo', root).textContent = `✓ ${count} pages — reorder the first ${Math.min(count,50)} using arrows or drag. Remaining pages stay at the end.`;
       $('#oBtn', root).disabled = false;
       hideResult(root);
       const grid = $('#oGrid', root);
@@ -1833,8 +1925,23 @@ const toolOrganize = {
 
     function makeThumbsSortable(container, orderArr, onChange) {
       let dragEl = null;
+      function syncOrder() {
+        const visible = [...container.querySelectorAll('.page-thumb')].map(t => +t.dataset.page - 1);
+        const remainder = orderArr.filter(n => !visible.includes(n));
+        orderArr.splice(0, orderArr.length, ...visible, ...remainder);
+        hideResult(root); $('#oBtn',root).disabled=false;
+        onChange();
+      }
       $$('.page-thumb', container).forEach(thumb => {
         thumb.draggable = true;
+        const controls = document.createElement('div');
+        for (const [direction,label] of [[-1,'Move page earlier'],[1,'Move page later']]) {
+          const button = document.createElement('button'); button.type='button'; button.className='btn btn-ghost';
+          button.style.cssText='padding:4px 8px;width:auto;'; button.textContent=direction<0?'←':'→'; button.setAttribute('aria-label',label+' '+thumb.dataset.page);
+          button.addEventListener('click',()=>{ const neighbor=direction<0?thumb.previousElementSibling:thumb.nextElementSibling; if(!neighbor)return; if(direction<0)container.insertBefore(thumb,neighbor);else container.insertBefore(neighbor,thumb); syncOrder(); button.focus(); });
+          controls.append(button);
+        }
+        thumb.append(controls);
         thumb.addEventListener('dragstart', e => {
           dragEl = thumb;
           thumb.classList.add('dragging');
@@ -1843,10 +1950,7 @@ const toolOrganize = {
         thumb.addEventListener('dragend', () => {
           thumb.classList.remove('dragging');
           // rebuild order from DOM
-          const newOrder = [...container.querySelectorAll('.page-thumb')].map(t => +t.dataset.page - 1);
-          orderArr.length = 0;
-          orderArr.push(...newOrder);
-          onChange();
+          syncOrder();
         });
         thumb.addEventListener('dragover', e => { e.preventDefault(); e.dataTransfer.dropEffect = 'move'; });
         thumb.addEventListener('drop', e => {
@@ -1866,7 +1970,7 @@ const toolOrganize = {
       hideResult(root);
       setProgress(root, 40, 'Reordering…');
       try {
-        const src = await PDFLib.PDFDocument.load(ab, { ignoreEncryption: true });
+        const src = await PDFLib.PDFDocument.load(ab, { ignoreEncryption: false });
         const out = await PDFLib.PDFDocument.create();
         const pages = await out.copyPages(src, order);
         pages.forEach(p => out.addPage(p));
@@ -1884,7 +1988,7 @@ const toolOrganize = {
 };
 
 const toolCompress = {
-  html: `<div>${dropUI('cIn', 'Drop a PDF', 'Compress by rasterizing at lower quality')}<div id="cInfo" style="font-size:12px; color:var(--text-muted); margin-top:10px;"></div><div class="page-thumbs" id="cThumbs" style="display:none;"></div><div class="options-grid" style="margin-top:16px;"><div><label class="option-label">Quality</label><select class="field" id="cQ"><option value="0.5">Small (50%)</option><option value="0.7" selected>Balanced (70%)</option><option value="0.85">High (85%)</option></select></div><div><label class="option-label">DPI</label><select class="field" id="cD"><option value="1">72</option><option value="1.5" selected>108</option><option value="2">144</option></select></div></div>${progressUI()}${processBtnUI('cBtn', 'Compress PDF')}</div>`,
+  html: `<div>${dropUI('cIn', 'Drop a PDF', 'Creates image-only pages: selectable text, links and forms are lost. Size may increase.')}<div id="cInfo" style="font-size:12px; color:var(--text-muted); margin-top:10px;"></div><div class="page-thumbs" id="cThumbs" style="display:none;"></div><div class="options-grid" style="margin-top:16px;"><div><label class="option-label">Quality</label><select class="field" id="cQ"><option value="0.5">Small (50%)</option><option value="0.7" selected>Balanced (70%)</option><option value="0.85">High (85%)</option></select></div><div><label class="option-label">DPI</label><select class="field" id="cD"><option value="1">72</option><option value="1.5" selected>108</option><option value="2">144</option></select></div></div>${progressUI()}${processBtnUI('cBtn', 'Compress PDF')}</div>`,
   init(root) {
     let file = null, ab = null, resultBytes = null;
     const input = $('#cIn', root), zone = $('label[for="cIn"]', root);
@@ -1906,7 +2010,7 @@ const toolCompress = {
       hideResult(root);
       setProgress(root, 5, 'Rendering pages…');
       try {
-        const pdf = await pdfjsLib.getDocument({ data: ab.slice(0) }).promise;
+        const pdf = await pdfjsLib.getDocument({ isEvalSupported: false, data: ab.slice(0) }).promise;
         const out = await PDFLib.PDFDocument.create();
         for (let i = 1; i <= pdf.numPages; i++) {
           setProgress(root, 5 + (i / pdf.numPages) * 80, `Page ${i} of ${pdf.numPages}…`);
@@ -1920,15 +2024,16 @@ const toolCompress = {
           const jpg = cv.toDataURL('image/jpeg', q);
           const jpgBytes = await (await fetch(jpg)).arrayBuffer();
           const img = await out.embedJpg(jpgBytes);
-          const p = out.addPage([vp.width, vp.height]);
-          p.drawImage(img, { x: 0, y: 0, width: vp.width, height: vp.height });
+          const physical = page.getViewport({ scale: 1 });
+          const p = out.addPage([physical.width, physical.height]);
+          p.drawImage(img, { x: 0, y: 0, width: physical.width, height: physical.height });
         }
         setProgress(root, 95, 'Saving…');
         resultBytes = await out.save();
         setProgress(root, 100, 'Ready!');
         hideProgress(root);
         const reduction = ((1 - resultBytes.byteLength / file.size) * 100).toFixed(0);
-        showResult(root, reduction > 0 ? `Compressed — ${reduction}% smaller` : 'Compressed', `${(resultBytes.byteLength / 1024).toFixed(0)} KB`, () => {
+        showResult(root, reduction > 0 ? `Compressed — ${reduction}% smaller` : 'No size reduction — keep your original if preferred', `${(resultBytes.byteLength / 1024).toFixed(0)} KB`, () => {
           downloadBytes(resultBytes, 'compressed.pdf');
           toast('Downloaded', 'success');
         });
@@ -1953,7 +2058,7 @@ const toolRepair = {
       hideResult(root);
       setProgress(root, 40, 'Repairing…');
       try {
-        const doc = await PDFLib.PDFDocument.load(await readAB(file), { ignoreEncryption: true, updateMetadata: false });
+        const doc = await PDFLib.PDFDocument.load(await readAB(file), { ignoreEncryption: false, updateMetadata: false });
         resultBytes = await doc.save();
         setProgress(root, 100, 'Ready!');
         hideProgress(root);
@@ -1975,10 +2080,11 @@ const toolJpg2Pdf = {
     bindDrop(zone, input, fl => {
       const valid = [...fl].filter(f => /image\//.test(f.type));
       if (!valid.length) return toast('No images', 'error');
+      if ([...imgs,...valid].reduce((n,f)=>n+f.size,0)>200*1024*1024) return toast("Combined input exceeds 200 MB.","error");
       imgs = imgs.concat(valid); render();
     });
     function render() {
-      list.innerHTML = imgs.map((f, i) => `<div class="file-item"><span class="name">${f.name}</span><button class="remove" data-i="${i}" type="button"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button></div>`).join('');
+      list.innerHTML = imgs.map((f, i) => `<div class="file-item"><span class="name">${escapeHTML(f.name)}</span><button class="remove" data-i="${i}" type="button"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button></div>`).join('');
       $('#jBtn', root).disabled = imgs.length === 0;
       hideResult(root);
       $$('[data-i]', list).forEach(b => b.addEventListener('click', () => { imgs.splice(+b.dataset.i, 1); render(); }));
@@ -2047,7 +2153,8 @@ const toolHtml2Pdf = {
       if (!content) return toast('Enter some content', 'error');
       const wrap = document.createElement('div');
       wrap.style.cssText = 'position:fixed; left:-99999px; top:0; width:794px; background:#fff; color:#111; padding:40px; font-family:Inter, sans-serif;';
-      wrap.innerHTML = /<[a-z][\s\S]*>/i.test(content) ? content : `<p style="white-space:pre-wrap">${content}</p>`;
+      if (/<[a-z][\s\S]*>/i.test(content)) wrap.append(safeHTML(content));
+      else { wrap.style.whiteSpace = 'pre-wrap'; wrap.textContent = content; }
       document.body.appendChild(wrap);
       try {
         await html2pdf().set({
@@ -2087,7 +2194,7 @@ const toolPdf2Jpg = {
       try {
         const scale = parseFloat($('#pS', root).value);
         const quality = parseFloat($('#pQ', root).value);
-        const pdf = await pdfjsLib.getDocument({ data: ab.slice(0) }).promise;
+        const pdf = await pdfjsLib.getDocument({ isEvalSupported: false, data: ab.slice(0) }).promise;
         const zip = new JSZip();
         for (let i = 1; i <= pdf.numPages; i++) {
           setProgress(root, 5 + (i / pdf.numPages) * 85, `Page ${i} of ${pdf.numPages}…`);
@@ -2126,7 +2233,7 @@ const toolRotate = {
       const f = fl[0]; if (!f) return;
       file = f;
       ab = await readAB(f);
-      const doc = await PDFLib.PDFDocument.load(ab, { ignoreEncryption: true });
+      const doc = await PDFLib.PDFDocument.load(ab, { ignoreEncryption: false });
       count = doc.getPageCount();
       $('#rtInfo', root).textContent = `✓ ${f.name} — ${count} pages`;
       $('#rtBtn', root).disabled = false;
@@ -2138,18 +2245,13 @@ const toolRotate = {
     $('#rtBtn', root).addEventListener('click', async () => {
       const angle = parseInt($('#rtA', root).value, 10);
       const spec = $('#rtP', root).value.trim().toLowerCase();
-      const set = new Set();
-      if (spec === 'all' || spec === '') { for (let i = 1; i <= count; i++) set.add(i); }
-      else spec.split(',').forEach(p => {
-        p = p.trim();
-        if (p.includes('-')) { const [a, b] = p.split('-').map(Number); for (let i = a; i <= b; i++) set.add(i); }
-        else set.add(Number(p));
-      });
+      let set;
+      try { set = parsePages(spec === 'all' || !spec ? `1-${count}` : spec, count); } catch (e) { return toast(e.message, 'error'); }
       hideResult(root);
       setProgress(root, 40, 'Rotating…');
       try {
-        const doc = await PDFLib.PDFDocument.load(ab, { ignoreEncryption: true });
-        doc.getPages().forEach((pg, i) => { if (set.has(i + 1)) pg.setRotation(PDFLib.degrees(angle)); });
+        const doc = await PDFLib.PDFDocument.load(ab, { ignoreEncryption: false });
+        doc.getPages().forEach((pg, i) => { if (set.has(i + 1)) pg.setRotation(PDFLib.degrees((pg.getRotation().angle + angle) % 360)); });
         resultBytes = await doc.save();
         setProgress(root, 100, 'Ready!');
         hideProgress(root);
@@ -2182,7 +2284,7 @@ const toolNumbers = {
       hideResult(root);
       setProgress(root, 40, 'Adding numbers…');
       try {
-        const doc = await PDFLib.PDFDocument.load(ab, { ignoreEncryption: true });
+        const doc = await PDFLib.PDFDocument.load(ab, { ignoreEncryption: false });
         const font = await doc.embedFont(PDFLib.StandardFonts.Helvetica);
         const size = parseInt($('#nS', root).value, 10);
         const pos = $('#nP', root).value;
@@ -2245,7 +2347,7 @@ const toolWatermark = {
       hideResult(root);
       setProgress(root, 40, 'Adding watermark…');
       try {
-        const doc = await PDFLib.PDFDocument.load(ab, { ignoreEncryption: true });
+        const doc = await PDFLib.PDFDocument.load(ab, { ignoreEncryption: false });
         const font = await doc.embedFont(PDFLib.StandardFonts.HelveticaBold);
         doc.getPages().forEach(pg => {
           const { width, height } = pg.getSize();
@@ -2286,7 +2388,7 @@ const toolCrop = {
       thumbs.style.display = 'grid';
       await renderThumbs(ab, thumbs, { maxPages: 12, scale: 0.25 });
       if (PdfJsReady) {
-        pdfJsDoc = await pdfjsLib.getDocument({ data: ab.slice(0) }).promise;
+        pdfJsDoc = await pdfjsLib.getDocument({ isEvalSupported: false, data: ab.slice(0) }).promise;
       }
     });
 
@@ -2325,13 +2427,12 @@ const toolCrop = {
       hideResult(root);
       setProgress(root, 40, 'Cropping…');
       try {
-        const doc = await PDFLib.PDFDocument.load(ab, { ignoreEncryption: true });
+        const doc = await PDFLib.PDFDocument.load(ab, { ignoreEncryption: false });
         doc.getPages().forEach(pg => {
-          const { width, height } = pg.getSize();
+          const { x, y, width, height } = pg.getCropBox();
           const nw = width - l - r, nh = height - t - b;
-          if (nw <= 0 || nh <= 0) return;
-          pg.setCropBox(l, b, nw, nh);
-          pg.setMediaBox(l, b, nw, nh);
+          if (![t,r,b,l].every(n=>Number.isFinite(n) && n>=0) || nw <= 0 || nh <= 0) throw new Error("Crop margins must fit every page.");
+          pg.setCropBox(x+l, y+b, nw, nh);
         });
         resultBytes = await doc.save();
         setProgress(root, 100, 'Ready!');
@@ -2363,7 +2464,9 @@ const toolSign = {
     });
     sigInput.addEventListener('change', async () => {
       const f = sigInput.files[0]; if (!f) return;
+      if (!/^image\/(png|jpeg)$/.test(f.type) || f.size > 10*1024*1024) { sig=null; update(); return toast('Choose a PNG or JPG signature up to 10 MB.', 'error'); }
       sig = f;
+      hideResult(root);
       const url = await readDataURL(f);
       $('#sgPrev', root).innerHTML = `<img src="${url}" style="max-height:60px; border-radius:8px; border:1px solid var(--border);">`;
       update();
@@ -2376,26 +2479,21 @@ const toolSign = {
       hideResult(root);
       setProgress(root, 40, 'Signing…');
       try {
-        const doc = await PDFLib.PDFDocument.load(ab, { ignoreEncryption: true });
+        const doc = await PDFLib.PDFDocument.load(ab, { ignoreEncryption: false });
         const sigData = await readAB(sig);
         let embedded;
         if (/png/i.test(sig.type)) embedded = await doc.embedPng(sigData);
         else embedded = await doc.embedJpg(sigData);
         const pages = doc.getPages();
-        const targets = new Set();
-        if (spec === 'last') targets.add(pages.length);
-        else if (spec === 'first') targets.add(1);
-        else if (spec === 'all') pages.forEach((_, i) => targets.add(i + 1));
-        else spec.split(',').forEach(p => {
-          p = p.trim();
-          if (p.includes('-')) { const [a, b] = p.split('-').map(Number); for (let i = a; i <= b; i++) targets.add(i); }
-          else targets.add(Number(p));
-        });
+        const selection = spec === 'last' ? String(pages.length) : spec === 'first' ? '1' : spec === 'all' ? `1-${pages.length}` : spec;
+        const targets = parsePages(selection, pages.length);
+        if (!Number.isFinite(wPct) || wPct < 0.05 || wPct > 0.8) throw new Error('Signature width must be between 5% and 80%.');
         pages.forEach((pg, i) => {
           if (!targets.has(i + 1)) return;
           const { width, height } = pg.getSize();
-          const w = width * wPct;
-          const h = w * (embedded.height / embedded.width);
+          const scale = Math.min(width*wPct/embedded.width, (width-60)/embedded.width, (height-60)/embedded.height);
+          if(scale <= 0) throw new Error("Page is too small for this signature placement.");
+          const w = embedded.width * scale, h = embedded.height * scale;
           const m = 30;
           let x, y;
           if (pos === 'br') { x = width - w - m; y = m; }
@@ -2417,7 +2515,7 @@ const toolSign = {
 };
 
 const toolRedact = {
-  html: `<div>${dropUI('rdIn', 'Drop a PDF', 'Black out regions with rectangles')}<div id="rdInfo" style="font-size:12px; color:var(--text-muted); margin-top:10px;"></div><div class="page-thumbs" id="rdThumbs" style="display:none;"></div><div style="padding:12px; background:var(--surface-2); border-radius:10px; font-size:11.5px; color:var(--text-dim); margin-top:14px; line-height:1.5;">Coordinates in PDF points (72pt = 1 inch), measured from bottom-left. On A4 (595×842), x=50, y=50 is near the bottom-left corner.</div><div id="rdRects" style="display:flex; flex-direction:column; gap:8px; margin-top:14px;"></div><button id="rdAdd" class="add-btn" style="margin-top:8px;">+ Add Rectangle</button>${progressUI()}${processBtnUI('rdBtn', 'Apply Redactions')}</div>`,
+  html: `<div>${dropUI('rdIn', 'Drop a PDF', 'Rebuilds all pages as images. Text, forms, links and original metadata are removed. Review the output before sharing.')}<div id="rdInfo" style="font-size:12px; color:var(--text-muted); margin-top:10px;"></div><div class="page-thumbs" id="rdThumbs" style="display:none;"></div><div style="padding:12px; background:var(--surface-2); border-radius:10px; font-size:11.5px; color:var(--text-dim); margin-top:14px; line-height:1.5;">Coordinates in PDF points (72pt = 1 inch), measured from bottom-left. On A4 (595×842), x=50, y=50 is near the bottom-left corner.</div><div id="rdRects" style="display:flex; flex-direction:column; gap:8px; margin-top:14px;"></div><button id="rdAdd" class="add-btn" style="margin-top:8px;">+ Add Rectangle</button>${progressUI()}${processBtnUI('rdBtn', 'Apply Redactions')}</div>`,
   init(root) {
     let file = null, pc = 0, ab = null, resultBytes = null;
     const input = $('#rdIn', root), zone = $('label[for="rdIn"]', root), rectsEl = $('#rdRects', root);
@@ -2425,7 +2523,7 @@ const toolRedact = {
       const f = fl[0]; if (!f) return;
       file = f;
       ab = await readAB(f);
-      const doc = await PDFLib.PDFDocument.load(ab, { ignoreEncryption: true });
+      const doc = await PDFLib.PDFDocument.load(ab, { ignoreEncryption: false });
       pc = doc.getPageCount();
       $('#rdInfo', root).textContent = `✓ ${f.name} — ${pc} pages`;
       $('#rdBtn', root).disabled = false;
@@ -2456,17 +2554,33 @@ const toolRedact = {
       hideResult(root);
       setProgress(root, 40, 'Applying redactions…');
       try {
-        const doc = await PDFLib.PDFDocument.load(ab, { ignoreEncryption: true });
-        const pages = doc.getPages();
-        rows.forEach(r => {
-          const p = parseInt(r.querySelector('[data-k="page"]').value, 10) - 1;
-          const x = +r.querySelector('[data-k="x"]').value;
-          const y = +r.querySelector('[data-k="y"]').value;
-          const w = +r.querySelector('[data-k="w"]').value;
-          const h = +r.querySelector('[data-k="h"]').value;
-          if (pages[p]) pages[p].drawRectangle({ x, y, width: w, height: h, color: PDFLib.rgb(0, 0, 0) });
-        });
-        resultBytes = await doc.save();
+        const pdf = await pdfjsLib.getDocument({ data: ab.slice(0), isEvalSupported: false }).promise;
+        try {
+          const rectangles = rows.map(r => Object.fromEntries(['page','x','y','w','h'].map(k => [k, Number(r.querySelector(`[data-k="${k}"]`).value)])));
+          for (const r of rectangles) {
+            if (!Object.values(r).every(Number.isFinite) || !Number.isInteger(r.page) || r.page < 1 || r.page > pdf.numPages || r.w <= 0 || r.h <= 0) throw new Error('Enter a valid page and rectangle with positive width and height.');
+            const page = await pdf.getPage(r.page), [x0,y0,x1,y1] = page.view;
+            if (r.x < x0 || r.y < y0 || r.x+r.w > x1 || r.y+r.h > y1) throw new Error('Rectangle must fit inside the visible PDF page.');
+          }
+          const out = await PDFLib.PDFDocument.create();
+          for (let n = 1; n <= pdf.numPages; n++) {
+            setProgress(root, n/pdf.numPages*90, `Rebuilding page ${n} of ${pdf.numPages}…`);
+            const page = await pdf.getPage(n), vp = page.getViewport({scale:2}), size = page.getViewport({scale:1});
+            const canvas = document.createElement('canvas'); canvas.width = Math.ceil(vp.width); canvas.height = Math.ceil(vp.height);
+            const ctx = canvas.getContext('2d');
+            await page.render({canvasContext:ctx, viewport:vp, background:'white'}).promise;
+            ctx.fillStyle = '#000';
+            for (const r of rectangles.filter(r => r.page === n)) {
+              const [x0,y0,x1,y1] = vp.convertToViewportRectangle([r.x,r.y,r.x+r.w,r.y+r.h]);
+              const left = Math.floor(Math.min(x0,x1)), top = Math.floor(Math.min(y0,y1));
+              ctx.fillRect(left, top, Math.ceil(Math.max(x0,x1))-left, Math.ceil(Math.max(y0,y1))-top);
+            }
+            const image = await out.embedPng(canvas.toDataURL('image/png'));
+            out.addPage([size.width,size.height]).drawImage(image,{x:0,y:0,width:size.width,height:size.height});
+            canvas.width = canvas.height = 0;
+          }
+          resultBytes = await out.save();
+        } finally { await pdf.destroy(); }
         setProgress(root, 100, 'Ready!');
         hideProgress(root);
         showResult(root, 'Redactions applied', 'Ready to download', () => {
@@ -2482,136 +2596,63 @@ const toolRedact = {
    TOOL REGISTRY
    ============================================================ */
 const toolOCR = {
-  html: `<div>${dropUI('ocrIn', 'Drop a scanned PDF', 'OCR runs entirely in your browser — no uploads')}<div id="ocrInfo" style="font-size:12px; color:var(--text-muted); margin-top:10px;"></div><div class="page-thumbs" id="ocrThumbs" style="display:none;"></div><div class="options-grid" style="margin-top:16px;"><div><label class="option-label">Resolution (DPI)</label><select class="field" id="ocrScale"><option value="1.5">150 DPI</option><option value="2" selected>200 DPI</option><option value="3">300 DPI (slow)</option></select></div></div>${progressUI()}${processBtnUI('ocrBtn', 'Extract Text')}</div>`,
+  html: `<div>${dropUI('ocrIn', 'Choose a scanned PDF', 'English text extraction. The OCR language model downloads on first use.')}<p id="ocrInfo"></p><p class="drop-zone-sub">OCR can make mistakes. Check names, numbers and dates against the original.</p>${progressUI()}${processBtnUI('ocrBtn', 'Extract text')}</div>`,
   init(root) {
-    let file = null, ab = null, resultTxt = null, resultPdf = null;
-    const input = $('#ocrIn', root), zone = $('label[for="ocrIn"]', root);
+    let ab, file, worker, pdf, closed = false;
     const btn = $('#ocrBtn', root);
-
-    bindDrop(zone, input, async fl => {
-      const f = fl[0]; if (!f) return;
-      if (!PdfJsReady) return toast('PDF engine not loaded', 'error');
-      file = f;
-      try {
-        ab = await readAB(f);
-        const doc = await pdfjsLib.getDocument({ data: ab.slice(0) }).promise;
-        $('#ocrInfo', root).textContent = `✓ ${f.name} — ${doc.numPages} pages ready for OCR`;
-        btn.disabled = false;
-        hideResult(root);
-        const thumbs = $('#ocrThumbs', root);
-        thumbs.style.display = 'grid';
-        await renderThumbs(ab, thumbs, { maxPages: 12, scale: 0.25 });
-      } catch (e) {
-        toast('Cannot read PDF: ' + e.message, 'error');
-      }
+    bindDrop($('label[for="ocrIn"]',root), $('#ocrIn',root), async files => {
+      file = files[0]; ab = await file.arrayBuffer();
+      $('#ocrInfo',root).textContent = file.name; btn.disabled = false;
     });
-
     btn.addEventListener('click', async () => {
-      if (!file) return;
-      btn.disabled = true;
-      const scale = parseFloat($('#ocrScale', root).value);
-      hideResult(root);
-      const worker = new Worker('/js/ocr-worker.js');
-      setProgress(root, 1, 'Loading OCR engine…');
+      if (!ab || worker) return;
+      btn.disabled = true; hideResult(root); setProgress(root,1,'Loading English OCR model…');
       try {
-        const pdf = await pdfjsLib.getDocument({ data: ab.slice(0) }).promise;
-        const totalPages = pdf.numPages;
-        const results = new Array(totalPages).fill('');
-        let completed = 0;
-
-        worker.onmessage = (e) => {
-          const msg = e.data;
-          if (msg.type === 'progress') {
-            const overall = ((completed + msg.progress) / totalPages) * 100;
-            setProgress(root, Math.max(1, overall), `${msg.status}… (${completed}/${totalPages} pages)`);
-          } else if (msg.type === 'result') {
-            results[msg.pageIndex] = msg.text;
-            completed++;
-            setProgress(root, (completed / totalPages) * 100, `Processed ${completed}/${totalPages} pages`);
-          }
-        };
-
-        for (let i = 0; i < totalPages; i++) {
-          const page = await pdf.getPage(i + 1);
-          const viewport = page.getViewport({ scale });
-          const canvas = new OffscreenCanvas(viewport.width, viewport.height);
-          const ctx = canvas.getContext('2d');
-          ctx.fillStyle = '#ffffff';
-          ctx.fillRect(0, 0, canvas.width, canvas.height);
-          await page.render({ canvasContext: ctx, viewport }).promise;
-          const bitmap = canvas.transferToImageBitmap();
-
-          await new Promise((resolve) => {
-            const handler = (ev) => {
-              if (ev.data.pageIndex === i && (ev.data.type === 'result' || ev.data.type === 'error')) {
-                worker.removeEventListener('message', handler);
-                resolve();
-              }
-            };
-            worker.addEventListener('message', handler);
-            worker.postMessage({ type: 'recognize', bitmap, pageIndex: i }, [bitmap]);
-          });
+        worker = await Tesseract.createWorker('eng',1,{workerPath:'/vendor/tesseract-worker.min.js',corePath:'/vendor/tesseract-core',logger: m => { if (!closed && m.status) setProgress(root,1,m.status); }});
+        if (closed) return;
+        pdf = await pdfjsLib.getDocument({data:ab.slice(0),isEvalSupported:false}).promise;
+        const results = [];
+        for (let i=1; i<=pdf.numPages; i++) {
+          if (closed) return;
+          setProgress(root,(i-1)/pdf.numPages*100,`Reading page ${i} of ${pdf.numPages}…`);
+          const page = await pdf.getPage(i), vp = page.getViewport({scale:2});
+          const canvas = document.createElement('canvas'); canvas.width = Math.ceil(vp.width); canvas.height = Math.ceil(vp.height);
+          await page.render({canvasContext:canvas.getContext('2d'),viewport:vp,background:'white'}).promise;
+          const {data:{text}} = await worker.recognize(canvas);
+          results.push(`===== PAGE ${i} =====\n${text}`); canvas.width = canvas.height = 0;
         }
-        worker.postMessage({ type: 'terminate' });
-
-        const fullText = results
-          .map((text, i) => `===== PAGE ${i + 1} =====\n${text.trim()}`)
-          .join('\n\n');
-
-        resultTxt = new Blob([fullText], { type: 'text/plain;charset=utf-8' });
-
-        try {
-          const srcDoc = await PDFLib.PDFDocument.load(ab, { ignoreEncryption: true });
-          const font = await srcDoc.embedFont(PDFLib.StandardFonts.Helvetica);
-          const pages = srcDoc.getPages();
-          pages.forEach((pg, i) => {
-            const text = (results[i] || '').slice(0, 4000);
-            if (!text.trim()) return;
-            const { height } = pg.getSize();
-            pg.drawText(text.replace(/\s+/g, ' ').slice(0, 500), {
-              x: 20, y: height - 20, size: 1,
-              font, color: PDFLib.rgb(1, 1, 1), opacity: 0.01
-            });
-          });
-          resultPdf = await srcDoc.save();
-        } catch (e) {
-          console.warn('Searchable PDF overlay failed:', e);
-        }
-
-        setProgress(root, 100, 'Ready!');
-        hideProgress(root);
-        showResult(root, `OCR complete — ${totalPages} pages`, 'TXT + searchable PDF ready', () => {
-          if (resultTxt) {
-            const url = URL.createObjectURL(resultTxt);
-            const a = document.createElement('a');
-            a.href = url; a.download = file.name.replace(/\.pdf$/i, '') + '_ocr.txt';
-            document.body.appendChild(a); a.click();
-            setTimeout(() => { a.remove(); URL.revokeObjectURL(url); }, 500);
-          }
-          if (resultPdf) {
-            setTimeout(() => {
-              downloadBytes(resultPdf, file.name.replace(/\.pdf$/i, '') + '_searchable.pdf');
-            }, 400);
-          }
-          toast('Downloaded OCR results', 'success');
-        });
-      } catch (err) {
-        console.error(err);
-        toast('OCR failed: ' + err.message, 'error');
-        hideProgress(root);
-        btn.disabled = false;
-      }
+        if (!closed) showResult(root,'Text extraction complete','English TXT file. Review recognition accuracy.',() => downloadBytes(results.join('\n\n'),file.name.replace(/\.pdf$/i,'')+'_ocr.txt','text/plain;charset=utf-8'));
+      } catch(e) { if (!closed) toast('OCR failed: '+e.message,'error'); }
+      finally { if (worker) await worker.terminate(); worker = null; if(pdf) await pdf.destroy(); pdf=null; if(!closed) { hideProgress(root); btn.disabled=false; } }
     });
+    return () => { closed=true; if(worker) worker.terminate(); };
   }
 };
 
-  
-/* ============================================================
-   STATE
-   ============================================================ */
+const CATEGORIES = [{"id": "organize", "name": "Organize documents", "color": "#3B82F6"}, {"id": "convert", "name": "Convert & optimize", "color": "#10B981"}, {"id": "edit", "name": "Edit & prepare", "color": "#8B5CF6"}];
+const TOOLS = [
+{"id": "merge", "name": "Merge PDFs", "desc": "Combine PDFs in your chosen order.", "cat": "organize", "color": "blue", "icon": "merge", tool: toolMerge},
+{"id": "split", "name": "Split PDF", "desc": "Save a range of pages as a new PDF.", "cat": "organize", "color": "purple", "icon": "split", tool: toolSplit},
+{"id": "remove", "name": "Remove Pages", "desc": "Remove selected pages and keep the rest.", "cat": "organize", "color": "red", "icon": "remove", tool: toolRemove},
+{"id": "extract", "name": "Extract Pages", "desc": "Save specific pages from a PDF.", "cat": "organize", "color": "teal", "icon": "extract", tool: toolExtract},
+{"id": "organize", "name": "Organize PDF", "desc": "Reorder pages before downloading.", "cat": "organize", "color": "indigo", "icon": "organize", tool: toolOrganize},
+{"id": "compress", "name": "Compress PDF", "desc": "Reduce scanned PDF size; output is image-only.", "cat": "convert", "color": "green", "icon": "compress", tool: toolCompress},
+{"id": "repair", "name": "Repair PDF", "desc": "Try rebuilding a readable PDF; recovery is not guaranteed.", "cat": "organize", "color": "orange", "icon": "repair", tool: toolRepair},
+{"id": "jpg2pdf", "name": "Images to PDF", "desc": "Turn JPG, PNG and WebP images into a PDF.", "cat": "convert", "color": "blue", "icon": "jpg2pdf", tool: toolJpg2Pdf},
+{"id": "html2pdf", "name": "HTML / Text to PDF", "desc": "Convert text and safe basic HTML formatting.", "cat": "convert", "color": "purple", "icon": "html2pdf", tool: toolHtml2Pdf},
+{"id": "pdf2jpg", "name": "PDF to JPG", "desc": "Export page images in a single ZIP download.", "cat": "convert", "color": "orange", "icon": "pdf2jpg", tool: toolPdf2Jpg},
+{"id": "rotate", "name": "Rotate PDF", "desc": "Rotate pages without changing their content.", "cat": "edit", "color": "indigo", "icon": "rotate", tool: toolRotate},
+{"id": "numbers", "name": "Page Numbers", "desc": "Add page numbers to your document.", "cat": "edit", "color": "blue", "icon": "numbers", tool: toolNumbers},
+{"id": "watermark", "name": "Watermark PDF", "desc": "Add a text watermark to each page.", "cat": "edit", "color": "pink", "icon": "watermark", tool: toolWatermark},
+{"id": "crop", "name": "Crop PDF", "desc": "Trim visible margins; hidden content is not deleted.", "cat": "edit", "color": "teal", "icon": "crop", tool: toolCrop},
+{"id": "sign", "name": "Sign PDF", "desc": "Place a signature image; not a digital certificate.", "cat": "edit", "color": "green", "icon": "sign", tool: toolSign},
+{"id": "redact", "name": "Redact PDF", "desc": "Remove regions by rebuilding every page as an image.", "cat": "edit", "color": "red", "icon": "redact", tool: toolRedact},
+{"id": "ocr", "name": "OCR to Text", "desc": "Extract English text from scanned pages; review for errors.", "cat": "convert", "color": "amber", "icon": "ocr", tool: toolOCR},
+];
+
 const store = {
-  getFavs() { try { return JSON.parse(localStorage.getItem('pdftk-favs') || '[]'); } catch { return []; } },
-  setFavs(v) { localStorage.setItem('pdftk-favs', JSON.stringify(v)); },
+  getFavs() { return safeStorage.list('pdftk-favs'); },
+  setFavs(v) { safeStorage.set('pdftk-favs', JSON.stringify(v)); },
   isFav(id) { return this.getFavs().includes(id); },
   toggleFav(id) {
     const f = this.getFavs();
@@ -2620,12 +2661,12 @@ const store = {
     this.setFavs(f);
     return i === -1;
   },
-  getRecent() { try { return JSON.parse(localStorage.getItem('pdftk-recent') || '[]'); } catch { return []; } },
+  getRecent() { return safeStorage.list('pdftk-recent'); },
   addRecent(id) {
     let r = this.getRecent().filter(x => x !== id);
     r.unshift(id);
     r = r.slice(0, 10);
-    localStorage.setItem('pdftk-recent', JSON.stringify(r));
+    safeStorage.set('pdftk-recent', JSON.stringify(r));
   }
 };
 
@@ -2674,7 +2715,7 @@ function renderCard(tool) {
 
   card.addEventListener('click', () => openToolModal(tool));
   card.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openToolModal(tool); }
+    if (e.target === card && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); openToolModal(tool); }
   });
   return card;
 }
@@ -2711,7 +2752,7 @@ function renderHomeView() {
     <div class="featured-icon">${I.cv}</div>
     <div class="featured-content">
       <h3>CV / Resume Builder</h3>
-      <p>Build a clean, ATS-friendly resume with a live preview. Download as PDF — free, no sign-up.</p>
+      <p>Build a clean, print-ready resume with a live preview. Download as PDF — free, no sign-up.</p>
     </div>
     <div class="featured-cta">Open Builder →</div>
   `;
@@ -2765,7 +2806,7 @@ function renderFavoritesView() {
    ============================================================ */
 const viewTitles = {
   home: { title: 'Home', sub: 'All tools · 100% in your browser' },
-  tools: { title: 'All Tools', sub: '16 tools · grouped by category' },
+  tools: { title: 'All Tools', sub: '17 tools · grouped by category' },
   recent: { title: 'Recent', sub: 'Your recently used tools' },
   favorites: { title: 'Favorites', sub: 'Your saved tools' },
   cv: { title: 'CV Builder', sub: 'Live preview · Instant PDF export' },
@@ -2803,8 +2844,12 @@ document.getElementById('sidebarBackdrop').addEventListener('click', () => {
    MODAL
    ============================================================ */
 let modalCleanup = null;
+let modalTrigger = null;
 
 function openToolModal(tool) {
+  modalTrigger = document.activeElement;
+  if (typeof modalCleanup === "function") modalCleanup();
+  modalCleanup = null;
   const v = VISUAL[tool.color];
   const icon = document.getElementById('modalIcon');
   icon.style.background = v.iconBg;
@@ -2813,24 +2858,33 @@ function openToolModal(tool) {
   document.getElementById('modalSub').textContent = tool.desc;
 
   const body = document.getElementById('modalBody');
-  body.innerHTML = tool.tool.html;
+  body.innerHTML = `<fieldset style="border:0;min-width:0;padding:0;margin:0;">${tool.tool.html}</fieldset>`;
+  body.onclick = null;
+  const validateOptions = e => {
+    if(!e.target.closest('[data-role="process"]')) return;
+    const invalid = [...body.querySelectorAll('input[type="number"]')].find(el=>!el.checkValidity() || !el.value.trim());
+    if(invalid) { e.stopImmediatePropagation(); invalid.reportValidity(); toast('Check the numeric options.','error'); }
+  };
+  body.addEventListener('click',validateOptions,true);
+  body.oninput = () => { if(body.dataset.processing === "true") return; const panel=body.querySelector(".result-panel.active"); if(panel) { hideResult(body); const b=body.querySelector("[data-role=process]"); if(b) b.disabled=false; } };
   document.getElementById('modal').classList.add('active');
   document.body.style.overflow = 'hidden';
 
   store.addRecent(tool.id);
 
-  try { modalCleanup = tool.tool.init(body); }
-  catch (e) { console.error(e); toast('Failed to load tool', 'error'); }
+  try { const cleanup = tool.tool.init(body); modalCleanup = () => { body.removeEventListener('click',validateOptions,true); if(typeof cleanup === 'function') cleanup(); }; document.getElementById('modalClose').focus(); }
+  catch (e) { body.removeEventListener('click',validateOptions,true); console.error(e); toast('Failed to load tool', 'error'); }
 }
 
 function closeModal() {
+  const body = document.getElementById("modalBody");
+  if(body.dataset.processing === "true" || body.dataset.loading === "true") return toast("Please wait for the current operation to finish.", "info");
   document.getElementById('modal').classList.remove('active');
   document.body.style.overflow = '';
-  setTimeout(() => {
-    document.getElementById('modalBody').innerHTML = '';
-    if (typeof modalCleanup === 'function') modalCleanup();
-    modalCleanup = null;
-  }, 250);
+  if (typeof modalCleanup === 'function') modalCleanup();
+  modalCleanup = null;
+  document.getElementById('modalBody').replaceChildren();
+  modalTrigger?.focus();
 }
 
 document.getElementById('modalClose').addEventListener('click', closeModal);
@@ -2892,7 +2946,7 @@ document.addEventListener('keydown', e => {
     $('#rpName').textContent = ($('#cvName').value || 'Your Name').trim();
     $('#rpTitle').textContent = ($('#cvTitle').value || 'Professional Title').trim();
     const contacts = [$('#cvEmail').value.trim(), $('#cvPhone').value.trim(), $('#cvLocation').value.trim()].filter(Boolean);
-    $('#rpContact').innerHTML = contacts.map(c => `<span>${c}</span>`).join('');
+    $('#rpContact').innerHTML = contacts.map(c => `<span>${escapeHTML(c)}</span>`).join('');
     const sum = $('#cvSummary').value.trim();
     $('#rpSummaryBlock').style.display = sum ? 'block' : 'none';
     $('#rpSummary').textContent = sum;
@@ -2911,11 +2965,11 @@ document.addEventListener('keydown', e => {
       const range = [e.s, e.en].filter(Boolean).join(' — ');
       return `<div>
         <div style="display:flex; justify-content:space-between; align-items:baseline; gap:12px;">
-          <span style="font-size:11px; font-weight:700; color:#0f172a;">${e.t}</span>
-          <span style="font-size:9px; color:#94a3b8; white-space:nowrap; font-weight:500;">${range}</span>
+          <span style="font-size:11px; font-weight:700; color:#0f172a;">${escapeHTML(e.t)}</span>
+          <span style="font-size:9px; color:#94a3b8; white-space:nowrap; font-weight:500;">${escapeHTML(range)}</span>
         </div>
-        ${e.c ? `<div style="font-size:10px; color:#0284c7; font-weight:600; margin-top:2px;">${e.c}</div>` : ''}
-        ${e.d ? `<p style="font-size:10px; color:#475569; margin-top:4px; line-height:1.6;">${e.d}</p>` : ''}
+        ${e.c ? `<div style="font-size:10px; color:#0284c7; font-weight:600; margin-top:2px;">${escapeHTML(e.c)}</div>` : ''}
+        ${e.d ? `<p style="font-size:10px; color:#475569; margin-top:4px; line-height:1.6;">${escapeHTML(e.d)}</p>` : ''}
       </div>`;
     }).join('');
 
@@ -2929,17 +2983,17 @@ document.addEventListener('keydown', e => {
     $('#rpEduBlock').style.display = eduData.length ? 'block' : 'none';
     $('#rpEduList').innerHTML = eduData.map(e => `<div>
       <div style="display:flex; justify-content:space-between; align-items:baseline; gap:12px;">
-        <span style="font-size:11px; font-weight:700; color:#0f172a;">${e.dg}</span>
-        <span style="font-size:9px; color:#94a3b8; white-space:nowrap; font-weight:500;">${e.y}</span>
+        <span style="font-size:11px; font-weight:700; color:#0f172a;">${escapeHTML(e.dg)}</span>
+        <span style="font-size:9px; color:#94a3b8; white-space:nowrap; font-weight:500;">${escapeHTML(e.y)}</span>
       </div>
-      ${e.sc ? `<div style="font-size:10px; color:#475569; margin-top:2px;">${e.sc}</div>` : ''}
+      ${e.sc ? `<div style="font-size:10px; color:#475569; margin-top:2px;">${escapeHTML(e.sc)}</div>` : ''}
     </div>`).join('');
 
     const skillsRaw = $('#cvSkills').value.trim();
     $('#rpSkillsBlock').style.display = skillsRaw ? 'block' : 'none';
     if (skillsRaw) {
       $('#rpSkillsList').innerHTML = skillsRaw.split(',').map(s => s.trim()).filter(Boolean)
-        .map(s => `<span style="font-size:9px; background:#f1f5f9; color:#334155; padding:4px 8px; border-radius:6px; font-weight:500; border:1px solid #e2e8f0;">${s}</span>`).join('');
+        .map(s => `<span style="font-size:9px; background:#f1f5f9; color:#334155; padding:4px 8px; border-radius:6px; font-weight:500; border:1px solid #e2e8f0;">${escapeHTML(s)}</span>`).join('');
     }
   }
   sync();
@@ -2973,11 +3027,52 @@ setTimeout(() => {
   document.getElementById('loading').classList.add('hidden');
 }, 300);
 
+
+(function initOffice() {
+  const field = $('#officeName'), status = $('#officeStatus');
+  let officeName = (safeStorage.get('pdftk-office') || '').slice(0,60);
+  const setup = new URLSearchParams(location.hash.slice(1)).get('office');
+  if (setup) { field.value = setup.slice(0,60); status.textContent = 'A workspace name was shared with you. Choose “Make it mine” to save it on this device.'; }
+  function render() {
+    $('#officeHeading').textContent = officeName ? officeName + ' · PDF workspace' : 'Your office. Your PDF workspace.';
+    if (!setup) field.value = officeName;
+  }
+  render();
+  $('#officeForm').addEventListener('submit', e => {
+    e.preventDefault(); officeName = field.value.trim().slice(0,60); if(!officeName) return;
+    const saved = safeStorage.set('pdftk-office',officeName); render();
+    status.textContent = saved ? 'Your workspace name is saved in this browser. Add favorite tools using the heart on each card. No documents are stored.' : 'Workspace name applied for this visit. Browser storage is unavailable.';
+    history.replaceState(null,'',location.pathname+location.search);
+  });
+  $('#officeReset').addEventListener('click', () => { officeName=''; field.value=''; safeStorage.set('pdftk-office',''); render(); status.textContent='Office name reset. Your files and downloaded documents are unchanged.'; });
+  $('#officeShare').addEventListener('click', async () => {
+    if(!officeName) return toast('Save an office name first.','info');
+    const url = new URL('/',location.origin); url.hash = new URLSearchParams({office:officeName}).toString();
+    try { await navigator.clipboard.writeText(url.href); status.textContent='Setup link copied. Anyone with this link can read the office name; it contains no files or account access.'; }
+    catch { status.textContent='Copy this setup link: '+url.href; }
+  });
+  let installPrompt;
+  window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); installPrompt=e; });
+  $('#officeInstall').addEventListener('click',async () => {
+    if(installPrompt) { await installPrompt.prompt(); await installPrompt.userChoice; installPrompt=null; }
+    else status.textContent='Use your browser menu → Install app or Add to Home Screen. On Safari, use Share → Add to Home Screen (iPhone/iPad) or File → Add to Dock (Mac). The installed app keeps the PDF Toolkit name; your office name appears inside it.';
+  });
+})();
+const requestedTool = new URLSearchParams(location.search).get('tool');
+if(requestedTool) { const tool=TOOLS.find(t=>t.id===requestedTool); if(tool) openToolModal(tool); }
+document.addEventListener('keydown', e => {
+  if(e.key !== 'Tab' || !$('#modal').classList.contains('active')) return;
+  const items = [...$('#modal').querySelectorAll('button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex="0"]')].filter(el=>el.getClientRects().length);
+  const first=items[0],last=items[items.length-1];
+  if(e.shiftKey && document.activeElement===first) {e.preventDefault();last?.focus();}
+  else if(!e.shiftKey && document.activeElement===last) {e.preventDefault();first?.focus();}
+});
 console.log('%c PDF Toolkit ready ', 'background:#3B82F6; color:#fff; font-weight:700; padding:6px 12px; border-radius:6px;');
-console.log('16 tools · 100% client-side · live previews · ' + TOOLS.length + ' loaded');
+console.log('17 tools · 100% client-side · live previews · ' + TOOLS.length + ' loaded');
 </script>
 
 <script>
+  setTimeout(() => document.getElementById("loading").classList.add("hidden"), 5000);
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
       navigator.serviceWorker.register('/sw.js').catch((err) => {
@@ -2986,6 +3081,6 @@ console.log('16 tools · 100% client-side · live previews · ' + TOOLS.length +
     });
   }
 </script>
-  
+
 </body>
 </html>

@@ -1,0 +1,34 @@
+{
+  "name": "pdf",
+  "version": "1.0.0",
+  "description": "Private browser-based PDF tools and office workspace",
+  "scripts": {
+    "vendor": "node scripts/vendor.cjs",
+    "content": "node scripts/content.cjs",
+    "test": "playwright test",
+    "serve": "python3 -m http.server 4173 --bind 127.0.0.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Salaroutsourcing/pdf.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "UNLICENSED",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Salaroutsourcing/pdf/issues"
+  },
+  "homepage": "https://github.com/Salaroutsourcing/pdf#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.63.0"
+  },
+  "dependencies": {
+    "html2pdf.js": "0.14.0",
+    "jszip": "3.10.1",
+    "pdf-lib": "1.17.1",
+    "pdfjs-dist": "4.10.38",
+    "tesseract.js": "5.1.1"
+  },
+  "private": true
+}

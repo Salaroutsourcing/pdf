@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://www.pdf.salaroutsourcing.com/</loc>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
+<url><loc>https://www.pdf.salaroutsourcing.com/</loc></url>
+<url><loc>https://www.pdf.salaroutsourcing.com/merge-pdf/</loc></url>
+<url><loc>https://www.pdf.salaroutsourcing.com/split-pdf/</loc></url>
+<url><loc>https://www.pdf.salaroutsourcing.com/compress-pdf/</loc></url>
+<url><loc>https://www.pdf.salaroutsourcing.com/redact-pdf/</loc></url>
+<url><loc>https://www.pdf.salaroutsourcing.com/ocr-pdf/</loc></url>
+<url><loc>https://www.pdf.salaroutsourcing.com/office-pdf-workspace/</loc></url>
+<url><loc>https://www.pdf.salaroutsourcing.com/privacy/</loc></url>
 </urlset>

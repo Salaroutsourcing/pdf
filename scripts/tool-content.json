@@ -1,0 +1,87 @@
+[
+  {
+    "id": "merge",
+    "name": "Merge PDFs",
+    "description": "Combine PDFs in your chosen order."
+  },
+  {
+    "id": "split",
+    "name": "Split PDF",
+    "description": "Save a range of pages as a new PDF."
+  },
+  {
+    "id": "remove",
+    "name": "Remove Pages",
+    "description": "Remove selected pages and keep the rest."
+  },
+  {
+    "id": "extract",
+    "name": "Extract Pages",
+    "description": "Save specific pages from a PDF."
+  },
+  {
+    "id": "organize",
+    "name": "Organize PDF",
+    "description": "Reorder pages before downloading."
+  },
+  {
+    "id": "compress",
+    "name": "Compress PDF",
+    "description": "Reduce scanned PDF size; output is image-only."
+  },
+  {
+    "id": "repair",
+    "name": "Repair PDF",
+    "description": "Try rebuilding a readable PDF; recovery is not guaranteed."
+  },
+  {
+    "id": "jpg2pdf",
+    "name": "Images to PDF",
+    "description": "Turn JPG, PNG and WebP images into a PDF."
+  },
+  {
+    "id": "html2pdf",
+    "name": "HTML / Text to PDF",
+    "description": "Convert text and safe basic HTML formatting."
+  },
+  {
+    "id": "pdf2jpg",
+    "name": "PDF to JPG",
+    "description": "Export page images in a single ZIP download."
+  },
+  {
+    "id": "rotate",
+    "name": "Rotate PDF",
+    "description": "Rotate pages without changing their content."
+  },
+  {
+    "id": "numbers",
+    "name": "Page Numbers",
+    "description": "Add page numbers to your document."
+  },
+  {
+    "id": "watermark",
+    "name": "Watermark PDF",
+    "description": "Add a text watermark to each page."
+  },
+  {
+    "id": "crop",
+    "name": "Crop PDF",
+    "description": "Trim visible margins; hidden content is not deleted."
+  },
+  {
+    "id": "sign",
+    "name": "Sign PDF",
+    "description": "Place a signature image; not a digital certificate."
+  },
+  {
+    "id": "redact",
+    "name": "Redact PDF",
+    "description": "Remove regions by rebuilding every page as an image."
+  },
+  {
+    "id": "ocr",
+    "name": "OCR to Text",
+    "description": "Extract English text from scanned pages; review for errors."
+  }
+]
