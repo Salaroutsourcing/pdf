@@ -1514,7 +1514,7 @@ function applyPageOptions(doc, opts) {
 /* ============================================================
    ICONS
    ============================================================ */
-const I = {
+cconst I = {
   merge: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 00-2 2v14a2 2 0 002 2h3M16 3h3a2 2 0 012 2v14a2 2 0 01-2 2h-3M12 3v18"/></svg>',
   split: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 00-2 2v14a2 2 0 002 2h3M16 3h3a2 2 0 012 2v14a2 2 0 01-2 2h-3M12 3v18"/></svg>',
   remove: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m3 0v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6h14zM10 11v6M14 11v6"/></svg>',
@@ -1532,7 +1532,8 @@ const I = {
   crop: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2v14a2 2 0 002 2h14M18 22V8a2 2 0 00-2-2H2"/></svg>',
   sign: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg>',
   redact: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/><path d="M2 2l20 20"/></svg>',
-  cv: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>'
+  cv: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>',
+  ocr: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V5a2 2 0 012-2h2M20 7V5a2 2 0 00-2-2h-2M4 17v2a2 2 0 002 2h2M20 17v2a2 2 0 01-2 2h-2M8 12h8M8 8h8M8 16h5"/></svg>'
 };
 
 const VISUAL = {
@@ -2489,6 +2490,7 @@ const TOOLS = [
   { id:'compress', cat:'optimize', name:'Compress PDF', desc:'Reduce file size.', icon:'compress', color:'green', tool: toolCompress },
   { id:'repair', cat:'optimize', name:'Repair PDF', desc:'Fix corrupted files.', icon:'repair', color:'green', tool: toolRepair },
   { id:'optimize', cat:'optimize', name:'Optimize PDF', desc:'Rebuild and clean PDF structure.', icon:'optimize', color:'purple', tool: toolRepair },
+  { id:'ocr', cat:'optimize', name:'OCR PDF', desc:'Extract text from scanned PDFs.', icon:'ocr', color:'pink', tool: toolOCR },
   { id:'jpg2pdf', cat:'convertTo', name:'JPG to PDF', desc:'Images to A4 PDF.', icon:'jpg2pdf', color:'amber', tool: toolJpg2Pdf },
   { id:'html2pdf', cat:'convertTo', name:'HTML to PDF', desc:'Web content to PDF.', icon:'html2pdf', color:'purple', tool: toolHtml2Pdf },
   { id:'pdf2jpg', cat:'convertFrom', name:'PDF to JPG', desc:'Pages to images (ZIP).', icon:'pdf2jpg', color:'red', tool: toolPdf2Jpg },
@@ -2508,7 +2510,7 @@ const CATEGORIES = [
   { id:'edit', name:'Edit PDF', color:'#F59E0B' },
   { id:'security', name:'PDF Security', color:'#F43F5E' }
 ];
-
+  
 /* ============================================================
    STATE
    ============================================================ */
